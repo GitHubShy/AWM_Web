@@ -5,8 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    //Whether login by a staff
+    isStaff: true
   },
   mutations: {
+    isStaff(state,value) {
+      state.isStaff = value
+    }
   },
   actions: {
   },
