@@ -5,11 +5,10 @@
         <font size="4" color="black" style="margin-left: 10px">AWM WORKSHOP</font>
     </div>
     <img src="../assets/img/new_plane.png" width="400px" height="400px" />
-    <mybutton type="primary" fontSize="20px" width="200px" @click.native="onClickStaff">Customer</mybutton>
+    <mybutton type="danger" fontSize="20px" width="200px" @click.native="onClickStaff">Staff</mybutton>
     <br />
     <br />
-    <mybutton type="danger" fontSize="20px" width="200px" @click.native="onCLickCustomer">Staff</mybutton>
-    <router-view></router-view>
+    <mybutton type="primary" fontSize="20px" width="200px" @click.native="onClickCustomer">Customer</mybutton>
 </div>
 </template>
 
@@ -25,11 +24,9 @@ export default {
         onClickStaff() {
             this.$router.push("/login");
             this.$store.commit('isStaff', true);
-            console.log("11111111111111111111111111111");
         },
         onCLickCustomer() {
             this.$store.commit('isStaff', false);
-            console.log("11111111111111111111111111111");
         },
     },
 };

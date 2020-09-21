@@ -41,6 +41,10 @@ export default {
                     account_name: this.account_name,
                     password: this.password
                 }
+            }).then(res => {
+                if (res.data.code == 200) {
+                    this.$store.commit('setToken', res.data.data.token);
+                }
             })
         },
     },
