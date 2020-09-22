@@ -21,7 +21,26 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import( '../views/Login.vue')
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/staff',
+    name: 'Staff',
+    component: () => import('../views/staff/Staff.vue'),
+    children: [
+      {
+        path: '',
+        redirect: 'staffprofile'
+      },
+      {
+        path: 'staffprofile',
+        component: () => import('../views/staff/StaffProfile.vue'),
+      },
+      {
+        path: 'staffmanage',
+        component: () => import('../views/staff/StaffManage.vue'),
+      }
+    ]
   },
 ]
 

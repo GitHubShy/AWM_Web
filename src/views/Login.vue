@@ -44,6 +44,7 @@ export default {
             }).then(res => {
                 if (res.data.code == 200) {
                     this.$store.commit('setToken', res.data.data.token);
+                    this.$router.push("/staff");
                 }
             })
         },
