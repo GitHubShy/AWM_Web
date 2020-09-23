@@ -5,10 +5,14 @@ export const request = function (config) {
     const instance = axios.create({
         baseURL: 'http://47.104.167.88:8080/',
         //baseURL: 'http://localhost:8080/',
-        timeout: 5000
+        timeout: 5000,
+        headers:{
+            "token": localStorage.getItem('token'),
+        }
     })
 
     // instance.defaults.headers.post['Content-Type'] = 'form-data'
+
 
     instance.interceptors.request.use(config => {
         console.log(config);
