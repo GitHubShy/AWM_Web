@@ -36,7 +36,7 @@ export default {
         LonIn() {
             request({
                 method: 'post',
-                url: "/awm_server/employee/login",
+                url: "/employee/login",
                 data: {
                     account_name: this.account_name,
                     password: this.password

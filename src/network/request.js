@@ -3,8 +3,8 @@ import axios from 'axios';
 export const request = function (config) {
 
     const instance = axios.create({
-        baseURL: 'http://47.104.167.88:8080/',
-        //baseURL: 'http://localhost:8080/',
+        baseURL: 'http://47.104.167.88:8080/awm_server',
+        //baseURL: 'http://localhost:8080/awm_server',
         timeout: 5000,
         headers:{
             "token": localStorage.getItem('token'),
@@ -19,6 +19,7 @@ export const request = function (config) {
         return config;
     },err => {
         console.log(config);
+        return err;
     })
 
     instance.interceptors.response.use(res => {
@@ -26,6 +27,7 @@ export const request = function (config) {
         return res;
     },err => {
         console.log(err);
+        return err;
     })
 
     return instance(config);

@@ -2,9 +2,9 @@
 <div id="app">
     <div id="topbar"></div>
     <h2 id="name">{{getFullName}}</h2>
-    <img id="portrait" src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2813630019,3804632314&fm=11&gp=0.jpg" alt="aaa" />
+    <img id="portrait" :src="result.portrait_url" alt="aaa" />
     <img id="email" src="../../assets/img/facebook.png" />
-    <button id="update">Update My Profile</button>
+    <button id="update" @click="update">Update My Profile</button>
     <div id="detail">
 
         <h2>AccountName</h2>
@@ -40,6 +40,8 @@
         <TitleValue title='Payment' :value="getPayment"></TitleValue>
         <TitleValue title='Birth' :value="result.birth_year"></TitleValue>
         <TitleValue title='TFN' :value="result.tax_file_number"></TitleValue> -->
+
+        <input type="file" accept=".png,.img" @change="getFile($event)">
     </div>
 </div>
 </template>
@@ -49,6 +51,9 @@ import TitleValue from "../../components/TitleValue";
 import {
     request
 } from "../../network/request";
+import {
+    upload
+} from "../../network/upload";
 export default {
     components: {
         // TitleValue,
@@ -65,7 +70,9 @@ export default {
                 payment_rate: null,
                 birth_year: null,
                 tax_file_number: null,
-            }
+                portrait_url: ''
+            },
+            file: null
         };
     },
     watch: {},
@@ -87,11 +94,21 @@ export default {
             }
         }
     },
-    methods: {},
+    methods: {
+        update() {
+
+        },
+        getFile(event) {
+            let formData = new window.FormData()
+            formData.append('file', event.target.files[0])
+            console.log(formData)
+            upload(formData);
+        }
+    },
     created() {
         request({
             method: 'post',
-            url: "/awm_server/employee/getEmployee",
+            url: "/employee/getEmployee",
             data: {
                 id: ''
             }
