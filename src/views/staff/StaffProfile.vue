@@ -3,7 +3,7 @@
     <div id="topbar"></div>
     <h2 id="name">{{getFullName}}</h2>
     <img id="portrait" src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2813630019,3804632314&fm=11&gp=0.jpg" alt="aaa" />
-    <img id="email" src="../../assets/img/em.png" />
+    <img id="email" src="../../assets/img/facebook.png" />
     <button id="update">Update My Profile</button>
     <div id="detail">
 

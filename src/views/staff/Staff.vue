@@ -1,16 +1,16 @@
 <template>
 <div id="app">
-    <div id="nav_bar">
-        <router-link to="/staff/staffprofile">Profile</router-link>
-        <router-link to="/staff/staffmanage">ManageStaff</router-link>
-    </div>
+    <TopBar rightFirstText='Profile' rightFirstLink='/staff/staffprofile' rightSecondText='Staff Manage' rightSecondLink='/staff/staffmanage' />
     <router-view></router-view>
 </div>
 </template>
 
 <script>
+import TopBar from "../../components/TopBar";
 export default {
-    components: {},
+    components: {
+        TopBar,
+    },
     props: {},
     data() {
         return {};
