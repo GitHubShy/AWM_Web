@@ -53,7 +53,10 @@ import {
 } from "../../network/request";
 import {
     upload
-} from "../../network/upload";
+} from "../../network/Upload";
+import {
+    getSpecificEmployee
+} from "../../network/Employee";
 export default {
     components: {
         // TitleValue,
@@ -106,13 +109,7 @@ export default {
         }
     },
     created() {
-        request({
-            method: 'post',
-            url: "/employee/getEmployee",
-            data: {
-                id: ''
-            }
-        }).then(res => {
+        getSpecificEmployee('').then(res => {
             this.result = res.data.data;
             console.log(this.result)
         })

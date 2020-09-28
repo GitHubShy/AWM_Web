@@ -45,6 +45,13 @@
 import {
     request
 } from "../../network/request";
+
+import {
+    updateEmployee,
+    createEmployee,
+    getAllEmployee
+} from "../../network/Employee";
+
 export default {
     data() {
         return {
@@ -94,15 +101,21 @@ export default {
                         message: 'Please input account name'
                     },
                     {
-                        min: 2,
-                        max: 50,
-                        message: 'The length must be between 2 and 50'
+                        min: 3,
+                        max: 10,
+                        message: 'The length must be between 3 and 10'
                     }
                 ],
                 password: [{
-                    required: true,
-                    message: 'Please input password'
-                }],
+                        required: true,
+                        message: 'Please input password'
+                    },
+                    {
+                        min: 6,
+                        max: 20,
+                        message: 'The length must be between 6 and 20'
+                    }
+                ],
                 email: [{
                     required: true,
                     message: 'Please input email'
@@ -351,10 +364,7 @@ export default {
         this.formItems[9].itemRender.options = this.sexList;
         this.formItems[7].itemRender.options = this.titleList
         // this.tableData = window.MOCK_DATA_LIST.slice(0, 20)
-        request({
-            method: 'post',
-            url: "/employee/getAllEmployee",
-        }).then(res => {
+        getAllEmployee().then(res => {
             if (res.data.code == 200) {
                 this.tableData = res.data.data;
             }
@@ -462,25 +472,7 @@ export default {
         submitEvent() {
             this.submitLoading = true;
             if (this.selectRow) {
-                request({
-                    method: 'post',
-                    url: "/employee/updateEmployee",
-                    // data: JSON.stringify(this.formData)
-                    data: {
-                        id: this.formData.id,
-                        account_name: this.formData.account_name,
-                        password: this.formData.password,
-                        first_name: this.formData.first_name,
-                        surname: this.formData.surname,
-                        title: this.formData.title,
-                        gender: this.formData.gender,
-                        tax_file_number: this.formData.tax_file_number,
-                        payment_rate: this.formData.payment_rate,
-                        email: this.formData.email,
-                        phone: this.formData.phone,
-                        birth_year: this.formData.birth_year,
-                    }
-                }).then(res => {
+                updateEmployee(this.formData).then(res => {
                     this.submitLoading = false
                     this.showEdit = false
                     if (res.data.code == 200) {
@@ -503,24 +495,7 @@ export default {
                 });
 
             } else {
-                request({
-                    method: 'post',
-                    url: "/employee/register",
-                    // data: JSON.stringify(this.formData)
-                    data: {
-                        account_name: this.formData.account_name,
-                        password: this.formData.password,
-                        first_name: this.formData.first_name,
-                        surname: this.formData.surname,
-                        title: this.formData.title,
-                        gender: this.formData.gender,
-                        tax_file_number: this.formData.tax_file_number,
-                        payment_rate: this.formData.payment_rate,
-                        email: this.formData.email,
-                        phone: this.formData.phone,
-                        birth_year: this.formData.birth_year,
-                    }
-                }).then(res => {
+                createEmployee(this.formData).then(res => {
                     this.submitLoading = false
                     this.showEdit = false
                     if (res.data.code == 200) {
