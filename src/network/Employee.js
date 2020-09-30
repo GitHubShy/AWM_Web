@@ -61,3 +61,20 @@ export const getSpecificEmployee = function (employeeId) {
     })
 }
 
+export const clock = function () {
+    return request({
+        method: 'post',
+        url: "/employee/clock",
+    })
+}
+
+export const getAttendance = function (date) {
+    const formdata = new FormData();
+    formdata.append('date',date);
+    return request({
+        method: 'post',
+        url: "/employee/getAttendance",
+        data:formdata
+    })
+}
+

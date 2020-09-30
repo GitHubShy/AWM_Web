@@ -6,15 +6,15 @@
         </template>
     </vxe-toolbar>
     <vxe-table border resizable row-key highlight-hover-row ref="xTable" height="500" :data="tableData" @cell-dblclick="cellDBLClickEvent">
-        <vxe-table-column type="seq" width="60"></vxe-table-column>
-        <vxe-table-column field="id" title="StaffID" width="60"></vxe-table-column>
-        <vxe-table-column field="title" title="Title" :formatter="formatterTitle"></vxe-table-column>
+        <vxe-table-column type="seq" width="60" v-if="false"></vxe-table-column>
+        <vxe-table-column field="id" title="ID" width="60" sortable></vxe-table-column>
+        <vxe-table-column field="title" title="Title" :formatter="formatterTitle" sortable></vxe-table-column>
         <vxe-table-column field="account_name" title="AccountName"></vxe-table-column>
         <vxe-table-column field="first_name" title="FirstName"></vxe-table-column>
         <vxe-table-column field="surname" title="Surname"></vxe-table-column>
         <vxe-table-column field="email" title="Email"></vxe-table-column>
         <vxe-table-column field="tax_file_number" title="TFN"></vxe-table-column>
-        <vxe-table-column field="payment_rate" title="Payment" :formatter="formatterPayment"></vxe-table-column>
+        <vxe-table-column field="payment_rate" title="Payment" :formatter="formatterPayment" sortable></vxe-table-column>
         <vxe-table-column field="phone" title="Phone"></vxe-table-column>
         <vxe-table-column field="gender" title="Gender" :formatter="formatterSex"></vxe-table-column>
 

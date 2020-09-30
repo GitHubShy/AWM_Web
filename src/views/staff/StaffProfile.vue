@@ -1,8 +1,48 @@
 <template>
 <div id="app">
-    <div id="topbar"></div>
-    <h2 id="name">{{getFullName}}</h2>
-    <img id="portrait" :src="result.portrait_url" alt="aaa" />
+    <div id="topbar">
+        <img id="portrait" :src="result.portrait_url" />
+        <div id="info">
+            <h2 class="title">Full Name</h2>
+            <font class="value">{{getFullName}}</font>
+            <h2 class="title">AccountName</h2>
+            <font class="value">{{result.account_name}}</font>
+            <h2 class="title">Title</h2>
+            <font class="value">{{getTitle}}</font>
+        </div>
+        <div id="info">
+            <h2 class="title">Phone</h2>
+            <font class="value">{{result.phone}}</font>
+
+            <h2 class="title">Payment</h2>
+            <font class="value">{{getPayment}}</font>
+
+            <h2 class="title">Birth</h2>
+            <font class="value">{{result.birth_year}}</font>
+        </div>
+
+        <div id="info">
+            <h2 class="title">TFN</h2>
+            <font class="value">{{result.tax_file_number}}</font>
+            <h2 class="title">Email</h2>
+            <font class="value">{{result.email}}</font>
+        </div>
+
+        <img id="clock" @click="clock" src="../../assets/img/clock.jpg" />
+
+    </div>
+
+    <h2 class="bigtitle">Attendances</h2>
+
+    <vxe-table :align="allAlign" :data="tableData">
+        <vxe-table-column type="seq" width="60"></vxe-table-column>
+        <vxe-table-column field="date" title="Date" sortable></vxe-table-column>
+        <vxe-table-column field="on_time" title="On-Time"></vxe-table-column>
+        <vxe-table-column field="off_time" title="Off-Time"></vxe-table-column>
+        <vxe-table-column field="work_hours" title="Work-Hours" :formatter="formatterWorkHours"></vxe-table-column>
+    </vxe-table>
+
+    <!--<h2 id="name">{{getFullName}}</h2>
     <img id="email" src="../../assets/img/facebook.png" />
     <button id="update" @click="update">Update My Profile</button>
     <div id="detail">
@@ -33,16 +73,16 @@
 
         <h2>TFN</h2>
         <font style=" font-family: cursive">{{result.tax_file_number}}</font>
-        <!-- <TitleValue title='AccountName' :value="result.account_name"></TitleValue>
+        <TitleValue title='AccountName' :value="result.account_name"></TitleValue>
         <TitleValue title='Title' :value="getTitle"></TitleValue>
         <TitleValue title='Email' :value="result.email"></TitleValue>
         <TitleValue title='Phone' :value="result.phone"></TitleValue>
         <TitleValue title='Payment' :value="getPayment"></TitleValue>
         <TitleValue title='Birth' :value="result.birth_year"></TitleValue>
-        <TitleValue title='TFN' :value="result.tax_file_number"></TitleValue> -->
+        <TitleValue title='TFN' :value="result.tax_file_number"></TitleValue>
 
-        <input type="file" accept=".png,.img" @change="getFile($event)">
-    </div>
+        <input type="file" accept=".png,.img" @change="getFile($event)"> 
+        </div>-->
 </div>
 </template>
 
@@ -55,7 +95,9 @@ import {
     upload
 } from "../../network/Upload";
 import {
-    getSpecificEmployee
+    getSpecificEmployee,
+    clock,
+    getAttendance
 } from "../../network/Employee";
 export default {
     components: {
@@ -75,6 +117,8 @@ export default {
                 tax_file_number: null,
                 portrait_url: ''
             },
+            allAlign: 'center',
+            tableData: [],
             file: null
         };
     },
@@ -98,6 +142,12 @@ export default {
         }
     },
     methods: {
+        formatterWorkHours({
+            cellValue
+        }) {
+            let item = cellValue + 'hours'
+            return item
+        },
         update() {
 
         },
@@ -106,13 +156,27 @@ export default {
             formData.append('file', event.target.files[0])
             console.log(formData)
             upload(formData);
+        },
+        clock() {
+            clock().then(res => {
+                getAttendance('').then(res => {
+                    if (res.status == 200) {
+                        this.tableData = res.data.data;
+                    }
+                })
+            })
         }
     },
     created() {
         getSpecificEmployee('').then(res => {
-            this.result = res.data.data;
-            console.log(this.result)
-        })
+                this.result = res.data.data;
+                console.log(this.result)
+            }),
+            getAttendance('').then(res => {
+                if (res.status == 200) {
+                    this.tableData = res.data.data;
+                }
+            })
     },
     mounted() {},
 };
@@ -122,22 +186,36 @@ export default {
 #app {
     width: 100%;
     height: 100%;
+    align-items: stretch;
     background-image: unset;
     background-color: white;
 }
 
 #topbar {
     width: 100%;
-    height: 300px;
+    height: 400px;
+    display: flex;
+    padding-left: 100px;
+    flex-direction: row;
     background-color: black;
 }
 
 #portrait {
     width: 300px;
     height: 300px;
-    position: absolute;
-    top: 150px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     border-radius: 50%;
+}
+
+#info {
+    height: 300px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 50px;
+    margin-left: 50px;
 }
 
 #detail {
@@ -176,5 +254,30 @@ export default {
     position: absolute;
     left: 640px;
     top: 170px;
+}
+
+.value {
+    font-family: cursive;
+    color: white;
+    font-size: 27px;
+}
+
+.title {
+    color: white;
+    font-size: 15px;
+}
+
+.bigtitle {
+    color: black;
+    font-size: 30px;
+}
+
+#clock {
+    width: 150px;
+    height: 150px;
+    margin-top: 125px;
+    margin-bottom: 125px;
+    margin-left: 100px;
+    border-radius: 50%;
 }
 </style>
