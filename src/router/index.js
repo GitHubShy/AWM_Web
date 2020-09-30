@@ -38,6 +38,10 @@ const routes = [
       {
         path: 'staffmanage',
         component: () => import('../views/staff/StaffManage.vue'),
+      },
+      {
+        path: 'workshop',
+        component: () => import('../views/staff/Workshop.vue'),
       }
     ]
   },

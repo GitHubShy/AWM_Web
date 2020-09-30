@@ -9,7 +9,7 @@
         <mybutton type="danger" fontSize="20px" width="100px" @click.native="onLogOut">Log out</mybutton>
         <router-link :to="rightFirstLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightFirstText}}</router-link>
         <router-link :to="rightSecondLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightSecondText}}</router-link>
-        <router-link v-if="ifShowThirdText" :to="rightThirdLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightThirdText}}</router-link>
+        <router-link :to="rightThirdLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightThirdText}}</router-link>
     </div>
 
 </div>

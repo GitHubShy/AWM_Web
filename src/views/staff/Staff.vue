@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-    <TopBar rightFirstText='Profile' rightFirstLink='/staff/staffprofile' rightSecondText='Staff Manage' rightSecondLink='/staff/staffmanage' />
+    <TopBar rightFirstText='Profile' rightFirstLink='/staff/staffprofile' rightSecondText='Staff' rightSecondLink='/staff/staffmanage' rightThirdText='Workshop' rightThirdLink='/staff/workshop' />
     <router-view></router-view>
 </div>
 </template>

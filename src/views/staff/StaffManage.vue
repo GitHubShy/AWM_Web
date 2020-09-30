@@ -545,8 +545,8 @@ export default {
 #app {
     background-color: white;
     background-image: unset;
-    width: 100%;
     height: 100%;
+    width: 100%;
     align-items: stretch;
 }
 </style>
