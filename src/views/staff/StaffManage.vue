@@ -50,11 +50,14 @@ import {
 export default {
     computed: {
         setTips() {
-            if (localStorage.getItem("title") != '0') {
+            if (localStorage.getItem("title") == '99') {
                 return 'Your have the permission to add, edit and delete employee'
             } else {
                 return 'You have the only permission to edit yourself'
             }
+        },
+        isAdministrator() {
+            return localStorage.getItem("title") == '99'
         }
     },
     data() {
@@ -404,7 +407,7 @@ export default {
             this.editEvent(row)
         },
         insertEvent() {
-            if (localStorage.getItem("title") != '0') {
+            if (this.isAdministrator) {
                 this.formData = {
                     account_name: '',
                     password: '',
@@ -430,7 +433,7 @@ export default {
 
         },
         editEvent(row) {
-            if (localStorage.getItem("id") == row.id || localStorage.getItem("title") == 99) {
+            if (localStorage.getItem("id") == row.id || this.isAdministrator) {
                 this.formData = {
                     id: row.id,
                     account_name: row.account_name,
@@ -455,7 +458,7 @@ export default {
             }
         },
         removeEvent(row) {
-            if (localStorage.getItem("title") != '0') {
+            if (this.isAdministrator) {
                 this.$XModal.confirm('Are you sure to delete this employee?').then(type => {
                     if (type === 'confirm') {
                         request({
