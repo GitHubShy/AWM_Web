@@ -1,5 +1,6 @@
 <template>
 <div id="app">
+    <h2>{{setTips}}</h2>
     <vxe-toolbar>
         <template v-slot:buttons>
             <vxe-button icon="fa fa-plus" @click="insertEvent()">Add</vxe-button>
@@ -17,12 +18,6 @@
         <vxe-table-column field="payment_rate" title="Payment" :formatter="formatterPayment" sortable></vxe-table-column>
         <vxe-table-column field="phone" title="Phone"></vxe-table-column>
         <vxe-table-column field="gender" title="Gender" :formatter="formatterSex"></vxe-table-column>
-
-        <!-- Unnecessary to display the following messages -->
-        <!-- <vxe-table-column field="password" title="Password"></vxe-table-column> -->
-        <!-- <vxe-table-column field="age" title="Age"></vxe-table-column> -->
-        <!-- <vxe-table-column field="address" title="Address" show-overflow></vxe-table-column> -->
-        <!-- <vxe-table-column field="birth_year" title="Birth" show-overflow></vxe-table-column> -->
 
         <vxe-table-column title="Action" width="200" show-overflow>
             <template v-slot="{ row }">
@@ -53,6 +48,15 @@ import {
 } from "../../network/Employee";
 
 export default {
+    computed: {
+        setTips() {
+            if (localStorage.getItem("title") != '0') {
+                return 'Your have the permission to add, edit and delete employee'
+            } else {
+                return 'You have the only permission to edit yourself'
+            }
+        }
+    },
     data() {
         return {
             submitLoading: false,
@@ -400,82 +404,106 @@ export default {
             this.editEvent(row)
         },
         insertEvent() {
-            this.formData = {
-                account_name: '',
-                password: '',
-                email: '',
-                tax_file_number: '',
-                payment_rate: '',
-                first_name: '',
-                surname: '',
-                phone: '',
-                gender: '',
-                birth_year: '',
-                title: ''
+            if (localStorage.getItem("title") != '0') {
+                this.formData = {
+                    account_name: '',
+                    password: '',
+                    email: '',
+                    tax_file_number: '',
+                    payment_rate: '',
+                    first_name: '',
+                    surname: '',
+                    phone: '',
+                    gender: '',
+                    birth_year: '',
+                    title: ''
+                }
+                this.selectRow = null
+                this.showEdit = true
+            } else {
+                this.$XModal.message({
+                    message: 'You do not have the  permission to add employee',
+                    status: 'error'
+                })
+
             }
-            this.selectRow = null
-            this.showEdit = true
+
         },
         editEvent(row) {
-            this.formData = {
-                id: row.id,
-                account_name: row.account_name,
-                password: row.password,
-                email: row.email,
-                tax_file_number: row.tax_file_number,
-                payment_rate: row.payment_rate,
-                first_name: row.first_name,
-                surname: row.surname,
-                phone: row.phone,
-                birth_year: row.birth_year,
-                title: row.title,
-                gender: row.gender
+            if (localStorage.getItem("id") == row.id || localStorage.getItem("title") == 99) {
+                this.formData = {
+                    id: row.id,
+                    account_name: row.account_name,
+                    password: row.password,
+                    email: row.email,
+                    tax_file_number: row.tax_file_number,
+                    payment_rate: row.payment_rate,
+                    first_name: row.first_name,
+                    surname: row.surname,
+                    phone: row.phone,
+                    birth_year: row.birth_year,
+                    title: row.title,
+                    gender: row.gender
+                }
+                this.selectRow = row
+                this.showEdit = true
+            } else {
+                this.$XModal.message({
+                    message: 'You only allowed to edit yourselfe',
+                    status: 'error'
+                })
             }
-            this.selectRow = row
-            this.showEdit = true
         },
         removeEvent(row) {
-            this.$XModal.confirm('Are you sure to delete this employee?').then(type => {
-                if (type === 'confirm') {
-                    request({
-                        method: 'post',
-                        url: "/employee/deleteEmployee",
-                        // data: JSON.stringify(this.formData)
-                        data: {
-                            id: row.id,
-                        }
-                    }).then(res => {
-                        this.submitLoading = false
-                        this.showEdit = false
-                        if (res.data.code == 200) {
+            if (localStorage.getItem("title") != '0') {
+                this.$XModal.confirm('Are you sure to delete this employee?').then(type => {
+                    if (type === 'confirm') {
+                        request({
+                            method: 'post',
+                            url: "/employee/deleteEmployee",
+                            // data: JSON.stringify(this.formData)
+                            data: {
+                                id: row.id,
+                            }
+                        }).then(res => {
+                            this.submitLoading = false
+                            this.showEdit = false
+                            if (res.data.code == 200) {
+                                this.$XModal.message({
+                                    message: 'delete employee successfully',
+                                    status: 'success'
+                                })
+                                this.$refs.xTable.remove(row)
+                            } else {
+                                this.$XModal.message({
+                                    message: 'Error:' + res.data.message,
+                                    status: 'error'
+                                })
+                            }
+                        }).catch(err => {
                             this.$XModal.message({
-                                message: 'delete employee successfully',
-                                status: 'success'
-                            })
-                            this.$refs.xTable.remove(row)
-                        } else {
-                            this.$XModal.message({
-                                message: 'Error:' + res.data.message,
+                                message: 'Error:' + err,
                                 status: 'error'
                             })
-                        }
-                    }).catch(err => {
-                        this.$XModal.message({
-                            message: 'Error:' + err,
-                            status: 'error'
-                        })
-                    });
+                        });
 
-                }
-            })
+                    }
+                })
+            } else {
+                this.$XModal.message({
+                    message: 'You do not have the permission to delete employee',
+                    status: 'error'
+                })
+            }
+
         },
         submitEvent() {
             this.submitLoading = true;
             if (this.selectRow) {
                 updateEmployee(this.formData).then(res => {
                     this.submitLoading = false
-                    this.showEdit = false
                     if (res.data.code == 200) {
+                        this.showEdit = false
                         this.$XModal.message({
                             message: 'Update employee successfully',
                             status: 'success'
@@ -497,8 +525,8 @@ export default {
             } else {
                 createEmployee(this.formData).then(res => {
                     this.submitLoading = false
-                    this.showEdit = false
                     if (res.data.code == 200) {
+                        this.showEdit = false
                         this.formData = res.data.data;
                         this.$XModal.message({
                             message: 'Creating new employee successfully',

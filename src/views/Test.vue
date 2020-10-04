@@ -4,6 +4,9 @@
     <button @click="method2">Get Customer Aircraft</button>
     <button @click="method3">register Aircraft</button>
     <button @click="method4">register Components</button>
+    <button @click="method5">register Customer</button>
+    <button @click="method6">Customer Login</button>
+    <button @click="method7">Get All Customers</button>
     <pre>{{result}}</pre>
 </div>
 </template>
@@ -82,6 +85,43 @@ export default {
             registerComponents(this.components).then(res => {
                 this.result = res;
             })
+        },
+        method5() {
+            this.formData = {
+                account_name: '1111',
+                password: '123456',
+                email: '333@gmail.com',
+                first_name: '4444444',
+                surname: 'ddd',
+                portrait_url: '',
+                phone: '123456789',
+                company_name: 'apple',
+            }
+            registerCustomer(this.formData).then(res => {
+                this.result = res;
+            })
+
+        },
+        method6() {
+            this.formData = {
+                account_name: '1111',
+                password: '123456',
+                email: '333@gmail.com',
+                first_name: '4444444',
+                surname: 'ddd',
+                portrait_url: '',
+                phone: '123456789',
+                company_name: 'apple',
+            }
+            login('1111', '123456').then(res => {
+                this.result = res;
+            })
+        },
+        method7() {
+            getAllCustomer().then(res => {
+                this.result = res;
+            })
+
         },
 
     },

@@ -2,6 +2,19 @@ import {
     request
 } from "./request";
 
+
+//account_name:required
+//password:required
+//email:required
+//company_name:required
+//phone:
+//first_name:
+//surname:
+//portrait_url:
+//
+//if aircraftId = 0, return all;otherwise return the aircraft with the specific id
+//Get aircraft
+//if aircraftId = 0, return all;otherwise return the aircraft with the specific id
 //Get aircraft
 //if aircraftId = 0, return all;otherwise return the aircraft with the specific id
 export const registerCustomer= function (customer) {

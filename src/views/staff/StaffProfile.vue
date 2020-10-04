@@ -107,6 +107,7 @@ export default {
     data() {
         return {
             result: {
+                id: null,
                 first_name: null,
                 surname: null,
                 title: null,
@@ -170,6 +171,8 @@ export default {
     created() {
         getSpecificEmployee('').then(res => {
                 this.result = res.data.data;
+                localStorage.setItem('id', this.result.id);
+                localStorage.setItem('title', this.result.title);
                 console.log(this.result)
             }),
             getAttendance('').then(res => {

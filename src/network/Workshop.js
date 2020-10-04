@@ -38,7 +38,7 @@ export const getCustomerAircraft = function (customerID) {
 //total_flight_time:requried(5000)
 //maintenance_cycle:required(5000)
 //last_modify_time:required(2020-10-22)
-//status:0:Servicing  1:Maintaining 99:need staff to confirm register information; when created, the value must be 99
+//status:0:Servicing  1:Need maintaining 2:Maintaining 99:need staff to confirm register information; when created, the value must be 99
 
 //INSERT INTO aircraft (type,aircraft_pic,registration,serial,total_flight_time,customer_id)
 //VALUES ('A380','https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601270564166&di=e52ae2fe6ae9285eefdbab7f0a4e2ca1&imgtype=0&src=http%3A%2F%2Ffinance.sina.com.cn%2Fn.sinaimg.cn%2Ffinance%2Ftransform%2F50%2Fw550h300%2F20190214%2FpY15-hswimzz3967770.png',
@@ -61,6 +61,33 @@ export const registerAircraft = function (aircraft) {
     })
 }
 
+// components: [{
+//     type: 1,
+//     registration: 'E0001',
+//     provider: 'General Electric Company',
+//     maintenance_cycle: 5000,
+//     last_modify_time: '2020-12-22',
+//     aircraft_id: 1,
+//     pic: null,
+// },
+// {
+//     type: 2,
+//     registration: 'W0001',
+//     provider: 'Rolls-Royce Plc Company',
+//     maintenance_cycle: 5000,
+//     last_modify_time: '2020-12-25',
+//     aircraft_id: 1,
+//     pic: null,
+// },
+//]
+//
+//type:required(0:undefined 1:Engine 2:Wing 3:Fuselage 4:Avionics System 5:Landing Gear)
+//registration:required(E0001,F0001,L0001 W0001,A0001)
+//provider:required(General Electric Company;Rolls-Royce Plc Company;Pratt & Whitney Group Company;The Airbus Company;The Boeing Company)
+//aircraft_id:required
+//maintenance_cycle:requried(5000)
+//pic:
+//last_modify_time: if null is given, will use the last_modify_time of aricraft
 export const registerComponents= function (componets) {
     return request({
         method: 'post',

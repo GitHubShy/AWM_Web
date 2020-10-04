@@ -3,8 +3,8 @@ import axios from 'axios';
 export const request = function (config) {
 
     const instance = axios.create({
-        // baseURL: 'http://47.104.167.88:8080/awm_server',
-        baseURL: 'http://localhost:8080/awm_server',
+        baseURL: 'http://47.104.167.88:8080/awm_server',
+        //baseURL: 'http://localhost:8080/awm_server',
         timeout: 5000,
         headers:{
             "token": localStorage.getItem('token'),
