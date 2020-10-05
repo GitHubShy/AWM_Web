@@ -95,3 +95,34 @@ export const registerComponents= function (componets) {
         data:componets
     })
 }
+
+
+//employeeId = 0 reutrn all jobs
+export const getAllJobs= function (employeeId) {
+    const formdata = new FormData();
+    formdata.append('id',employeeId);
+    return request({
+        method: 'post',
+        url: "/workshop/getAllJobs",
+        data:formdata
+    })
+}
+
+// All the following parameters are required
+// this.formData = {
+//     aircraft_id: 1,
+//     employee_id: 1,
+//     description: 'Job created from Test.vue',
+//     start_time: '2020-10-15',
+//     due_time: '2020-11-20',
+//     portrait_url: '',
+//     phone: '123456789',
+//     company_name: 'apple',
+// }
+export const createJob= function (job) {
+    return request({
+        method: 'post',
+        url: "/workshop/createJob",
+        data:job
+    })
+}

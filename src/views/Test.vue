@@ -7,6 +7,8 @@
     <button @click="method5">register Customer</button>
     <button @click="method6">Customer Login</button>
     <button @click="method7">Get All Customers</button>
+    <button @click="method8">Get All Jobs</button>
+    <button @click="method9">Create job</button>
     <pre>{{result}}</pre>
 </div>
 </template>
@@ -16,7 +18,9 @@ import {
     getAircraft,
     getCustomerAircraft,
     registerAircraft,
-    registerComponents
+    registerComponents,
+    getAllJobs,
+    createJob
 } from "../network/Workshop";
 
 import {
@@ -29,6 +33,7 @@ export default {
     props: {},
     data() {
         return {
+            job: null,
             result: null,
             aircraft: {
                 type: 'B747',
@@ -122,6 +127,27 @@ export default {
                 this.result = res;
             })
 
+        },
+        method8() {
+            getAllJobs(0).then(res => {
+                this.result = res;
+            })
+
+        },
+        method9() {
+            this.job = {
+                aircraft_id: 1,
+                employee_id: 1,
+                description: 'Job created from Test.vue',
+                start_time: '2020-10-15',
+                due_time: '2020-11-20',
+                portrait_url: '',
+                phone: '123456789',
+                company_name: 'apple',
+            }
+            createJob(this.job).then(res => {
+                this.result = res;
+            })
         },
 
     },
