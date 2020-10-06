@@ -68,6 +68,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: url("../assets/img/index_bg.png");
+    background-size: 100% 100%;
+    position: fixed;
 }
 
 #acount_name {

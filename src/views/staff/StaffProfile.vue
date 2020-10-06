@@ -92,9 +92,6 @@ import {
     request
 } from "../../network/request";
 import {
-    upload
-} from "../../network/Upload";
-import {
     getSpecificEmployee,
     clock,
     getAttendance
@@ -160,12 +157,12 @@ export default {
         update() {
 
         },
-        getFile(event) {
-            let formData = new window.FormData()
-            formData.append('file', event.target.files[0])
-            console.log(formData)
-            upload(formData);
-        },
+        // getFile(event) {
+        //     let formData = new window.FormData()
+        //     formData.append('file', event.target.files[0])
+        //     console.log(formData)
+        //     upload(formData);
+        // },
         clock() {
             clock().then(res => {
                 getAttendance('').then(res => {
