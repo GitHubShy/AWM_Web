@@ -2,7 +2,7 @@
 <div id="app">
     <h2>{{setTips}}</h2>
     <vxe-toolbar>
-        <template v-slot:buttons>
+        <template v-slot:buttons style="margin-left:20px">
             <vxe-button icon="fa fa-plus" @click="insertEvent()">Add</vxe-button>
         </template>
     </vxe-toolbar>
@@ -574,10 +574,7 @@ export default {
 
 <style scoped>
 #app {
-    background-color: white;
-    background-image: unset;
     height: 100%;
     width: 100%;
-    align-items: stretch;
 }
 </style>

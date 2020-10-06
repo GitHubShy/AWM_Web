@@ -57,7 +57,9 @@ export default {
     color: #2c3e50;
     font-weight: bold;
     font-style: italic;
-    background-color: white;
+    background: rgb(245, 240, 222);
+    background: -webkit-linear-gradient(to left bottom, rgba(194, 232, 255, 0.5), white);
+    background: linear-gradient(to left bottom, rgba(194, 232, 255, 0.5), white);
     width: 100%;
     height: 48px;
     display: flex;

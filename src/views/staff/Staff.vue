@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+<div id="staff">
     <TopBar rightFirstText='Profile' rightFirstLink='/staff/staffprofile' rightSecondText='Staff' rightSecondLink='/staff/staffmanage' rightThirdText='Workshop' rightThirdLink='/staff/workshop' />
     <router-view></router-view>
 </div>
@@ -26,13 +26,11 @@ export default {
 </script>
 
 <style scoped>
-#nav_bar {
-    width: 100%;
-    height: 48px;
-    display: flex;
-    flex-direction: row;
+#staff {
     background-color: white;
-    text-align: center;
-    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    position: fixed;
 }
 </style>

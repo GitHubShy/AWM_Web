@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <div id="topbar">
-        <img id="portrait" :src="result.portrait_url" />
+        <img id="portrait" :src="getPortrait" />
         <div id="info">
             <h2 class="title">Full Name</h2>
             <font class="value">{{getFullName}}</font>
@@ -116,7 +116,7 @@ export default {
                 payment_rate: null,
                 birth_year: null,
                 tax_file_number: null,
-                portrait_url: ''
+                portrait_url: "https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png"
             },
             allAlign: 'center',
             tableData: [],
@@ -138,6 +138,14 @@ export default {
                 return 'Manager';
             } else {
                 return 'Engineer';
+
+            }
+        },
+        getPortrait() {
+            if (this.result.portrait_url == null) {
+                return 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601960184628&di=01658bf6cba790308114151a8dfc9bdb&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F9662a766b2e14418b22ed6e8185913c3e7562ab455df-j8mU0R_fw658';
+            } else {
+                return this.result.portrait_url;
 
             }
         }
@@ -173,6 +181,7 @@ export default {
                 this.result = res.data.data;
                 localStorage.setItem('id', this.result.id);
                 localStorage.setItem('title', this.result.title);
+                this.$store.commit('setStaffInfo', res.data.data);
                 console.log(this.result)
             }),
             getAttendance('').then(res => {

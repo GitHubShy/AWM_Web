@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+<div id="home">
     <div id="bar">
         <img src="../assets/img/small_plane.png" width="28px" height="28px" />
         <font size="4" color="black" style="margin-left: 10px">AWM WORKSHOP</font>
@@ -32,16 +32,20 @@ export default {
 };
 </script>
 
-<style>
-#app {
+<style scoped>
+#home {
     text-align: center;
     color: #2c3e50;
     width: 100%;
     height: 100%;
+    padding: 0%;
+    margin: 0%;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-image: url("../assets/img/index_bg.png");
+    background-size: 100% 100%;
+    position: fixed;
 }
 
 #bar {
