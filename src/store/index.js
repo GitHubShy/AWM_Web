@@ -19,7 +19,7 @@ export default new Vuex.Store({
       birth_year: null,
       tax_file_number: null,
       portrait_url: ''
-  },
+    },
   },
   mutations: {
     isStaff(state,value) {

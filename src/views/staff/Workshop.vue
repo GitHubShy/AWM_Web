@@ -7,7 +7,7 @@
         <p class="font-weight-light text-muted mb-0">{{getTitle}}</p>
         <router-link to="/staff/workshop/aircraftlist" tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Aircraft Management</router-link>
         <router-link to='' tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Job Management</router-link>
-        <router-link to='' tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Customer Management</router-link>
+        <router-link to="/staff/workshop/customerlist" tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Customer Management</router-link>
     </div>
     <router-view class="router_view"></router-view>
 </div>
