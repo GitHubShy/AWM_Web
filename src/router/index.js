@@ -42,6 +42,16 @@ const routes = [
       {
         path: 'workshop',
         component: () => import('../views/staff/Workshop.vue'),
+        children: [
+          {
+            path: '',
+            redirect: 'aircraftlist'
+          },
+          {
+            path: 'aircraftlist',
+            component: () => import('../views/aircraft/AircraftList.vue'),
+          },
+        ]
       }
     ]
   },

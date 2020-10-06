@@ -5,10 +5,11 @@
         <img :src="getPortrait" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
         <h4 class="m-0">{{getFullName}}</h4>
         <p class="font-weight-light text-muted mb-0">{{getTitle}}</p>
-        <router-link to='' tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Aircraft Management</router-link>
+        <router-link to="/staff/workshop/aircraftlist" tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Aircraft Management</router-link>
         <router-link to='' tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Job Management</router-link>
         <router-link to='' tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Customer Management</router-link>
     </div>
+    <router-view class="router_view"></router-view>
 </div>
 </template>
 
@@ -102,61 +103,9 @@ export default {
     transition: all 0.4s;
 }
 
-.page-content {
-    width: calc(100% - 17rem);
-    margin-left: 17rem;
-    transition: all 0.4s;
-}
-
-/* for toggle behavior */
-
-#sidebar.active {
-    margin-left: -17rem;
-}
-
-#content.active {
+.router_view {
     width: 100%;
-    margin: 0;
-}
-
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -17rem;
-    }
-
-    #sidebar.active {
-        margin-left: 0;
-    }
-
-    #content {
-        width: 100%;
-        margin: 0;
-    }
-
-    #content.active {
-        margin-left: 17rem;
-        width: calc(100% - 17rem);
-    }
-}
-
-/*
-  *
-  * ==========================================
-  * FOR DEMO PURPOSE
-  * ==========================================
-  *
-  */
-
-.separator {
-    margin: 3rem 0;
-    border-bottom: 1px dashed #fff;
-}
-
-.text-uppercase {
-    letter-spacing: 0.1em;
-}
-
-.text-gray {
-    color: #aaa;
+    height: 100vh;
+    margin-left: 50px;
 }
 </style>
