@@ -7,7 +7,7 @@
     <vxe-button status="info" content="Need Confirm" style="width:150px"></vxe-button>
     <br />
     <br />
-    <vxe-table border resizable show-footer ref="xTable" height="500" :data="aircraft">
+    <vxe-table border resizable ref="xTable" height="500" :data="aircraft">
         <vxe-table-column field="aircraft_pic" title="Pic" width="120">
             <template v-slot="{ row }">
                 <img v-if="row.aircraft_pic" :src="row.aircraft_pic" style="width: 100px;">
@@ -22,7 +22,7 @@
         <vxe-table-column field="next_modify_time" title="nextService"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
             <template v-slot="{ row }">
-                <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px"></vxe-button>
+                <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="showDetails(row)"></vxe-button>
             </template>
         </vxe-table-column>
     </vxe-table>
@@ -39,17 +39,18 @@ export default {
     data() {
         return {
             allAlign: null,
-            aircraft: {
-                type: null,
-                registration: null,
-                serial: null,
-                total_flight_time: null,
-                maintenance_cycle: null,
-                last_modify_time: null,
-                customer_id: null,
-                aircraft_pic: null,
-                status: null,
-            },
+            aircraft: []
+            // aircraft: [{
+            //     type: null,
+            //     registration: null,
+            //     serial: null,
+            //     total_flight_time: null,
+            //     maintenance_cycle: null,
+            //     last_modify_time: null,
+            //     customer_id: null,
+            //     aircraft_pic: null,
+            //     status: null,
+            // }],
         };
     },
     watch: {},
@@ -78,7 +79,17 @@ export default {
             } else {
                 return 'Confirm'
             }
+        },
+        showDetails(row) {
+            console.log(1111111111111111)
+            this.$router.push({
+                path: '/staff/workshop/aircraftdetails',
+                query: {
+                    id: row.id
+                }
+            });
         }
+
     },
     created() {
         getAircraft(0).then(res => {

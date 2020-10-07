@@ -50,3 +50,13 @@ export const getAllCustomer = function () {
         url: "/customer/getAllCustomers"
     })
 }
+
+export const getCustomer = function (customerId) {
+    const formdata = new FormData();
+    formdata.append('id',customerId);
+    return request({
+        method: 'post',
+        url: "/customer/getCustomer",
+        data:formdata
+    })
+}
