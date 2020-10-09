@@ -42,7 +42,8 @@ export default {
     },
     methods: {
         onLogOut() {
-            localStorage.removeItem('token')
+            // localStorage.removeItem('token')
+            this.$store.commit("login/logoutHandle");
             this.$router.replace("/");
         }
     },

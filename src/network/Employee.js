@@ -78,3 +78,14 @@ export const getAttendance = function (date) {
     })
 }
 
+/**
+ * 员工登录
+ */
+export function employeeLogin(params) {
+    return request({
+        method: 'post',
+        url: '/employee/login',
+        data: params
+    })
+}
+

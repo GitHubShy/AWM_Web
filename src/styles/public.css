@@ -1,0 +1,22 @@
+.cp {
+  cursor: pointer;
+}
+.df {
+  display: flex;
+}
+.flex-jc {
+  display: flex;
+  justify-content: center;
+}
+.flex1 {
+  flex: 1;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.fc {
+  color: #409EFF;
+}
