@@ -333,7 +333,7 @@ div{
     font-size: 18px;
     font-weight: bold;
     margin-right: 100px;
-    min-width: 100px;
+    min-width: 120px;
 }
 .pro-datas>div div:nth-child(2){
     color: #6c757d;
