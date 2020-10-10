@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-    <div id="topbar">
+    <!-- <div id="topbar">
         <img id="portrait" :src="getPortrait" />
         <div id="info">
             <h2 class="title">Full Name</h2>
@@ -40,7 +40,7 @@
         <vxe-table-column field="on_time" title="On-Time"></vxe-table-column>
         <vxe-table-column field="off_time" title="Off-Time"></vxe-table-column>
         <vxe-table-column field="work_hours" title="Work-Hours" :formatter="formatterWorkHours"></vxe-table-column>
-    </vxe-table>
+    </vxe-table> -->
 
     <!--<h2 id="name">{{getFullName}}</h2>
     <img id="email" src="../../assets/img/facebook.png" />
@@ -83,9 +83,88 @@
 
         <input type="file" accept=".png,.img" @change="getFile($event)"> 
         </div>-->
+
+
+    <div class="pro-box">
+        <div class="pro-left">
+            <img :src="getPortrait" alt="" >
+            <h4>{{getFullName}}</h4>
+            <p>{{getTitle}}</p>
+            <p>Newcastle, AUS</p>
+            <div class="pro-but">
+                <el-button type="primary">Clock on</el-button>
+                <el-button class="pro-but-two">Clock Off</el-button>
+            </div>
+        </div>
+        <div class="pro-right">
+            <div class="pro-datas">
+                <div>
+                    <div>Full Name</div>
+                    <div>{{getFullName}}</div>
+                </div>
+                <div>
+                    <div>Email</div>
+                    <div>{{result.email}}</div>
+                </div>
+                <div>
+                    <div>Phone</div>
+                    <div>{{result.phone}}</div>
+                </div>
+                <div>
+                    <div>Birth</div>
+                    <div>{{result.birth_year}}</div>
+                </div>
+                <div>
+                    <div>AccountName</div>
+                    <div>{{result.account_name}}</div>
+                </div>
+            </div>
+            <div class="pro-list">
+                <div class="pro-status">
+                    <div class="status-title">Task Status</div>
+                    <div class="progress-text">Job ID- 001</div>
+                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                    <div class="progress-text">Job ID- 001</div>
+                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                    <div class="progress-text">Job ID- 001</div>
+                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                    <div class="progress-text">Job ID- 001</div>
+                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                    <div class="progress-text">Job ID- 001</div>
+                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                    <div class="progress-text">Job ID- 001</div>
+                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                    <div class="progress-text">Job ID- 001</div>
+                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                </div>
+                <div class="pro-stam">
+                    <div class="stam-title">Time Stamp</div>
+                   <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Clock on</th>
+                                <th>Clocked Off</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(t,i) of tableData" :key="i">
+                                <td>{{t.date}}</td>
+                                <td>{{t.on_time}}</td>
+                                <td>{{t.off_time}}</td>
+                            </tr>
+                            
+                        </tbody>
+                   </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
-
+<style >
+    
+</style>
 <script>
 import TitleValue from "../../components/TitleValue";
 import {
@@ -166,6 +245,7 @@ export default {
         clock() {
             clock().then(res => {
                 getAttendance('').then(res => {
+                    console.log(res)
                     if (res.status == 200) {
                         this.tableData = res.data.data;
                     }
@@ -186,12 +266,114 @@ export default {
                     this.tableData = res.data.data;
                 }
             })
+            this.clock()
     },
     mounted() {},
 };
 </script>
 
 <style scoped>
+div{
+    box-sizing: border-box;
+}
+.pro-box{
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(to right, #599fd9, #c2e59c);
+    justify-content: center;
+    padding: 80px 0;
+}
+.pro-left{
+    width: 350px;
+    height: 380px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+.pro-left h4{
+    font-size: 1.5rem;
+    margin: 15px 0;
+}
+.pro-left p{
+    color: #6c757d;
+}
+.pro-left img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+.pro-but{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pro-but-two{
+    border: 1px solid #007bff;
+}
+.pro-right{
+    width: 730px;
+    margin-left: 30px;
+    /* background: #fff; */
+    border-radius: 10px;
+}
+.pro-datas{
+    background: #fff;
+    border-radius: 10px;
+    padding: 0 15px;
+}
+.pro-datas>div{
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+}
+.pro-datas>div div:nth-child(1){
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 100px;
+    min-width: 100px;
+}
+.pro-datas>div div:nth-child(2){
+    color: #6c757d;
+}
+.pro-list{
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    margin-top:50px;
+    
+}
+.pro-status,.pro-stam{
+    border-radius: 5px;
+    background: #fff;
+    padding: 15px;
+    width: 340px;
+}
+.status-title{
+    font-size: 16px;
+    font-weight: bold;
+}
+.progress-text{
+    font-size: 12px;
+    margin-top: 10px;
+}
+.pro-stam{
+    padding: 0;
+}
+.stam-title{
+    background: rgba(0,0,0,.03);
+    padding: 15px;
+}
+.pro-stam table{
+    width: 100%;
+    line-height: 40px;
+}
+.pro-stam td{
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
 #app {
     width: 100%;
     height: 100%;
