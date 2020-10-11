@@ -126,3 +126,13 @@ export const createJob= function (job) {
         data:job
     })
 }
+
+
+//employeeId = 0 reutrn all jobs
+export const getAvailableTemplates= function () {
+    return request({
+        method: 'post',
+        url: "/workshop/findAvailableTemplates"
+
+    })
+}

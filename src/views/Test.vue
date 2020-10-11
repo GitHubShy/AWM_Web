@@ -9,6 +9,8 @@
     <button @click="method7">Get All Customers</button>
     <button @click="method8">Get All Jobs</button>
     <button @click="method9">Create job</button>
+    <button @click="method10">getAvailableTemplates</button>
+    <button @click="method11">getEmployeeByType</button>
     <pre>{{result}}</pre>
 </div>
 </template>
@@ -20,7 +22,8 @@ import {
     registerAircraft,
     registerComponents,
     getAllJobs,
-    createJob
+    createJob,
+    getAvailableTemplates
 } from "../network/Workshop";
 
 import {
@@ -28,6 +31,10 @@ import {
     login,
     getAllCustomer
 } from "../network/Customer";
+
+import {
+    getEmployeeByType
+} from "../network/Employee";
 export default {
     components: {},
     props: {},
@@ -141,13 +148,40 @@ export default {
                 description: 'Job created from Test.vue',
                 start_time: '2020-10-15',
                 due_time: '2020-11-20',
-                portrait_url: '',
-                phone: '123456789',
-                company_name: 'apple',
             }
             createJob(this.job).then(res => {
                 this.result = res;
             })
+        },
+        method10() {
+            getAvailableTemplates().then(res => {
+                this.result = res.data.data;
+                let list = [];
+                for (let i = 0; i < this.result.length; i++) {
+                    let modelItem = {};
+                    modelItem["label"] = this.result[i].title;
+                    modelItem["value"] = this.result[i].id;
+                    list[i] = modelItem;
+                }
+                this.result = list;
+                console.log(list);
+            })
+
+        },
+        method11() {
+            getEmployeeByType(1).then(res => {
+                this.result = res;
+                let list = [];
+                // for (let i = 0; i < this.result.length; i++) {
+                //     let modelItem = {};
+                //     modelItem["label"] = this.result[i].title;
+                //     modelItem["value"] = this.result[i].id;
+                //     list[i] = modelItem;
+                // }
+                // this.result = list;
+                // console.log(list);
+            })
+
         },
 
     },

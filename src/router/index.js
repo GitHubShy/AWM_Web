@@ -52,6 +52,10 @@ const routes = [
             component: () => import('../views/aircraft/AircraftList.vue'),
           },
           {
+            path: 'joblist',
+            component: () => import('../views/job/JobList.vue'),
+          },
+          {
             path: 'customerlist',
             component: () => import('../views/customer/CustomerList.vue'),
           },
