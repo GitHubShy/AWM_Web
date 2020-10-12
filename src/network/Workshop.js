@@ -136,3 +136,21 @@ export const getAvailableTemplates= function () {
 
     })
 }
+
+export const getAllSubTasks = function (jobId) {
+    const formdata = new FormData();
+    formdata.append('id',jobId);
+    return request({
+        method: 'post',
+        url: "/workshop/getAllSubTasks",
+        data:formdata
+    })
+}
+
+export const updateSubTask = function (subTask) {
+    return request({
+        method: 'post',
+        url: "/workshop/updateSubTask",
+        data:subTask
+    })
+}

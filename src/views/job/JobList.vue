@@ -11,7 +11,7 @@
     <vxe-button status="warning" content="Finished" style="width:150px"></vxe-button>
     <br />
     <br />
-    <vxe-table border resizable ref="xTable" height="500" :data="jobs">
+    <vxe-table border resizable ref="xTable" height="500" :data="jobs" @cell-click="cellDBLClickEvent">>
         <vxe-table-column field="aircraft_id" title="Aircraft"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
@@ -212,6 +212,17 @@ export default {
         },
         showCreateDialog() {
             this.showEdit = true;
+        },
+
+        cellDBLClickEvent({
+            row
+        }) {
+            this.$router.push({
+                path: '/staff/workshop/jobdetails',
+                query: {
+                    id: row.id
+                }
+            });
         },
 
         initData() {
