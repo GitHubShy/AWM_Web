@@ -180,3 +180,11 @@ export const deleteSubTask = function (subTaskId) {
         data:formdata
     })
 }
+
+export const createNewTemplate = function (template) {
+    return request({
+        method: 'post',
+        url: "/workshop/createNewTemplate",
+        data:template
+    })
+}

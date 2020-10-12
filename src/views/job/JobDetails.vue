@@ -1,9 +1,8 @@
 <template>
 <div class="wrapper">
     <h2>Job Details</h2>
-    <br />
-    <br />
     <vxe-button status="primary" content="Create Task" size="mediam" @click="createTask()"></vxe-button>
+    <vxe-button status="success" content="Save As My Template" size="mediam" @click="showCreateTemplateDialog()"></vxe-button>
     <br />
     <br />
     <vxe-table border show-overflow keep-source resizable ref="xTable" height="500" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
@@ -38,6 +37,13 @@
             <vxe-form :data="createTaskData" :items="createTaskItems" :rules="formRules" title-align="right" title-width="100" @submit="submitTask"></vxe-form>
         </template>
     </vxe-modal>
+
+    <vxe-modal v-model="showTemplate" title='CreateTemplate' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
+        <template v-slot>
+            <vxe-form :data="createTemplateData" :items="createTemplateItems" :rules="templateFormRules" title-align="right" title-width="100" @submit="createTemplate"></vxe-form>
+        </template>
+    </vxe-modal>
+
 </div>
 </template>
 
@@ -47,7 +53,8 @@ import {
     updateSubTask,
     getAllSubTaskType,
     createSubTask,
-    deleteSubTask
+    deleteSubTask,
+    createNewTemplate
 } from "../../network/Workshop";
 
 import {
@@ -60,6 +67,7 @@ export default {
     data() {
         return {
             showCreate: false,
+            showTemplate: false,
             submitLoading: false,
             subTasks: null,
             engineers: [],
@@ -77,6 +85,12 @@ export default {
                 employee_id: null,
                 start_time: null,
                 due_time: null
+            },
+            createTemplateData: {
+                employee_id: null,
+                title: null,
+                description: null,
+                subTaskTypeIds: null
             },
             createTaskItems: [{
                     title: 'Task information',
@@ -151,6 +165,64 @@ export default {
                     }
                 }
             ],
+            createTemplateItems: [{
+                    title: 'Template information',
+                    span: 24,
+                    titleAlign: 'left',
+                    titleWidth: 200,
+                    titlePrefix: {
+                        icon: 'fa fa-address-card-o'
+                    }
+                },
+                {
+                    field: 'title',
+                    title: 'TemplateTitle',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                        props: {
+                            placeholder: 'Please input Template title'
+                        }
+                    }
+                },
+                {
+                    field: 'description',
+                    title: 'TemplateDescription',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                        props: {
+                            placeholder: 'Please input Template Description'
+                        }
+                    }
+                },
+
+                {
+                    align: 'center',
+                    span: 24,
+                    titleAlign: 'left',
+                    itemRender: {
+                        name: '$buttons',
+                        children: [{
+                            props: {
+                                type: 'submit',
+                                content: 'Create',
+                                status: 'primary'
+                            }
+                        }]
+                    }
+                }
+            ],
+            templateFormRules: {
+                title: [{
+                    required: true,
+                    message: 'Please input a title'
+                }, ],
+                description: [{
+                    required: true,
+                    message: 'Please input a description'
+                }, ]
+            },
             formRules: {
                 sub_task_type_id: [{
                     required: true,
@@ -268,7 +340,7 @@ export default {
                         this.showEdit = false
                         if (res.data.code == 200) {
                             this.$XModal.message({
-                                message: 'delete subtask successfully',
+                                message: 'delete sub task successfully',
                                 status: 'success'
                             })
                             this.$refs.xTable.remove(row)
@@ -289,6 +361,33 @@ export default {
             })
 
         },
+
+        showCreateTemplateDialog() {
+            this.showTemplate = true;
+        },
+        createTemplate() {
+            let subTaskTypeIds = [];
+            for (let i = 0; i < this.subTasks.length; i++) {
+                subTaskTypeIds[i] = this.subTasks[i].sub_task_type_id
+            }
+            this.createTemplateData.employee_id = localStorage.getItem('id');
+            this.createTemplateData.subTaskTypeIds = subTaskTypeIds;
+            createNewTemplate(this.createTemplateData).then(res => {
+                this.showTemplate = false
+                this.showEdit = false
+                if (res.data.code == 200) {
+                    this.$XModal.message({
+                        message: 'Create new template successfully',
+                        status: 'success'
+                    })
+                } else {
+                    this.$XModal.message({
+                        message: 'Error:' + res.data.message,
+                        status: 'error'
+                    })
+                }
+            })
+        }
     },
     created() {
         this.createTaskData.job_id = this.$route.query.id;
