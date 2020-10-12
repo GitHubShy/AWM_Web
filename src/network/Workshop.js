@@ -170,3 +170,13 @@ export const getAllSubTaskType = function () {
         url: "/workshop/getAllSubTaskType"
     })
 }
+
+export const deleteSubTask = function (subTaskId) {
+    const formdata = new FormData();
+    formdata.append('id',subTaskId);
+    return request({
+        method: 'post',
+        url: "/workshop/deleteSubTask",
+        data:formdata
+    })
+}

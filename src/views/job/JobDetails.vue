@@ -27,6 +27,7 @@
                 </template>
                 <template v-else>
                     <vxe-button @click="editRowEvent(row)">Edit</vxe-button>
+                    <vxe-button @click="removeEvent(row)">Delete</vxe-button>
                 </template>
             </template>
         </vxe-table-column>
@@ -45,7 +46,8 @@ import {
     getAllSubTasks,
     updateSubTask,
     getAllSubTaskType,
-    createSubTask
+    createSubTask,
+    deleteSubTask
 } from "../../network/Workshop";
 
 import {
@@ -256,7 +258,37 @@ export default {
                     })
                 }
             })
-        }
+        },
+
+        removeEvent(row) {
+            this.$XModal.confirm('Are you sure to delete this task?').then(type => {
+                if (type === 'confirm') {
+                    deleteSubTask(row.id).then(res => {
+                        this.submitLoading = false
+                        this.showEdit = false
+                        if (res.data.code == 200) {
+                            this.$XModal.message({
+                                message: 'delete subtask successfully',
+                                status: 'success'
+                            })
+                            this.$refs.xTable.remove(row)
+                        } else {
+                            this.$XModal.message({
+                                message: 'Error:' + res.data.message,
+                                status: 'error'
+                            })
+                        }
+                    }).catch(err => {
+                        this.$XModal.message({
+                            message: 'Error:' + err,
+                            status: 'error'
+                        })
+                    });
+
+                }
+            })
+
+        },
     },
     created() {
         this.createTaskData.job_id = this.$route.query.id;
