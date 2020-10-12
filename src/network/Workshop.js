@@ -127,6 +127,15 @@ export const createJob= function (job) {
     })
 }
 
+export const createSubTask = function (task) {
+    return request({
+        method: 'post',
+        url: "/workshop/createSubTask",
+        data:task
+    })
+}
+
+
 
 //employeeId = 0 reutrn all jobs
 export const getAvailableTemplates= function () {
@@ -152,5 +161,12 @@ export const updateSubTask = function (subTask) {
         method: 'post',
         url: "/workshop/updateSubTask",
         data:subTask
+    })
+}
+
+export const getAllSubTaskType = function () {
+    return request({
+        method: 'post',
+        url: "/workshop/getAllSubTaskType"
     })
 }

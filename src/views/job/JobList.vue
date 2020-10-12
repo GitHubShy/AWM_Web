@@ -220,7 +220,8 @@ export default {
             this.$router.push({
                 path: '/staff/workshop/jobdetails',
                 query: {
-                    id: row.id
+                    id: row.id,
+                    aircraft_id: row.aircraft_id
                 }
             });
         },
