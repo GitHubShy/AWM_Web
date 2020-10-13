@@ -23,7 +23,7 @@ export const request = function (config) {
     })
 
     instance.interceptors.response.use(res => {
-        console.log('response'+res.data);
+        console.log(res.data);
         return res;
     },err => {
         console.log(err);

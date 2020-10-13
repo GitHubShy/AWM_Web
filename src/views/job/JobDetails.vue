@@ -13,6 +13,7 @@
         <vxe-table-column field="end_time" title="EndTime"></vxe-table-column>
         <vxe-table-column field="planned_cost_time" title="PlannedHours"></vxe-table-column>
         <vxe-table-column field="actual_cost_time" title="ActualHours"></vxe-table-column>
+        <vxe-table-column field="percentage" title="Percentage"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
             <template v-slot="{ row }">
                 <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="showDetails(row)"></vxe-button>
@@ -295,7 +296,11 @@ export default {
                             message: 'Success！',
                             status: 'success'
                         })
-
+                        getAllSubTasks(this.$route.query.id).then(res => {
+                            if (res.data.code == 200) {
+                                this.subTasks = res.data.data;
+                            }
+                        })
                     }
                 })
 

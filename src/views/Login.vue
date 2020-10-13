@@ -209,7 +209,6 @@ export default {
             }).then(res => {
                 if (res.data.code == 200) {
                     localStorage.setItem('token', res.data.data.token);
-                    console.log('11111111111' + localStorage.getItem('token'))
                     this.$store.commit('setToken', res.data.data.token);
                     this.$router.push("/staff");
                 }

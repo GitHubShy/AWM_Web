@@ -14,6 +14,7 @@
     <vxe-table border resizable ref="xTable" height="500" :data="jobs" @cell-click="cellDBLClickEvent">>
         <vxe-table-column field="aircraft_id" title="Aircraft"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>
+        <vxe-table-column field="template_title" title="Template"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime"></vxe-table-column>
         <vxe-table-column field="due_time" title="DueTime"></vxe-table-column>
@@ -75,12 +76,14 @@ export default {
 
             formData: {
                 aircraft_id: null,
+                description: null,
                 template_id: null,
                 employee_id: null,
                 start_time: null,
                 due_time: null
             },
 
+            //rules for validating 
             formRules: {
                 aircraft_id: [{
                     required: true,
@@ -94,7 +97,12 @@ export default {
                     required: true,
                     message: 'Please choose a manager in charge of this job'
                 }, ],
+                description: [{
+                    required: true,
+                    message: 'Please input description'
+                }, ],
             },
+
             //items for showing in the create job dialog
             formItems: [{
                     title: 'Job information',
@@ -130,6 +138,15 @@ export default {
                     span: 12,
                     itemRender: {
                         name: '$select',
+                        options: []
+                    }
+                },
+                {
+                    field: 'description',
+                    title: 'Description',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
                         options: []
                     }
                 },
