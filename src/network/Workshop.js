@@ -188,3 +188,13 @@ export const createNewTemplate = function (template) {
         data:template
     })
 }
+
+export const getTasksForEmployee = function (employeeId) {
+    const formdata = new FormData();
+    formdata.append('employeeId',employeeId);
+    return request({
+        method: 'post',
+        url: "/workshop/getTasksForEmployee",
+        data:formdata
+    })
+}
