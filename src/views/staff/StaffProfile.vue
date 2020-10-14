@@ -84,16 +84,15 @@
         <input type="file" accept=".png,.img" @change="getFile($event)"> 
         </div>-->
 
-
     <div class="pro-box">
         <div class="pro-left">
-            <img :src="getPortrait" alt="" >
+            <img :src="getPortrait" alt="">
             <h4>{{getFullName}}</h4>
             <p>{{getTitle}}</p>
             <p>Newcastle, AUS</p>
             <div class="pro-but">
-                <el-button type="primary">Clock on</el-button>
-                <el-button class="pro-but-two">Clock Off</el-button>
+                <el-button type="primary" @click="clock()">Clock on</el-button>
+                <el-button class="pro-but-two " @click="clock()">Clock Off</el-button>
             </div>
         </div>
         <div class="pro-right">
@@ -139,7 +138,7 @@
                 </div>
                 <div class="pro-stam">
                     <div class="stam-title">Time Stamp</div>
-                   <table>
+                    <table>
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -153,18 +152,20 @@
                                 <td>{{t.on_time}}</td>
                                 <td>{{t.off_time}}</td>
                             </tr>
-                            
+
                         </tbody>
-                   </table>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 </template>
+
 <style >
-    
+
 </style>
+
 <script>
 import TitleValue from "../../components/TitleValue";
 import {
@@ -266,7 +267,7 @@ export default {
                     this.tableData = res.data.data;
                 }
             })
-            this.clock()
+        this.clock()
     },
     mounted() {},
 };
@@ -343,7 +344,7 @@ div{
     align-content: center;
     justify-content: space-between;
     margin-top:50px;
-    
+
 }
 .pro-status,.pro-stam{
     border-radius: 5px;

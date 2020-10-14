@@ -89,3 +89,17 @@ export function employeeLogin(params) {
     })
 }
 
+/**
+ * Get employees according different types
+ * 0: Engineer   1: Manager  99:Super Administrator
+ */
+export function getEmployeeByType(id) {
+    const formdata = new FormData();
+    formdata.append('type',id);
+    return request({
+        method: 'post',
+        url: '/employee/getEmployeeByType',
+        data: formdata
+    })
+}
+
