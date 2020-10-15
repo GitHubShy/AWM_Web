@@ -1,0 +1,29 @@
+@font-face {font-family: "iconfont";
+  src: url('./iconfont/iconfont.eot?t=1602491970393'); /* IE9 */
+  src: url('./iconfont/iconfont.eot?t=1602491970393#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAOUAAsAAAAACCAAAANGAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDDAqDaIMYATYCJAMQCwoABCAFhG0HSxv9BhHVm6HIfibYthDWWe8l5Z6cQov0TBCxXFUNzCwhZ2K6+jp1+SUAgndzs1+q6oWMUCzJeXg9fUe6GOmF8MPnuZzeFG99b7itNe0GH/UOMA4ooL3xKLICiTjWHuLVxe0wH0MARwbyIdVq1GuGxUBWCSD9evfsjE1FMDV8wSKESw4aZBEhrJqtLgML/c/LJ4qIBUVIQzY26lG9G5XeylutJwWTaOcSWMdLAcIx0EA+wIC0Ks00QYedfGic1jHkgHXNEnirg+CtuJbVemj7x1MgYQg3HgDFsKvhrdiW2KvQTd6rkYMCeBEHLOADK4A4SCDdOMUwyiCd6NdLm3Bsp85dB3XWXTqrrnpsgr03M+iNt0om3HMjvVp3fcS2w6nU6iPZE+48llavOZqjldtxNI2sPZbT334EJh1uMWdXMpbv9v25USKTI12reHNWpJCVK1PGX74cJi1rliYTp0RcSLkr9eSUXVcm77wcNWlZC1936aR8mbxyJPFyMp6q3vFm51v2hFfPO93c2enWljvb/eXbKdEo7cXjkfH+x4s8Dkv+btiUxf13WTZdhCnDG/Z+viph7wSrnsOEjL0zrZp5PX7ieL2RjO9OgFPPZm9iI62KiBzUdBA4PZQbn5lMX7zL9lPkJ3vZA/XsXX96n2DfvknT/bveoV957uxp9p2W9tz56JWb6xUNAiDQE3V1AH1VvQHQk7T5j9/hRoO+hTsmLPfH+gaAR5Elq/iVwNDPZ2/RLbr5r1lbDhjdTqLGqA7bYlQNnfg96xTgcEAAhSQ8HcOXvDUXBEvyGIoI0kNjyUYaNh9C+BRDGEtFOPJS87hPUoagEeMBeZgOEBIRB0UCjkGTiCukYZ8gRAq+IEwi0XC0kKQX+uQQP6mqjFrQgflDsrR6Ky4q4N8x7LPmpN1XvZG3VIe2arL9EVfkMbZsn9CJePBMCwzwHM4zQWHKaKWKIqWva1/2osrSclBUZdSCDswfkqXVu8NF5d5/x7DPmmskNdM38pbGh7ZqWpCjZ20luRYl2yd0Ih480wIDpHCmHYJSPi+jlSr2aJW+ZuR8W081v295wiOAg2wzokSLkRARXWmeD3Papatmd73RgtEuFh3QLa/74QAAAA==') format('woff2'),
+  url('./iconfont/iconfont.woff?t=1602491970393') format('woff'),
+  url('./iconfont/iconfont.ttf?t=1602491970393') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('./iconfont/iconfont.svg?t=1602491970393#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.awmcollect:before {
+  content: "\e602";
+}
+
+.awmcard:before {
+  content: "\e603";
+}
+
+.awmHomehomepagemenu:before {
+  content: "\e601";
+}
+

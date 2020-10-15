@@ -5,7 +5,7 @@
     <vxe-button status="success" content="Flying" style="width:150px"></vxe-button>
     <vxe-button status="warning" content="Need Maintain" style="width:150px"></vxe-button>
     <vxe-button status="danger" content="Maintaining" style="width:150px"></vxe-button>
-    <vxe-button status="info" content="Need Confirm" style="width:150px"></vxe-button>
+    <!-- <vxe-button status="info" content="Need Confirm" style="width:150px"></vxe-button> -->
     <br />
     <br />
     <vxe-table border resizable ref="xTable" height="500" :data="aircraft">
@@ -226,8 +226,6 @@ export default {
                 return 'warning'
             } else if (row.status == 2) {
                 return 'danger'
-            } else {
-                return 'info'
             }
         },
         setStatusText(row) {
@@ -237,8 +235,6 @@ export default {
                 return 'Need'
             } else if (row.status == 2) {
                 return 'Maintain'
-            } else {
-                return 'Confirm'
             }
         },
         showDetails(row) {

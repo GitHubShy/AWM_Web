@@ -1,3 +1,5 @@
+const customer_index = () => import('@v/customer/CustomerIndex.vue')
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
@@ -54,6 +56,17 @@ const routes = [
           {
             path: 'joblist',
             component: () => import('../views/job/JobList.vue'),
+
+          },
+          {
+            path: 'myTasksList',
+            name: 'myTasksList',
+            component: () => import('../views/job/MyTasksList.vue'),
+          },
+          {
+            path: 'jobdetails',
+            component: () => import('../views/job/JobDetails.vue'),
+
           },
           {
             path: 'customerlist',
@@ -72,6 +85,11 @@ const routes = [
     path: '/test',
     name: 'Test',
     component: () => import('../views/Test.vue')
+  },
+  {
+    path: '/customer_index',
+    name: 'customer_index',
+    component: customer_index,
   },
 ]
 

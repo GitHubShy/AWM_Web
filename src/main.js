@@ -10,6 +10,7 @@ import 'vxe-table/lib/style.css'
 Vue.use(VXETable)
 
 import "@s/public.css";
+import "@s/awm-font.css"
 
 import ElementUI from 'element-ui';
 Vue.use(ElementUI);

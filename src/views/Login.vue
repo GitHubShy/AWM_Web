@@ -111,14 +111,12 @@ import {
     request
 } from "../network/request";
 import {
-    registerCustomer
+    registerCustomer,
+    customerLogin
 } from "../network/Customer";
 import {
     employeeLogin
 } from "../network/Employee";
-import {
-    customerLogin
-} from "../network/Customer"
 import {
     resetPassWord
 } from "../network/Message"
@@ -211,7 +209,6 @@ export default {
             }).then(res => {
                 if (res.data.code == 200) {
                     localStorage.setItem('token', res.data.data.token);
-                    console.log('11111111111' + localStorage.getItem('token'))
                     this.$store.commit('setToken', res.data.data.token);
                     this.$router.push("/staff");
                 }
@@ -242,7 +239,7 @@ export default {
                     token: res.data.data.token
                 });
 
-                let path = this.type === 'staff' ? '/staff' : '';
+                let path = this.type === 'staff' ? '/staff' : '/customer_index';
                 this.$router.push({
                     path
                 });

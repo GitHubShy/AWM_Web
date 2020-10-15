@@ -127,6 +127,15 @@ export const createJob= function (job) {
     })
 }
 
+export const createSubTask = function (task) {
+    return request({
+        method: 'post',
+        url: "/workshop/createSubTask",
+        data:task
+    })
+}
+
+
 
 //employeeId = 0 reutrn all jobs
 export const getAvailableTemplates= function () {
@@ -134,5 +143,58 @@ export const getAvailableTemplates= function () {
         method: 'post',
         url: "/workshop/findAvailableTemplates"
 
+    })
+}
+
+export const getAllSubTasks = function (jobId) {
+    const formdata = new FormData();
+    formdata.append('id',jobId);
+    return request({
+        method: 'post',
+        url: "/workshop/getAllSubTasks",
+        data:formdata
+    })
+}
+
+export const updateSubTask = function (subTask) {
+    return request({
+        method: 'post',
+        url: "/workshop/updateSubTask",
+        data:subTask
+    })
+}
+
+export const getAllSubTaskType = function () {
+    return request({
+        method: 'post',
+        url: "/workshop/getAllSubTaskType"
+    })
+}
+
+export const deleteSubTask = function (subTaskId) {
+    const formdata = new FormData();
+    formdata.append('id',subTaskId);
+    return request({
+        method: 'post',
+        url: "/workshop/deleteSubTask",
+        data:formdata
+    })
+}
+
+export const createNewTemplate = function (template) {
+    return request({
+        method: 'post',
+        url: "/workshop/createNewTemplate",
+        data:template
+    })
+}
+
+export const getTasksForEmployee = function (employeeId) {
+    const formdata = new FormData();
+    formdata.append('employeeId',employeeId);
+    return request({
+        method: 'post',
+        url: "/workshop/getTasksForEmployee",
+        data:formdata
     })
 }
