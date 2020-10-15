@@ -34,6 +34,7 @@
     <br />
     <br />
     <h4>Component Information</h4>
+    <vxe-button status="primary" content="Create Component" style="width:150px" @click="showEdit=true"></vxe-button>
     <vxe-table border resizable ref="xTable" height="500" :data="aircraft.components">
         <vxe-table-column field="pic" title="Pic" width="120">
             <template v-slot="{ row }">
@@ -47,13 +48,18 @@
         <vxe-table-column field="maintenance_cycle" title="Maintenance_cycle"></vxe-table-column>
         <vxe-table-column field="last_modify_time" title="Last Serice Time"></vxe-table-column>
     </vxe-table>
-
+    <vxe-modal v-model="showEdit" title='Create Component' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
+        <template v-slot>
+            <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>
+        </template>
+    </vxe-modal>
 </div>
 </template>
 
 <script>
 import {
-    getAircraft
+    getAircraft,
+    registerComponents
 } from "../../network/Workshop";
 import {
     getCustomer
@@ -79,7 +85,118 @@ export default {
             customer: {
                 first_name: null,
                 surname: null,
-            }
+            },
+            showEdit:false,
+            submitLoading: false,
+            formData: {
+                type: null,
+                registration: null,
+                provider: null,
+                maintenance_cycle: null,
+                last_modify_time: null,
+                aircraft_id: null,
+            },
+            formRules: {
+                type: [{
+                    required: true,
+                    message: 'Please enter type'
+                }, ],
+                registration: [{
+                    required: true,
+                    message: 'Please enter registration'
+                }, ],
+                provider: [{
+                    required: true,
+                    message: 'Please enter provider'
+                }, ],
+                maintenance_cycle: [{
+                    required: true,
+                    message: 'Please enter maintenance_cycle'
+                }, ],
+                last_modify_time: [{
+                    required: true,
+                    message: 'Please enter last_modify_time'
+                }, ],
+               
+            },
+            formItems: [{
+                    title: 'Create Component',
+                    span: 24,
+                    titleAlign: 'left',
+                    titleWidth: 200,
+                    titlePrefix: {
+                        icon: 'fa fa-address-card-o'
+                    }
+                },
+                {
+                    field: 'type',
+                    title: 'Type',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                    }
+                },
+                {
+                    field: 'registration',
+                    title: 'Registration',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                    }
+                },
+
+                {
+                    field: 'provider',
+                    title: 'Provider',
+                    span: 12,
+                   itemRender: {
+                        name: '$input',
+                    }
+                },
+                {
+                    field: 'maintenance_cycle',
+                    title: 'Maintenance_cycle',
+                    span: 12,
+                     itemRender: {
+                        name: '$input',
+                        props:{
+                             type: 'number',
+                        }
+                    }
+                },
+                {
+                    field: 'last_modify_time',
+                    title: 'Last_modify_time',
+                    span: 12,
+                     itemRender: {
+                        name: '$input',
+                        props:{
+                             type: 'date',
+                        }
+                    }
+                },
+
+                {
+                    align: 'center',
+                    span: 24,
+                    titleAlign: 'left',
+                    itemRender: {
+                        name: '$buttons',
+                        children: [{
+                            props: {
+                                type: 'submit',
+                                content: 'Create',
+                                status: 'primary'
+                            }
+                        }, {
+                            props: {
+                                type: 'reset',
+                                content: 'reset'
+                            }
+                        }]
+                    }
+                }
+            ]
 
         };
     },
@@ -97,6 +214,10 @@ export default {
         },
     },
     methods: {
+        async submitEvent(){
+            await registerComponents(this.formData);
+            this.showEdit=false;
+        },
         formatterComponentType({
             cellValue
         }) {
@@ -116,6 +237,7 @@ export default {
         },
     },
     created() {
+        this.formData.aircraft_id=this.$route.query.id;
         getAircraft(this.$route.query.id).then(res => {
             if (res.data.code == 200) {
                 this.aircraft = res.data.data[0];

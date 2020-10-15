@@ -1,6 +1,7 @@
 <template>
 <div class="wrapper">
     <h2>All Arircraft</h2>
+    <vxe-button status="primary" content="Create Aircraft" style="width:150px" @click="showEdit=true"></vxe-button>
     <vxe-button status="success" content="Flying" style="width:150px"></vxe-button>
     <vxe-button status="warning" content="Need Maintain" style="width:150px"></vxe-button>
     <vxe-button status="danger" content="Maintaining" style="width:150px"></vxe-button>
@@ -26,20 +27,176 @@
             </template>
         </vxe-table-column>
     </vxe-table>
+
+    <vxe-modal v-model="showEdit" title='Create Aircraft' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
+        <template v-slot>
+            <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>
+        </template>
+    </vxe-modal>
 </div>
 </template>
 
 <script>
 import {
-    getAircraft
+    getAircraft,
+    registerAircraft
 } from "../../network/Workshop";
+import {
+    getAllCustomer
+} from "../../network/Customer";
 export default {
     components: {},
     props: {},
     data() {
         return {
             allAlign: null,
-            aircraft: []
+            aircraft: [],
+            showEdit:false,
+            submitLoading: false,
+            formData: {
+                type: null,
+                registration: null,
+                serial: null,
+                total_flight_time: null,
+                maintenance_cycle: null,
+                last_modify_time: null,
+                customer_id: null,
+            },
+            formRules: {
+                type: [{
+                    required: true,
+                    message: 'Please enter type'
+                }, ],
+                registration: [{
+                    required: true,
+                    message: 'Please enter registration'
+                }, ],
+                serial: [{
+                    required: true,
+                    message: 'Please enter serial'
+                }, ],
+                total_flight_time: [{
+                    required: true,
+                    message: 'Please enter total_flight_time'
+                }, ],
+                maintenance_cycle: [{
+                    required: true,
+                    message: 'Please enter maintenance_cycle'
+                }, ],
+                last_modify_time: [{
+                    required: true,
+                    message: 'Please enter last_modify_time'
+                }, ],
+                customer_id: [{
+                    required: true,
+                    message: 'Please enter customer_id'
+                }, ],
+            },
+            formItems: [{
+                    title: 'Create Aircraft',
+                    span: 24,
+                    titleAlign: 'left',
+                    titleWidth: 200,
+                    titlePrefix: {
+                        icon: 'fa fa-address-card-o'
+                    }
+                },
+                {
+                    field: 'type',
+                    title: 'Type',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                    }
+                },
+                {
+                    field: 'registration',
+                    title: 'Registration',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                    }
+                },
+
+                {
+                    field: 'serial',
+                    title: 'Serial',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                    }
+                },
+                {
+                    field: 'total_flight_time',
+                    title: 'Total_flight_time',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                        props: {
+                            type: 'number',
+                            // placeholder: 'Pleas choose start date'
+                        }
+                    }
+                },
+                {
+                    field: 'maintenance_cycle',
+                    title: 'Maintenance_cycle',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                        props: {
+                            type: 'number',
+                            // placeholder: 'Pleas choose start date'
+                        }
+                    }
+                },
+                {
+                    field: 'last_modify_time',
+                    title: 'Last_modify_time',
+                    span: 12,
+                    itemRender: {
+                        name: '$input',
+                        props: {
+                            type: 'date',
+                            placeholder: 'Pleas choose due date'
+                        }
+                    }
+                },
+                {
+                    field: 'customer_id',
+                    title: 'Customer_id',
+                    span: 12,
+                    itemRender: {
+                        name: '$select',
+                        options: [
+                            {label: "Engine Overhaul",value: 1},
+                            {label: "Engine Overhaul",value: 1},
+                            {label: "Engine Overhaul",value: 1},
+                        ]
+                    }
+                },
+
+                {
+                    align: 'center',
+                    span: 24,
+                    titleAlign: 'left',
+                    itemRender: {
+                        name: '$buttons',
+                        children: [{
+                            props: {
+                                type: 'submit',
+                                content: 'Create',
+                                status: 'primary'
+                            }
+                        }, {
+                            props: {
+                                type: 'reset',
+                                content: 'reset'
+                            }
+                        }]
+                    }
+                }
+            ]
             // aircraft: [{
             //     type: null,
             //     registration: null,
@@ -58,6 +215,10 @@ export default {
 
     },
     methods: {
+        async submitEvent(){
+            await registerAircraft(this.formData);
+            this.showEdit=false;
+        },
         setStatus(row) {
             if (row.status == 0) {
                 return 'success'
@@ -96,6 +257,14 @@ export default {
             if (res.data.code == 200) {
                 this.aircraft = res.data.data;
             }
+        });
+        getAllCustomer().then(res=>{
+            let arr=res.data.data;
+            arr.forEach(t=>{
+                t.label=t.first_name+" "+t.surname
+                t.value=t.id
+            });
+            this.formItems[7].itemRender.options=arr;
         })
     },
     mounted() {}
