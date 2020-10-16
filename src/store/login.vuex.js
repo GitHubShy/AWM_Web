@@ -35,27 +35,12 @@ export default {
       ['account_name', 'company_name', 'email', 'first_name', 'id', 'password', 'phone', 'portrait_url', 'surname'].forEach(key => {
         obj[key] = all[key] == null ? '' : all[key]
       })
-      let str = JSON.stringify(obj)
+      console.log(obj,'==================');
+      let str = JSON.stringify(obj);
       if (localStorage.uus !== str) {
         localStorage.uus = str
       }
     },
-    // async getUserInfo({commit, state, dispatch}) {
-    //   console.log(state.token)
-    //   if (!state.token) {
-    //     return
-    //   }
-    //   let res = await getCustomer()
-    //   console.log(res,'=================');
-    //   let { code, data } = res
-    //   data = res.data || {};
-    //   if (code === '200') {
-    //     commit('userSave', {
-    //       user: data
-    //     })
-    //   }
-    //   return res
-    // },
   },
   actions: {
     async getUserInfo({ commit, state, dispatch}) {

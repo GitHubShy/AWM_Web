@@ -6,8 +6,8 @@
         <div class="df con"> 
           <img class="head" src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="">
           <div>
-            <div class="fs20 fw700">kkkk</div>
-            <div class="fs18 font-c">uuuuu</div>
+            <div class="fs20 fw700">{{user.account_name}}</div>
+            <div class="fs18 font-c">{{user.company_name}}</div>
           </div>
         </div>
       </div>
@@ -39,7 +39,8 @@
 </template>
 
 <script>
-import MyAircraft from "@c/MyAircraft"
+import MyAircraft from "@c/MyAircraft";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "CustomerIndex",
   components: {
@@ -68,6 +69,9 @@ export default {
       ],
       currentIndex: 0
     };
+  },
+  computed: {
+    ...mapState("login", ["user"]),
   },
   methods: {
     changeTab(index) {

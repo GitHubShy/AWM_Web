@@ -196,7 +196,13 @@ export default {
         };
     },
     watch: {},
-    computed: {},
+        // beforeRouteUpdate(to, from, next) {
+        //     this.$store.commit("login/logoutHandle");
+        //     next();
+        // },
+    computed: {
+        
+    },
     methods: {
         async login() {
             let fun = this.type === 'staff' ? employeeLogin : customerLogin;
@@ -223,9 +229,7 @@ export default {
                     token: res.data.data.token
                 });
                 let user = this.type === 'staff' ? '/staff' : res.data.data.customer;
-                this.$store.commit("login/userSave", {
-                    user
-                });
+                this.$store.commit("login/userSave", { user });
 
                 let path = this.type === 'staff' ? '/staff' : '/customer_index';
                 this.$router.push({
@@ -324,6 +328,7 @@ export default {
 
     },
     created() {
+        this.$store.commit("login/logoutHandle");
         this.type = this.$route.query.type;
         this.$store.commit("login/typeSave", {
             type: this.type

@@ -8,6 +8,8 @@
 export default {
     components: {},
     methods: {},
+    created() {
+    }
 };
 </script>
 
