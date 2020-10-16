@@ -198,23 +198,6 @@ export default {
     watch: {},
     computed: {},
     methods: {
-        LonIn() {
-            request({
-                method: 'post',
-                url: "/employee/login",
-                data: {
-                    account_name: this.account_name,
-                    password: this.password
-                }
-            }).then(res => {
-                if (res.data.code == 200) {
-                    localStorage.setItem('token', res.data.data.token);
-                    console.log('11111111111' + localStorage.getItem('token'))
-                    this.$store.commit('setToken', res.data.data.token);
-                    this.$router.push("/staff");
-                }
-            })
-        },
         async login() {
             let fun = this.type === 'staff' ? employeeLogin : customerLogin;
             let {
@@ -238,6 +221,10 @@ export default {
                 });
                 this.$store.commit("login/loginSuccessHandle", {
                     token: res.data.data.token
+                });
+                let user = this.type === 'staff' ? '/staff' : res.data.data.customer;
+                this.$store.commit("login/userSave", {
+                    user
                 });
 
                 let path = this.type === 'staff' ? '/staff' : '/customer_index';
@@ -338,6 +325,9 @@ export default {
     },
     created() {
         this.type = this.$route.query.type;
+        this.$store.commit("login/typeSave", {
+            type: this.type
+        });
     },
     mounted() {},
 };

@@ -17,7 +17,7 @@ module.exports = {
             .set('@s', resolve('src/styles'))
             .set('@v', resolve('src/views'))
             .set('@c', resolve('src/components'))
-            .set('@u', resolve('src/utils'))
+            .set('@n', resolve('src/network'))
             .set('common', resolve('src/components/common'))
             .set('content', resolve('src/components/content'))
 

@@ -19,16 +19,18 @@
              v-for="(item,index) in tabs" 
              :key="index" 
              @click="changeTab(index)"
-             :class="{'active' : currentIndex == index}">
-          <i class="iconfont tab-icon fw700" :class="[{'active' : currentIndex == index},  item.icon]"></i>
+             :class="{'active' : currentIndex === index}">
+          <i class="iconfont tab-icon fw700" :class="[{'active' : currentIndex === index},  item.icon]"></i>
           {{item.name}}
         </div>
       </div>
 
     </div>
 
-    <div>
-      <div v-show="currentIndex === 0">aa</div>
+    <div class="right">
+      <div v-show="currentIndex === 0">
+        <MyAircraft />
+      </div>
       <div v-show="currentIndex === 1">bb</div>
       <div v-show="currentIndex === 2">cc</div>
       <div v-show="currentIndex === 3">dd</div>
@@ -37,15 +39,18 @@
 </template>
 
 <script>
+import MyAircraft from "@c/MyAircraft"
 export default {
   name: "CustomerIndex",
-  components: {},
+  components: {
+    MyAircraft
+  },
   props: {},
   data() {
     return {
       tabs: [
         {
-          name: "aa",
+          name: "My Aircraft",
           icon: "awmcollect",
         },
         {
@@ -79,7 +84,7 @@ export default {
   display: flex;
 }
 .left {
-  width: 272px;
+  min-width: 272px;
 }
 .l-herder {
   background-color: #f8f9fa;
@@ -131,5 +136,10 @@ export default {
 }
 .tab-icon.active {
   color: #007bff;
+}
+.right {
+  width: calc(100vw - 272px);
+  min-width: 800px;
+  margin: 0 50px;
 }
 </style>
