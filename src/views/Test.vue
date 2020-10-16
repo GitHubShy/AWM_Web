@@ -7,6 +7,7 @@
     <button @click="method5">register Customer</button>
     <button @click="method6">Customer Login</button>
     <button @click="method7">Get All Customers</button>
+    <button @click="method12">Get Customer</button>
     <button @click="method8">Get All Jobs</button>
     <button @click="method9">Create job</button>
     <button @click="method10">getAvailableTemplates</button>
@@ -29,7 +30,8 @@ import {
 import {
     registerCustomer,
     login,
-    getAllCustomer
+    getAllCustomer,
+    getCustomer
 } from "../network/Customer";
 
 import {
@@ -172,6 +174,21 @@ export default {
             getEmployeeByType(1).then(res => {
                 this.result = res;
                 let list = [];
+                // for (let i = 0; i < this.result.length; i++) {
+                //     let modelItem = {};
+                //     modelItem["label"] = this.result[i].title;
+                //     modelItem["value"] = this.result[i].id;
+                //     list[i] = modelItem;
+                // }
+                // this.result = list;
+                // console.log(list);
+            })
+
+        },
+        method12() {
+            getCustomer(1).then(res => {
+                this.result = res;
+                // let list = [];
                 // for (let i = 0; i < this.result.length; i++) {
                 //     let modelItem = {};
                 //     modelItem["label"] = this.result[i].title;
