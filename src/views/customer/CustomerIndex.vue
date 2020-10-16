@@ -25,6 +25,10 @@
         </div>
       </div>
 
+      <div class="btn">
+        <mybutton type="danger" fontSize="20px" width="100px" @click.native="onLogOut">Log out</mybutton>
+      </div>
+
     </div>
 
     <div class="right">
@@ -35,16 +39,20 @@
       <div v-show="currentIndex === 2">cc</div>
       <div v-show="currentIndex === 3">dd</div>
     </div>
+
+    
   </div>
 </template>
 
 <script>
 import MyAircraft from "@c/MyAircraft";
+import mybutton from "@c/CustomButton";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "CustomerIndex",
   components: {
-    MyAircraft
+    MyAircraft,
+    mybutton
   },
   props: {},
   data() {
@@ -76,6 +84,10 @@ export default {
   methods: {
     changeTab(index) {
       this.currentIndex = index;
+    },
+    onLogOut() {
+      this.$store.commit("login/logoutHandle");
+      this.$router.replace("/");
     }
   },
   created() {},
@@ -145,5 +157,10 @@ export default {
   width: calc(100vw - 272px);
   min-width: 800px;
   margin: 0 50px;
+}
+.btn {
+  padding: 20px 0 0 16px;
+  /* display: flex;
+  justify-content: center; */
 }
 </style>

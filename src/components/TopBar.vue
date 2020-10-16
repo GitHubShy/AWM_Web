@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import mybutton from "../components/CustomButton";
+import mybutton from "@c/CustomButton";
 
 export default {
     name: 'TopBar',
