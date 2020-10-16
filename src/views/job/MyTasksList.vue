@@ -4,6 +4,7 @@
     <h2>My Tasks</h2>
 
     <vxe-table border show-overflow keep-source resizable ref="xTable" height="500" :data="tasks" :edit-config="{trigger: 'manual', mode: 'row'}">
+        <vxe-table-column field="job_id" title="JobId"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime"></vxe-table-column>
         <vxe-table-column field="due_time" title="DueTime"></vxe-table-column>

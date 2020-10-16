@@ -3,6 +3,7 @@
     <h2>Job Details</h2>
     <vxe-button status="primary" content="Create Task" size="mediam" @click="createTask()"></vxe-button>
     <vxe-button status="success" content="Save As My Template" size="mediam" @click="showCreateTemplateDialog()"></vxe-button>
+    <vxe-button status="info" content="Close" size="mediam" @click="close()"></vxe-button>
     <br />
     <br />
     <vxe-table border show-overflow keep-source resizable ref="xTable" height="500" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
@@ -55,7 +56,9 @@ import {
     getAllSubTaskType,
     createSubTask,
     deleteSubTask,
-    createNewTemplate
+    createNewTemplate,
+    updateJob,
+    getJob
 } from "../../network/Workshop";
 
 import {
@@ -70,6 +73,7 @@ export default {
             showCreate: false,
             showTemplate: false,
             submitLoading: false,
+            job: null,
             subTasks: null,
             engineers: [],
             subTaskType: [],
@@ -315,6 +319,23 @@ export default {
             })
         },
 
+        close() {
+            this.job.status = 5;
+            updateJob(this.job).then(res => {
+                if (res.data.code == 200) {
+                    this.$XModal.message({
+                        message: 'Success！',
+                        status: 'success'
+                    })
+                } else {
+                    this.$XModal.message({
+                        message: res.data.message,
+                        status: 'error'
+                    })
+                }
+            })
+        },
+
         createTask() {
             this.showCreate = true;
         },
@@ -397,6 +418,11 @@ export default {
     created() {
         this.createTaskData.job_id = this.$route.query.id;
         this.createTaskData.aircraft_id = this.$route.query.aircraft_id;
+        getJob(this.$route.query.id).then(res => {
+            if (res.data.code == 200) {
+                this.job = res.data.data;
+            }
+        })
         getAllSubTasks(this.$route.query.id).then(res => {
             if (res.data.code == 200) {
                 this.subTasks = res.data.data;

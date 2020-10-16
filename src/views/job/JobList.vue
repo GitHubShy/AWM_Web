@@ -7,11 +7,12 @@
     <vxe-button status="primary" content="Created" style="width:150px"></vxe-button>
     <vxe-button status="success" content="Started" style="width:150px"></vxe-button>
     <vxe-button status="danger" content="Over Due" style="width:150px"></vxe-button>
-    <vxe-button status="info" content="Need Confirm" style="width:150px"></vxe-button>
     <vxe-button status="warning" content="Finished" style="width:150px"></vxe-button>
+    <vxe-button status="info" content="Need Close" style="width:150px"></vxe-button>
     <br />
     <br />
     <vxe-table border resizable ref="xTable" height="500" :data="jobs" @cell-click="cellDBLClickEvent">>
+        <vxe-table-column field="id" title="JobId"></vxe-table-column>
         <vxe-table-column field="aircraft_id" title="Aircraft"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>
         <vxe-table-column field="template_title" title="Template"></vxe-table-column>
@@ -237,6 +238,7 @@ export default {
             this.$router.push({
                 path: '/staff/workshop/jobdetails',
                 query: {
+                    job:row,
                     id: row.id,
                     aircraft_id: row.aircraft_id
                 }

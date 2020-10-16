@@ -26,8 +26,6 @@ export const getCustomerAircraft = function (customerID) {
     })
 }
 
-
-//Get aircraft that belongs to a customer
 //type:required(A380)
 //registration:required(B-3657)MSN=Manufacturing Serial number 
 //  制造序列号，制造商对其所有生产线生产的飞机数量的统计，
@@ -161,6 +159,24 @@ export const updateSubTask = function (subTask) {
         method: 'post',
         url: "/workshop/updateSubTask",
         data:subTask
+    })
+}
+
+export const getJob = function (jobId) {
+    const formdata = new FormData();
+    formdata.append('id',jobId);
+    return request({
+        method: 'post',
+        url: "/workshop/getJob",
+        data:formdata
+    })
+}
+
+export const updateJob = function (job) {
+    return request({
+        method: 'post',
+        url: "/workshop/updateJob",
+        data:job
     })
 }
 
