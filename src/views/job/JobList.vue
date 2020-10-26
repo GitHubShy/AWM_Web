@@ -7,8 +7,8 @@
     <vxe-button status="primary" content="Created" style="width:150px"></vxe-button>
     <vxe-button status="success" content="Started" style="width:150px"></vxe-button>
     <vxe-button status="danger" content="Over Due" style="width:150px"></vxe-button>
-    <vxe-button status="warning" content="Finished" style="width:150px"></vxe-button>
-    <vxe-button status="info" content="Need Close" style="width:150px"></vxe-button>
+    <vxe-button status="warning" content="Need Close" style="width:150px"></vxe-button>
+    <vxe-button status="info" content="Closed" style="width:150px"></vxe-button>
     <br />
     <br />
     <vxe-table border resizable ref="xTable" height="500" :data="jobs" @cell-click="cellDBLClickEvent">>
@@ -206,11 +206,11 @@ export default {
             if (row.status == 1) {
                 return 'success'
             } else if (row.status == 5) {
-                return 'warning'
+                return 'info'
             } else if (row.status == 3) {
                 return 'danger'
             } else if (row.status == 4) {
-                return 'info'
+                return 'warning'
             } else {
                 return 'primary'
             }
@@ -219,7 +219,7 @@ export default {
             if (row.status == 1) {
                 return 'Started'
             } else if (row.status == 5) {
-                return 'Finished'
+                return 'Closed'
             } else if (row.status == 3) {
                 return 'OverDue'
             } else if (row.status == 4) {
@@ -238,7 +238,7 @@ export default {
             this.$router.push({
                 path: '/staff/workshop/jobdetails',
                 query: {
-                    job:row,
+                    job: row,
                     id: row.id,
                     aircraft_id: row.aircraft_id
                 }

@@ -39,7 +39,7 @@
     <vxe-button status="success" content="Create Comment" size="mediam" @click="createComment()"></vxe-button>
     <br />
     <br />
-    <vxe-table border show-overflow keep-source resizable ref="xTable" height="300" :data="comments">
+    <vxe-table border height="300" :data="comments">
         <vxe-table-column field="employee_name" title="Author"></vxe-table-column>
         <vxe-table-column field="content_time" title="Date"></vxe-table-column>
         <vxe-table-column field="content" title="Content"></vxe-table-column>
