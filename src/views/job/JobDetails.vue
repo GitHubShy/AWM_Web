@@ -6,7 +6,7 @@
     <vxe-button status="info" content="Close" size="mediam" @click="close()"></vxe-button>
     <br />
     <br />
-    <vxe-table border show-overflow keep-source resizable ref="xTable" height="500" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
+    <vxe-table border show-overflow keep-source resizable ref="xTable" height="300" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="employee_id" title="Assinged to" :edit-render="{name: '$select', options: engineers}"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime" :edit-render="{name: '$input', props: {type: 'date'}}"></vxe-table-column>
@@ -34,6 +34,17 @@
         </vxe-table-column>
     </vxe-table>
 
+    <h2>Comments</h2>
+    <br />
+    <vxe-button status="success" content="Create Comment" size="mediam" @click="createComment()"></vxe-button>
+    <br />
+    <br />
+    <vxe-table border show-overflow keep-source resizable ref="xTable" height="300" :data="comments">
+        <vxe-table-column field="employee_name" title="Author"></vxe-table-column>
+        <vxe-table-column field="content_time" title="Date"></vxe-table-column>
+        <vxe-table-column field="content" title="Content"></vxe-table-column>
+    </vxe-table>
+
     <vxe-modal v-model="showCreate" title='CreateTask' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
             <vxe-form :data="createTaskData" :items="createTaskItems" :rules="formRules" title-align="right" title-width="100" @submit="submitTask"></vxe-form>
@@ -43,6 +54,12 @@
     <vxe-modal v-model="showTemplate" title='CreateTemplate' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
             <vxe-form :data="createTemplateData" :items="createTemplateItems" :rules="templateFormRules" title-align="right" title-width="100" @submit="createTemplate"></vxe-form>
+        </template>
+    </vxe-modal>
+
+    <vxe-modal v-model="showCreateComment" title='CreateComment' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
+        <template v-slot>
+            <vxe-form :data="createCommentData" :items="createCommentItems" :rules="commentFormRules" title-align="right" title-width="100" @submit="submitComment"></vxe-form>
         </template>
     </vxe-modal>
 
@@ -58,7 +75,9 @@ import {
     deleteSubTask,
     createNewTemplate,
     updateJob,
-    getJob
+    getJob,
+    getComment,
+    createComment
 } from "../../network/Workshop";
 
 import {
@@ -73,7 +92,9 @@ export default {
             showCreate: false,
             showTemplate: false,
             submitLoading: false,
+            showCreateComment: false,
             job: null,
+            comments: null,
             subTasks: null,
             engineers: [],
             subTaskType: [],
@@ -96,6 +117,11 @@ export default {
                 title: null,
                 description: null,
                 subTaskTypeIds: null
+            },
+            createCommentData: {
+                employee_id: null,
+                job_id: null,
+                content: null
             },
             createTaskItems: [{
                     title: 'Task information',
@@ -218,6 +244,34 @@ export default {
                     }
                 }
             ],
+            createCommentItems: [{
+                    field: 'content',
+                    title: 'Content',
+                    span: 24,
+                    itemRender: {
+                        name: '$input',
+                        props: {
+                            placeholder: 'Please input content'
+                        }
+                    }
+                },
+
+                {
+                    align: 'center',
+                    span: 24,
+                    titleAlign: 'left',
+                    itemRender: {
+                        name: '$buttons',
+                        children: [{
+                            props: {
+                                type: 'submit',
+                                content: 'Submit',
+                                status: 'primary'
+                            }
+                        }]
+                    }
+                }
+            ],
             templateFormRules: {
                 title: [{
                     required: true,
@@ -226,6 +280,12 @@ export default {
                 description: [{
                     required: true,
                     message: 'Please input a description'
+                }, ]
+            },
+            commentFormRules: {
+                Content: [{
+                    required: true,
+                    message: 'Please input content'
                 }, ]
             },
             formRules: {
@@ -340,6 +400,9 @@ export default {
             this.showCreate = true;
         },
 
+        createComment() {
+            this.showCreateComment = true;
+        },
         submitTask() {
             createSubTask(this.createTaskData).then(res => {
                 this.submitLoading = false;
@@ -413,11 +476,38 @@ export default {
                     })
                 }
             })
+        },
+        submitComment() {
+            createComment(this.createCommentData).then(res => {
+                this.showCreateComment = false
+                this.showEdit = false
+                if (res.data.code == 200) {
+                    this.$XModal.message({
+                        message: 'Create comment successfully',
+                        status: 'success'
+                    })
+                    getComment(this.$route.query.id).then(res => {
+                        if (res.data.code == 200) {
+                            this.comments = res.data.data;
+                        }
+                    })
+
+                } else {
+                    this.$XModal.message({
+                        message: 'Error:' + res.data.message,
+                        status: 'error'
+                    })
+                }
+            })
         }
     },
     created() {
+
         this.createTaskData.job_id = this.$route.query.id;
         this.createTaskData.aircraft_id = this.$route.query.aircraft_id;
+
+        this.createCommentData.job_id = this.$route.query.id;
+
         getJob(this.$route.query.id).then(res => {
             if (res.data.code == 200) {
                 this.job = res.data.data;
@@ -426,6 +516,11 @@ export default {
         getAllSubTasks(this.$route.query.id).then(res => {
             if (res.data.code == 200) {
                 this.subTasks = res.data.data;
+            }
+        })
+        getComment(this.$route.query.id).then(res => {
+            if (res.data.code == 200) {
+                this.comments = res.data.data;
             }
         })
 

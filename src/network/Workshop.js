@@ -214,3 +214,21 @@ export const getTasksForEmployee = function (employeeId) {
         data:formdata
     })
 }
+
+export const getComment = function (jobId) {
+    const formdata = new FormData();
+    formdata.append('job_id',jobId);
+    return request({
+        method: 'post',
+        url: "/workshop/getComments",
+        data:formdata
+    })
+}
+
+export const createComment = function (Comment) {
+    return request({
+        method: 'post',
+        url: "/workshop/createComment",
+        data:Comment
+    })
+}
