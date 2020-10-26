@@ -8,7 +8,7 @@
     <!-- <vxe-button status="info" content="Need Confirm" style="width:150px"></vxe-button> -->
     <br />
     <br />
-    <vxe-table border resizable ref="xTable" height="500" :data="aircraft">
+    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="aircraft">
         <vxe-table-column field="aircraft_pic" title="Pic" width="120">
             <template v-slot="{ row }">
                 <img v-if="row.aircraft_pic" :src="row.aircraft_pic" style="width: 100px;">
@@ -51,8 +51,8 @@ export default {
         return {
             allAlign: null,
             aircraft: [],
-            showEdit:false,
-            submitLoading: false,
+            showEdit: false,
+            submitLoading: true,
             formData: {
                 type: null,
                 registration: null,
@@ -168,10 +168,18 @@ export default {
                     span: 12,
                     itemRender: {
                         name: '$select',
-                        options: [
-                            {label: "Engine Overhaul",value: 1},
-                            {label: "Engine Overhaul",value: 1},
-                            {label: "Engine Overhaul",value: 1},
+                        options: [{
+                                label: "Engine Overhaul",
+                                value: 1
+                            },
+                            {
+                                label: "Engine Overhaul",
+                                value: 1
+                            },
+                            {
+                                label: "Engine Overhaul",
+                                value: 1
+                            },
                         ]
                     }
                 },
@@ -215,9 +223,9 @@ export default {
 
     },
     methods: {
-        async submitEvent(){
+        async submitEvent() {
             await registerAircraft(this.formData);
-            this.showEdit=false;
+            this.showEdit = false;
         },
         setStatus(row) {
             if (row.status == 0) {
@@ -253,14 +261,15 @@ export default {
             if (res.data.code == 200) {
                 this.aircraft = res.data.data;
             }
+            this.submitLoading = false;
         });
-        getAllCustomer().then(res=>{
-            let arr=res.data.data;
-            arr.forEach(t=>{
-                t.label=t.first_name+" "+t.surname
-                t.value=t.id
+        getAllCustomer().then(res => {
+            let arr = res.data.data;
+            arr.forEach(t => {
+                t.label = t.first_name + " " + t.surname
+                t.value = t.id
             });
-            this.formItems[7].itemRender.options=arr;
+            this.formItems[7].itemRender.options = arr;
         })
     },
     mounted() {}

@@ -11,7 +11,7 @@
     <vxe-button status="info" content="Closed" style="width:150px"></vxe-button>
     <br />
     <br />
-    <vxe-table border resizable ref="xTable" height="500" :data="jobs" @cell-click="cellDBLClickEvent">>
+    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="700" :data="jobs" @cell-click="cellDBLClickEvent">>
         <vxe-table-column field="id" title="JobId"></vxe-table-column>
         <vxe-table-column field="aircraft_id" title="Aircraft"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>
@@ -58,7 +58,7 @@ export default {
     data() {
         return {
 
-            submitLoading: false,
+            submitLoading: true,
 
             //show create job dialog
             showEdit: false,
@@ -250,6 +250,7 @@ export default {
                 if (res.data.code == 200) {
                     this.jobs = res.data.data;
                 }
+                this.submitLoading = false;
             })
             getAvailableTemplates().then(res => {
                 this.result = res.data.data;
