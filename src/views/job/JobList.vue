@@ -12,8 +12,8 @@
     <br />
     <br />
     <vxe-table border :loading="submitLoading" resizable ref="xTable" height="700" :data="jobs" @cell-click="cellDBLClickEvent">>
-        <vxe-table-column field="id" title="JobId"></vxe-table-column>
-        <vxe-table-column field="aircraft_id" title="Aircraft"></vxe-table-column>
+        <vxe-table-column field="id" title="JobId" width="60"></vxe-table-column>
+        <vxe-table-column field="aircraft_id" title="Aircraft" width="80"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>
         <vxe-table-column field="template_title" title="Template"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>

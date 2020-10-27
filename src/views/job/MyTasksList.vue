@@ -3,8 +3,8 @@
 
     <h2>My Tasks</h2>
 
-    <vxe-table border show-overflow keep-source resizable ref="xTable" height="500" :data="tasks" :edit-config="{trigger: 'manual', mode: 'row'}">
-        <vxe-table-column field="job_id" title="JobId"></vxe-table-column>
+    <vxe-table border show-overflow keep-source resizable :loading="loadingDialog" ref="xTable" height="500" :data="tasks" :edit-config="{trigger: 'manual', mode: 'row'}">
+        <vxe-table-column field="job_id" title="Id" width="60"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime"></vxe-table-column>
         <vxe-table-column field="due_time" title="DueTime"></vxe-table-column>
@@ -12,13 +12,14 @@
         <vxe-table-column field="planned_cost_time" title="PlannedHours"></vxe-table-column>
         <vxe-table-column field="actual_cost_time" title="ActualHours"></vxe-table-column>
         <vxe-table-column field="percentage" title="Percentage" :edit-render="{name: '$input', props: {type: 'number'}}"></vxe-table-column>
+        <vxe-table-column field="materials" title="Materials" width="200" :edit-render="{name: '$input', props: {type: 'input'}}"></vxe-table-column>
         <vxe-table-column field="status" title="Status" :edit-render="{name: '$select', options: status}"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
             <template v-slot="{ row }">
-                <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="showDetails(row)"></vxe-button>
+                <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="small" style="width:80px" @click="showDetails(row)"></vxe-button>
             </template>
         </vxe-table-column>
-        <vxe-table-column title="Action" width="260">
+        <vxe-table-column title="Action" width="170">
             <template v-slot="{ row }">
                 <template v-if="$refs.xTable.isActiveByRow(row)">
                     <vxe-button @click="saveRowEvent(row)">Save</vxe-button>
@@ -45,6 +46,7 @@ export default {
     props: {},
     data() {
         return {
+            loadingDialog: true,
             tasks: [],
             status: [{
                     label: 'Created',
@@ -130,6 +132,7 @@ export default {
             if (res.data.code == 200) {
                 this.tasks = res.data.data;
             }
+            this.loadingDialog = false;
         })
     },
     mounted() {}

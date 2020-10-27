@@ -15,12 +15,13 @@
         <vxe-table-column field="planned_cost_time" title="PlannedHours"></vxe-table-column>
         <vxe-table-column field="actual_cost_time" title="ActualHours"></vxe-table-column>
         <vxe-table-column field="percentage" title="Percentage"></vxe-table-column>
+        <vxe-table-column field="materials" title="Materials"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
             <template v-slot="{ row }">
                 <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="showDetails(row)"></vxe-button>
             </template>
         </vxe-table-column>
-        <vxe-table-column title="Action" width="260">
+        <vxe-table-column title="Action" width="170">
             <template v-slot="{ row }">
                 <template v-if="$refs.xTable.isActiveByRow(row)">
                     <vxe-button @click="saveRowEvent(row)">Save</vxe-button>
