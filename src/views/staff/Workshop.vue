@@ -2,6 +2,7 @@
 <div class="workshop">
     <!-- Vertical navbar -->
     <div class="vertical-nav" id="sidebar">
+
         <img :src="getPortrait" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
         <h4 class="m-0">{{getFullName}}</h4>
         <p class="font-weight-light text-muted mb-0">{{getTitle}}</p>
@@ -108,5 +109,9 @@ export default {
     width: 100%;
     height: 100vh;
     margin-left: 50px;
+}
+
+.router-link-active {
+    color: #fd4733;
 }
 </style>

@@ -4,25 +4,26 @@
     <vxe-button status="primary" content="Create Job" style="width:150px" @click="showCreateDialog()"></vxe-button>
     <br />
     <br />
-    <vxe-button status="primary" content="Created" style="width:150px"></vxe-button>
-    <vxe-button status="success" content="Started" style="width:150px"></vxe-button>
-    <vxe-button status="danger" content="Over Due" style="width:150px"></vxe-button>
-    <vxe-button status="warning" content="Need Close" style="width:150px"></vxe-button>
-    <vxe-button status="info" content="Closed" style="width:150px"></vxe-button>
+    <vxe-button :status="buttons[0].vxeButtonText" :content="buttons[0].value" style="width:150px" @click="initData(buttons[0].status)"></vxe-button>
+    <vxe-button :status="buttons[1].vxeButtonText" :content="buttons[1].value" style="width:150px" @click="initData(buttons[1].status)"></vxe-button>
+    <vxe-button :status="buttons[2].vxeButtonText" :content="buttons[2].value" style="width:150px" @click="initData(buttons[2].status)"></vxe-button>
+    <vxe-button :status="buttons[3].vxeButtonText" :content="buttons[3].value" style="width:150px" @click="initData(buttons[3].status)"></vxe-button>
+    <vxe-button :status="buttons[4].vxeButtonText" :content="buttons[4].value" style="width:150px" @click="initData(buttons[4].status)"></vxe-button>
+    <vxe-button :status="buttons[5].vxeButtonText" :content="buttons[5].value" style="width:150px" @click="initData(buttons[5].status)"></vxe-button>
     <br />
     <br />
     <vxe-table border :loading="submitLoading" resizable ref="xTable" height="700" :data="jobs" @cell-click="cellDBLClickEvent">>
-        <vxe-table-column field="id" title="JobId" width="60"></vxe-table-column>
+        <vxe-table-column field="id" title="Id" width="70" sortable></vxe-table-column>
         <vxe-table-column field="aircraft_id" title="Aircraft" width="80"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>
         <vxe-table-column field="template_title" title="Template"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime"></vxe-table-column>
-        <vxe-table-column field="due_time" title="DueTime"></vxe-table-column>
+        <vxe-table-column field="due_time" title="DueTime" sortable></vxe-table-column>
         <vxe-table-column field="end_time" title="EndTime"></vxe-table-column>
         <vxe-table-column field="planned_cost_time" title="PlannedHours"></vxe-table-column>
         <vxe-table-column field="actual_cost_time" title="ActualHours"></vxe-table-column>
-        <vxe-table-column field="status" title="Status">
+        <vxe-table-column field="status" title="Status" sortable>
             <template v-slot="{ row }">
                 <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="showDetails(row)"></vxe-button>
             </template>
@@ -58,6 +59,7 @@ export default {
     data() {
         return {
 
+            buttons: this.GLOBAL.job_status,
             submitLoading: true,
 
             //show create job dialog
@@ -203,30 +205,32 @@ export default {
     computed: {},
     methods: {
         setStatus(row) {
-            if (row.status == 1) {
-                return 'success'
-            } else if (row.status == 5) {
-                return 'info'
-            } else if (row.status == 3) {
-                return 'danger'
-            } else if (row.status == 4) {
-                return 'warning'
-            } else {
-                return 'primary'
-            }
+            return this.GLOBAL.getJobButtonType(row.status)
+            // if (row.status == 1) {
+            //     return 'success'
+            // } else if (row.status == 5) {
+            //     return 'info'
+            // } else if (row.status == 3) {
+            //     return 'danger'
+            // } else if (row.status == 4) {
+            //     return 'warning'
+            // } else {
+            //     return 'primary'
+            // }
         },
         setStatusText(row) {
-            if (row.status == 1) {
-                return 'Started'
-            } else if (row.status == 5) {
-                return 'Closed'
-            } else if (row.status == 3) {
-                return 'OverDue'
-            } else if (row.status == 4) {
-                return 'Confirm'
-            } else {
-                return 'Created'
-            }
+            return this.GLOBAL.getJobStatus(row.status);
+            // if (row.status == 1) {
+            //     return 'Started'
+            // } else if (row.status == 5) {
+            //     return 'Closed'
+            // } else if (row.status == 3) {
+            //     return 'OverDue'
+            // } else if (row.status == 4) {
+            //     return 'Confirm'
+            // } else {
+            //     return 'Created'
+            // }
         },
         showCreateDialog() {
             this.showEdit = true;
@@ -245,8 +249,8 @@ export default {
             });
         },
 
-        initData() {
-            getAllJobs(0).then(res => {
+        initData(status) {
+            getAllJobs(0, status).then(res => {
                 if (res.data.code == 200) {
                     this.jobs = res.data.data;
                 }
@@ -296,7 +300,7 @@ export default {
                 this.submitLoading = false;
                 if (res.data.code == 200) {
                     this.showEdit = false;
-                    this.initData();
+                    this.initData(-1);
                 } else {
                     this.$XModal.message({
                         message: res.data.messag,
@@ -308,7 +312,7 @@ export default {
 
     },
     created() {
-        this.initData()
+        this.initData(-1)
     },
     mounted() {}
 };

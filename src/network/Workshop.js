@@ -96,9 +96,10 @@ export const registerComponents= function (componets) {
 
 
 //employeeId = 0 reutrn all jobs
-export const getAllJobs= function (employeeId) {
+export const getAllJobs= function (employeeId,status) {
     const formdata = new FormData();
     formdata.append('id',employeeId);
+    formdata.append('status',status);
     return request({
         method: 'post',
         url: "/workshop/getAllJobs",

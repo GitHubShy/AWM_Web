@@ -14,6 +14,10 @@ import VueI18n from 'vue-i18n'
 import zhCN from 'vxe-table/lib/locale/lang/zh-CN'
 import enUS from 'vxe-table/lib/locale/lang/en-US'
 
+//Global
+import global_ from './Global'
+Vue.prototype.GLOBAL = global_
+
 Vue.use(VueI18n)
 
 const messages = {

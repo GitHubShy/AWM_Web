@@ -1,9 +1,8 @@
 <template>
-
 <div>
     <div id="staff">
         <TopBar rightFirstText='Profile' rightFirstLink='/staff/staffprofile' rightSecondText='Staff' rightSecondLink='/staff/staffmanage' rightThirdText='Workshop' rightThirdLink='/staff/workshop' />
-    
+
     </div>
     <div style="height:50px"></div>
     <router-view></router-view>
