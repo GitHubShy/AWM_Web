@@ -121,20 +121,10 @@
             <div class="pro-list">
                 <div class="pro-status">
                     <div class="status-title">Task Status</div>
-                    <div class="progress-text">Job ID- 001</div>
-                    <el-progress :percentage="50" :show-tex="false"></el-progress>
-                    <div class="progress-text">Job ID- 001</div>
-                    <el-progress :percentage="50" :show-tex="false"></el-progress>
-                    <div class="progress-text">Job ID- 001</div>
-                    <el-progress :percentage="50" :show-tex="false"></el-progress>
-                    <div class="progress-text">Job ID- 001</div>
-                    <el-progress :percentage="50" :show-tex="false"></el-progress>
-                    <div class="progress-text">Job ID- 001</div>
-                    <el-progress :percentage="50" :show-tex="false"></el-progress>
-                    <div class="progress-text">Job ID- 001</div>
-                    <el-progress :percentage="50" :show-tex="false"></el-progress>
-                    <div class="progress-text">Job ID- 001</div>
-                    <el-progress :percentage="50" :show-tex="false"></el-progress>
+                    <div v-for="(item,key) of subTasks" :key="key">
+                        <div class="progress-text">Task ID - {{subTasks[key].id}}</div>
+                        <el-progress :percentage="subTasks[key].percentage" :show-tex="false"></el-progress>
+                    </div>
                 </div>
                 <div class="pro-stam">
                     <div class="stam-title">Time Stamp</div>
@@ -176,6 +166,10 @@ import {
     clock,
     getAttendance
 } from "../../network/Employee";
+import {
+    getTasksForEmployee
+} from "../../network/Workshop";
+
 export default {
     components: {
         // TitleValue,
@@ -197,6 +191,7 @@ export default {
             },
             allAlign: 'center',
             tableData: [],
+            subTasks: null,
             file: null
         };
     },
@@ -268,6 +263,11 @@ export default {
                 }
             })
         this.clock()
+        getTasksForEmployee(localStorage.getItem('id')).then(res => {
+            if (res.data.code == 200) {
+                this.subTasks = res.data.data;
+            }
+        })
     },
     mounted() {},
 };
