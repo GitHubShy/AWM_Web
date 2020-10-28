@@ -79,7 +79,7 @@ export const getAttendance = function (date) {
 }
 
 /**
- * 员工登录
+ * employee login
  */
 export function employeeLogin(params) {
     return request({
@@ -99,6 +99,20 @@ export function getEmployeeByType(id) {
     return request({
         method: 'post',
         url: '/employee/getEmployeeByType',
+        data: formdata
+    })
+}
+
+/**
+ * Update employee portrait
+ * 0: Engineer   1: Manager  99:Super Administrator
+ */
+export function updatePortrait(url) {
+    const formdata = new FormData();
+    formdata.append('url',url);
+    return request({
+        method: 'post',
+        url: '/employee/updatePortrait',
         data: formdata
     })
 }

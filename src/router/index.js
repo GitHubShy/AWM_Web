@@ -92,6 +92,11 @@ const routes = [
     component: () => import('../views/Test2.vue')
   },
   {
+    path: '/uploadimage',
+    name: 'UploadImage',
+    component: () => import('../views/UploadImage.vue')
+  },
+  {
     path: '/customer_index',
     name: 'customer_index',
     component: customer_index,

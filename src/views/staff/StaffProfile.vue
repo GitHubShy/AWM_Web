@@ -86,7 +86,7 @@
 
     <div class="pro-box">
         <div class="pro-left">
-            <img :src="getPortrait" alt="">
+            <img :src="getPortrait" alt="" @click="updateImg()">
             <h4>{{getFullName}}</h4>
             <p>{{getTitle}}</p>
             <p>Newcastle, AUS</p>
@@ -229,15 +229,15 @@ export default {
             let item = cellValue + 'hours'
             return item
         },
-        update() {
-
+        updateImg() {
+            this.$router.push({
+                path: '/uploadimage',
+                query: {
+                    url: this.result.portrait_url
+                }
+            });
         },
-        // getFile(event) {
-        //     let formData = new window.FormData()
-        //     formData.append('file', event.target.files[0])
-        //     console.log(formData)
-        //     upload(formData);
-        // },
+
         clock() {
             clock().then(res => {
                 getAttendance('').then(res => {
