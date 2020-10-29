@@ -65,3 +65,11 @@ export const getCustomer = function (customerId) {
         data:formdata
     })
 }
+
+//Get customer receipts
+export const getReceipts = function () {
+    return request({
+        method: 'post',
+        url: "/customer/getReceipts"
+    })
+}
