@@ -4,9 +4,11 @@
     <vxe-toolbar>
         <template v-slot:buttons style="margin-left:20px">
             <vxe-button icon="fa fa-plus" @click="insertEvent()">Add</vxe-button>
+            <vxe-button @click="exportDataEvent()">Export</vxe-button>
+            <vxe-button @click="printEvent()">Print</vxe-button>
         </template>
     </vxe-toolbar>
-    <vxe-table border resizable row-key highlight-hover-row ref="xTable" height="500" :data="tableData" @cell-dblclick="cellDBLClickEvent">
+    <vxe-table border resizable row-key highlight-hover-row ref="xTable" :export-config="{}" height="500" :data="tableData" @cell-dblclick="cellDBLClickEvent">
         <vxe-table-column type="seq" width="60" v-if="false"></vxe-table-column>
         <vxe-table-column field="id" title="ID" width="60" sortable></vxe-table-column>
         <vxe-table-column field="title" title="Title" :formatter="formatterTitle" sortable></vxe-table-column>
@@ -549,25 +551,16 @@ export default {
                     })
                 });
             }
-
-            // setTimeout(() => {
-            //     this.submitLoading = false
-            //     this.showEdit = false
-            //     if (this.selectRow) {
-            //         this.$XModal.message({
-            //             message: '保存成功',
-            //             status: 'success'
-            //         })
-            //         Object.assign(this.selectRow, this.formData)
-            //     } else {
-            //         this.$XModal.message({
-            //             message: '新增成功',
-            //             status: 'success'
-            //         })
-            //         this.$refs.xTable.insert(this.formData)
-            //     }
-            // }, 500)
-        }
+        },
+        //Export data
+        exportDataEvent() {
+            this.$refs.xTable.exportData({
+                type: 'csv'
+            })
+        },
+        printEvent() {
+            this.$refs.xTable.print()
+        },
     }
 }
 </script>
@@ -576,5 +569,10 @@ export default {
 #app {
     height: 100%;
     width: 100%;
+}
+
+.keyword-lighten {
+    color: #000;
+    background-color: #FFFF00;
 }
 </style>
