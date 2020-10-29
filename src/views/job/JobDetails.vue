@@ -310,7 +310,11 @@ export default {
         };
     },
     watch: {},
-    computed: {},
+    computed: {
+        isClosed() {
+            return this.job.status == 5;
+        }
+    },
     methods: {
         setStatus(row) {
             if (row.status == 1) {
@@ -347,10 +351,20 @@ export default {
             return item ? item.label : 'Not assigned'
         },
 
+        //Enable row activite
         editRowEvent(row) {
-            this.$refs.xTable.setActiveRow(row)
+            if (this.isClosed) {
+                this.$XModal.message({
+                    message: 'This job has been closed',
+                    status: 'error'
+                })
+            } else {
+                this.$refs.xTable.setActiveRow(row)
+
+            }
         },
 
+        //Update task
         saveRowEvent(row) {
             this.$refs.xTable.clearActived().then(() => {
                 this.loading = true
@@ -371,15 +385,15 @@ export default {
 
             })
         },
-
+        //Restore row
         cancelRowEvent(row) {
             const xTable = this.$refs.xTable
             xTable.clearActived().then(() => {
-                // 还原行数据
                 xTable.revertData(row)
             })
         },
 
+        //Close this job
         close() {
             this.job.status = 5;
             updateJob(this.job).then(res => {
@@ -397,13 +411,25 @@ export default {
             })
         },
 
+        //Show create task dialog
         createTask() {
-            this.showCreate = true;
+            if (this.isClosed) {
+                this.$XModal.message({
+                    message: 'This job has been closed',
+                    status: 'error'
+                })
+            } else {
+                this.showCreate = true;
+
+            }
         },
 
+        //Show create comment dialog
         createComment() {
             this.showCreateComment = true;
         },
+
+        //Create a New Task
         submitTask() {
             createSubTask(this.createTaskData).then(res => {
                 this.submitLoading = false;
@@ -422,39 +448,49 @@ export default {
             })
         },
 
+        //Remove Task
         removeEvent(row) {
-            this.$XModal.confirm('Are you sure to delete this task?').then(type => {
-                if (type === 'confirm') {
-                    deleteSubTask(row.id).then(res => {
-                        this.submitLoading = false
-                        this.showEdit = false
-                        if (res.data.code == 200) {
+            if (this.isClosed) {
+                this.$XModal.message({
+                    message: 'This job has been closed',
+                    status: 'error'
+                })
+            } else {
+                this.$XModal.confirm('Are you sure to delete this task?').then(type => {
+                    if (type === 'confirm') {
+                        deleteSubTask(row.id).then(res => {
+                            this.submitLoading = false
+                            this.showEdit = false
+                            if (res.data.code == 200) {
+                                this.$XModal.message({
+                                    message: 'delete sub task successfully',
+                                    status: 'success'
+                                })
+                                this.$refs.xTable.remove(row)
+                            } else {
+                                this.$XModal.message({
+                                    message: 'Error:' + res.data.message,
+                                    status: 'error'
+                                })
+                            }
+                        }).catch(err => {
                             this.$XModal.message({
-                                message: 'delete sub task successfully',
-                                status: 'success'
-                            })
-                            this.$refs.xTable.remove(row)
-                        } else {
-                            this.$XModal.message({
-                                message: 'Error:' + res.data.message,
+                                message: 'Error:' + err,
                                 status: 'error'
                             })
-                        }
-                    }).catch(err => {
-                        this.$XModal.message({
-                            message: 'Error:' + err,
-                            status: 'error'
-                        })
-                    });
+                        });
 
-                }
-            })
+                    }
+                })
+
+            }
 
         },
-
+        //Show Create Template Dialog
         showCreateTemplateDialog() {
             this.showTemplate = true;
         },
+        //Create Template Dialog
         createTemplate() {
             let subTaskTypeIds = [];
             for (let i = 0; i < this.subTasks.length; i++) {

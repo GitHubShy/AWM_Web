@@ -9,6 +9,7 @@
     <br />
     <br />
     <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="aircraft">
+        <vxe-table-column field="id" title="id" width="60"></vxe-table-column>
         <vxe-table-column field="aircraft_pic" title="Pic" width="120">
             <template v-slot="{ row }">
                 <img v-if="row.aircraft_pic" :src="row.aircraft_pic" style="width: 100px;">
