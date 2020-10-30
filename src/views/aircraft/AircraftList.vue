@@ -19,7 +19,7 @@
         <vxe-table-column field="type" title="Type" width="60"></vxe-table-column>
         <vxe-table-column field="registration" title="Registration"></vxe-table-column>
         <vxe-table-column field="serial" title="Serial"></vxe-table-column>
-        <vxe-table-column field="maintenance_cycle" title="Maintenance_cycle"></vxe-table-column>
+        <vxe-table-column field="maintenance_cycle" title="ServiceCycle" :formatter="formatterTimer"></vxe-table-column>
         <vxe-table-column field="last_modify_time" title="LastSerice"></vxe-table-column>
         <vxe-table-column field="next_modify_time" title="nextService"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
@@ -246,8 +246,13 @@ export default {
                 return 'Maintain'
             }
         },
+        formatterTimer({
+            cellValue
+        }) {
+            let item = cellValue + 'hours'
+            return item
+        },
         showDetails(row) {
-            console.log(1111111111111111)
             this.$router.push({
                 path: '/staff/workshop/aircraftdetails',
                 query: {

@@ -108,7 +108,7 @@ export default {
 
             //items for showing in the create job dialog
             formItems: [{
-                    title: 'Job information',
+                    title: 'Job Information',
                     span: 24,
                     titleAlign: 'left',
                     titleWidth: 200,
@@ -137,7 +137,7 @@ export default {
 
                 {
                     field: 'employee_id',
-                    title: 'Assign to',
+                    title: 'Assigned to',
                     span: 12,
                     itemRender: {
                         name: '$select',
@@ -155,7 +155,7 @@ export default {
                 },
                 {
                     field: 'start_time',
-                    title: 'Start_Date',
+                    title: 'StartDate',
                     span: 12,
                     itemRender: {
                         name: '$input',
@@ -167,7 +167,7 @@ export default {
                 },
                 {
                     field: 'due_time',
-                    title: 'Due_Date',
+                    title: 'DueDate',
                     span: 12,
                     itemRender: {
                         name: '$input',
@@ -193,7 +193,7 @@ export default {
                         }, {
                             props: {
                                 type: 'reset',
-                                content: 'reset'
+                                content: 'Reset'
                             }
                         }]
                     }
@@ -206,31 +206,9 @@ export default {
     methods: {
         setStatus(row) {
             return this.GLOBAL.getJobButtonType(row.status)
-            // if (row.status == 1) {
-            //     return 'success'
-            // } else if (row.status == 5) {
-            //     return 'info'
-            // } else if (row.status == 3) {
-            //     return 'danger'
-            // } else if (row.status == 4) {
-            //     return 'warning'
-            // } else {
-            //     return 'primary'
-            // }
         },
         setStatusText(row) {
             return this.GLOBAL.getJobStatus(row.status);
-            // if (row.status == 1) {
-            //     return 'Started'
-            // } else if (row.status == 5) {
-            //     return 'Closed'
-            // } else if (row.status == 3) {
-            //     return 'OverDue'
-            // } else if (row.status == 4) {
-            //     return 'Confirm'
-            // } else {
-            //     return 'Created'
-            // }
         },
         showCreateDialog() {
             this.showEdit = true;

@@ -3,8 +3,20 @@
     <h2>Job Details</h2>
     <vxe-button status="primary" content="Create Task" size="mediam" @click="createTask()"></vxe-button>
     <vxe-button status="success" content="Save As My Template" size="mediam" @click="showCreateTemplateDialog()"></vxe-button>
-    <vxe-button status="info" content="Close" size="mediam" @click="close()"></vxe-button>
-    <vxe-button @click="exportDataEvent()">Export</vxe-button>
+    <vxe-button @click="showCloseJobDialog = true">Close</vxe-button>
+    <vxe-modal v-model="showCloseJobDialog" title='Checklist'>
+        <template v-slot>
+            <div style='font-size: 20px;'>Please confirm the following checklist:</div>
+            <div style='font-size: 20px;'>1:Only the manager who is responsible for this job could close this job</div>
+            <div style='font-size: 20px;'>2:All sub tasks have been finished</div>
+            <div style='font-size: 20px;'>3:All sub tasks have been tested successfully</div>
+            <div style='font-size: 20px;'>---------------------------------------------</div>
+            <div style='font-size: 20px;'>After close, an invoice will be sent to the customer</div>
+            <br>
+            <vxe-button status="danger" content="Close" @click="close()"></vxe-button>
+        </template>
+    </vxe-modal>
+    <vxe-button @click="exportDataEvent()" style="margin-left:10px">Export</vxe-button>
     <vxe-button @click="printEvent()">Print</vxe-button>
     <br />
     <br />
@@ -16,7 +28,7 @@
         <vxe-table-column field="end_time" title="EndTime"></vxe-table-column>
         <vxe-table-column field="planned_cost_time" title="PlannedHours"></vxe-table-column>
         <vxe-table-column field="actual_cost_time" title="ActualHours"></vxe-table-column>
-        <vxe-table-column field="percentage" title="Percentage"></vxe-table-column>
+        <vxe-table-column field="percentage" title="Percentage" :formatter="formatterPercentage"></vxe-table-column>
         <vxe-table-column field="materials" title="Materials"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
             <template v-slot="{ row }">
@@ -92,6 +104,7 @@ export default {
     props: {},
     data() {
         return {
+            showCloseJobDialog: false,
             showCreate: false,
             showTemplate: false,
             submitLoading: false,
@@ -319,31 +332,18 @@ export default {
     },
     methods: {
         setStatus(row) {
-            if (row.status == 1) {
-                return 'success'
-            } else if (row.status == 5) {
-                return 'warning'
-            } else if (row.status == 3) {
-                return 'danger'
-            } else if (row.status == 4) {
-                return 'info'
-            } else {
-                return 'primary'
-            }
+            return this.GLOBAL.getTaskButtonType(row.status)
         },
 
         setStatusText(row) {
-            if (row.status == 1) {
-                return 'Started'
-            } else if (row.status == 5) {
-                return 'Finished'
-            } else if (row.status == 3) {
-                return 'OverDue'
-            } else if (row.status == 4) {
-                return 'Confirm'
-            } else {
-                return 'Created'
-            }
+            return this.GLOBAL.getTaskStatus(row.status);
+        },
+
+        formatterPercentage({
+            cellValue
+        }) {
+            let item = cellValue + '%'
+            return item
         },
 
         formatterEmployeeName({
@@ -397,20 +397,29 @@ export default {
 
         //Close this job
         close() {
-            this.job.status = 5;
-            updateJob(this.job).then(res => {
-                if (res.data.code == 200) {
-                    this.$XModal.message({
-                        message: 'Success！',
-                        status: 'success'
-                    })
-                } else {
-                    this.$XModal.message({
-                        message: res.data.message,
-                        status: 'error'
-                    })
-                }
-            })
+            if (localStorage.getItem("id") != this.job.employee_id) { //Only the manager who are responsible for this job can close this job
+                this.$XModal.message({
+                    message: 'You are not the manager who are responsible for this job',
+                    status: 'error'
+                })
+            } else {
+                this.job.status = 5;
+                this.showCloseJobDialog = false;
+                updateJob(this.job).then(res => {
+                    if (res.data.code == 200) {
+                        this.$XModal.message({
+                            message: 'Success！',
+                            status: 'success'
+                        })
+                    } else {
+                        this.$XModal.message({
+                            message: res.data.message,
+                            status: 'error'
+                        })
+                    }
+                })
+
+            }
         },
 
         //Show create task dialog
