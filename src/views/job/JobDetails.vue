@@ -4,6 +4,8 @@
     <vxe-button status="primary" content="Create Task" size="mediam" @click="createTask()"></vxe-button>
     <vxe-button status="success" content="Save As My Template" size="mediam" @click="showCreateTemplateDialog()"></vxe-button>
     <vxe-button status="info" content="Close" size="mediam" @click="close()"></vxe-button>
+    <vxe-button @click="exportDataEvent()">Export</vxe-button>
+    <vxe-button @click="printEvent()">Print</vxe-button>
     <br />
     <br />
     <vxe-table border show-overflow keep-source resizable ref="xTable" height="300" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
@@ -536,7 +538,16 @@ export default {
                     })
                 }
             })
-        }
+        },
+        //Export data
+        exportDataEvent() {
+            this.$refs.xTable.exportData({
+                type: 'csv'
+            })
+        },
+        printEvent() {
+            this.$refs.xTable.print()
+        },
     },
     created() {
 

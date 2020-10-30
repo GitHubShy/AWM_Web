@@ -6,19 +6,20 @@
             <vxe-button icon="fa fa-plus" @click="insertEvent()">Add</vxe-button>
             <vxe-button @click="exportDataEvent()">Export</vxe-button>
             <vxe-button @click="printEvent()">Print</vxe-button>
+            <vxe-input v-model="filterName" type="search" placeholder="Key Words" style="margin-left:20px"></vxe-input>
         </template>
     </vxe-toolbar>
-    <vxe-table border resizable row-key highlight-hover-row ref="xTable" :export-config="{}" height="500" :data="tableData" @cell-dblclick="cellDBLClickEvent">
+    <vxe-table border resizable highlight-hover-row ref="xTable" :export-config="{}" height="500" :data="list" @cell-dblclick="cellDBLClickEvent">
         <vxe-table-column type="seq" width="60" v-if="false"></vxe-table-column>
         <vxe-table-column field="id" title="ID" width="60" sortable></vxe-table-column>
         <vxe-table-column field="title" title="Title" :formatter="formatterTitle" sortable></vxe-table-column>
-        <vxe-table-column field="account_name" title="AccountName"></vxe-table-column>
-        <vxe-table-column field="first_name" title="FirstName"></vxe-table-column>
-        <vxe-table-column field="surname" title="Surname"></vxe-table-column>
-        <vxe-table-column field="email" title="Email"></vxe-table-column>
-        <vxe-table-column field="tax_file_number" title="TFN"></vxe-table-column>
-        <vxe-table-column field="payment_rate" title="Payment" :formatter="formatterPayment" sortable></vxe-table-column>
-        <vxe-table-column field="phone" title="Phone"></vxe-table-column>
+        <vxe-table-column field="account_name" title="AccountName" type="html"></vxe-table-column>
+        <vxe-table-column field="first_name" title="FirstName" type="html"></vxe-table-column>
+        <vxe-table-column field="surname" title="Surname" type="html"></vxe-table-column>
+        <vxe-table-column field="email" title="Email" type="html"></vxe-table-column>
+        <vxe-table-column field="tax_file_number" title="TFN" type="html"></vxe-table-column>
+        <vxe-table-column field="payment_rate" title="Payment" :formatter="formatterPayment" sortable type="html"></vxe-table-column>
+        <vxe-table-column field="phone" title="Phone" type="html"></vxe-table-column>
         <vxe-table-column field="gender" title="Gender" :formatter="formatterSex"></vxe-table-column>
 
         <vxe-table-column title="Action" width="200" show-overflow>
@@ -43,6 +44,8 @@ import {
     request
 } from "../../network/request";
 
+import XEUtils from 'xe-utils'
+
 import {
     updateEmployee,
     createEmployee,
@@ -60,10 +63,28 @@ export default {
         },
         isAdministrator() {
             return localStorage.getItem("title") == '99'
+        },
+        list() {
+            const filterName = XEUtils.toString(this.filterName).trim().toLowerCase()
+            console.log(filterName)
+            if (filterName) {
+                const filterRE = new RegExp(filterName, 'gi')
+                const searchProps = ['account_name', 'first_name', 'surname', 'email', 'tax_file_number', 'payment_rate', 'phone', 'id']
+                const rest = this.tableData.filter(item => searchProps.some(key => XEUtils.toString(item[key]).toLowerCase().indexOf(filterName) > -1))
+                return rest.map(row => {
+                    const item = Object.assign({}, row)
+                    searchProps.forEach(key => {
+                        item[key] = XEUtils.toString(item[key]).replace(filterRE, match => `<span class="keyword-lighten">${match}</span>`)
+                    })
+                    return item
+                })
+            }
+            return this.tableData
         }
     },
     data() {
         return {
+            filterName: '',
             submitLoading: false,
             tableData: [],
             selectRow: null,

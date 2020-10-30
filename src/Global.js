@@ -4,12 +4,12 @@ const job_status = [{
         vxeButtonText:'All'
     },{
         status: 0,
-        value: 'created',
+        value: 'Created',
         vxeButtonText:'primary'
     },
     {
         status: 1,
-        value: 'started',
+        value: 'Started',
         vxeButtonText:'success'
     },
     {

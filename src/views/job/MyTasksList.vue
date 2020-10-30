@@ -3,6 +3,11 @@
 
     <h2>My Tasks</h2>
 
+    <vxe-button @click="exportDataEvent()">Export</vxe-button>
+    <vxe-button @click="printEvent()">Print</vxe-button>
+    <br>
+    <br>
+
     <vxe-table border show-overflow keep-source resizable :loading="loadingDialog" ref="xTable" height="500" :data="tasks" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="job_id" title="Id" width="60"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
@@ -125,6 +130,15 @@ export default {
             } else {
                 return 'Created'
             }
+        },
+        //Export data
+        exportDataEvent() {
+            this.$refs.xTable.exportData({
+                type: 'csv'
+            })
+        },
+        printEvent() {
+            this.$refs.xTable.print()
         },
     },
     created() {
