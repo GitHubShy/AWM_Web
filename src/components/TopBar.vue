@@ -6,7 +6,7 @@
         <font size="4" color="black" style="margin-left: 10px">AWM WORKSHOP</font>
     </div>
     <div id="RightDiv">
-        <mybutton type="danger" fontSize="20px" width="100px" @click.native="onLogOut">Log out</mybutton>
+        <vxe-button status="danger" fontSize="20px" content="LogOut" style="width:100px" @click="onLogOut"></vxe-button>
         <router-link :to="rightFirstLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightFirstText}}</router-link>
         <router-link :to="rightSecondLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightSecondText}}</router-link>
         <router-link :to="rightThirdLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightThirdText}}</router-link>
@@ -16,13 +16,9 @@
 </template>
 
 <script>
-import mybutton from "@c/CustomButton";
-
 export default {
     name: 'TopBar',
-    components: {
-        mybutton
-    },
+    components: {},
     props: {
         rightFirstText: null,
         rightFirstLink: null,
