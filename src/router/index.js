@@ -42,6 +42,10 @@ const routes = [
         component: () => import('../views/staff/StaffManage.vue'),
       },
       {
+        path: 'salary',
+        component: () => import('../views/staff/Salary.vue'),
+      },
+      {
         path: 'workshop',
         component: () => import('../views/staff/Workshop.vue'),
         children: [

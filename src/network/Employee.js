@@ -117,3 +117,15 @@ export function updatePortrait(url) {
     })
 }
 
+/**
+ * Get employee Salary
+ * 
+ */
+export function getMonthlySalary() {
+    return request({
+        method: 'post',
+        url: '/employee/getMonthlySalary',
+    })
+}
+
+

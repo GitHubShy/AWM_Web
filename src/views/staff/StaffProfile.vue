@@ -346,6 +346,13 @@ div{
     margin-top:50px;
 
 }
+.pro-list2{
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    margin-top:50px;
+    width: 700px;
+}
 .pro-status,.pro-stam{
     border-radius: 5px;
     background: #fff;

@@ -10,6 +10,7 @@
         <router-link :to="rightFirstLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightFirstText}}</router-link>
         <router-link :to="rightSecondLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightSecondText}}</router-link>
         <router-link :to="rightThirdLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightThirdText}}</router-link>
+        <router-link to="/staff/salary" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">Salary</router-link>
     </div>
 
 </div>
