@@ -4,7 +4,7 @@
     <br />
     <h4>Basic Information</h4>
     <div id="basic">
-        <img id="pic" :src="this.aircraft.aircraft_pic" />
+        <img id="pic" :src="this.aircraft.aircraft_pic" @click="updateImg()" />
         <div id="info">
             <h2 class="title">Type</h2>
             <font class="value">{{this.aircraft.type}}</font>
@@ -14,22 +14,21 @@
             <font class="value">{{this.aircraft.serial}}</font>
         </div>
         <div id="info">
-            <h2 class="title">Total Flight Time</h2>
-            <font class="value">{{this.aircraft.total_flight_time}}hours</font>
-            <h2 class="title">Maintenance Cycle</h2>
+            <h2 class="title">SeviceCycle</h2>
             <font class="value">{{this.aircraft.maintenance_cycle}}hours</font>
-            <h2 class="title">Last Modify Time</h2>
+            <h2 class="title">LastServiceTime</h2>
             <font class="value">{{this.aircraft.last_modify_time}}</font>
+            <h2 class="title">NextServiceTime</h2>
+            <font class="value">{{this.aircraft.next_modify_time}}hours</font>
         </div>
-    </div>
-    <h4>Customer Information</h4>
-    <div id="customerinfo">
-        <h2 class="title">Name</h2>
-        <font class="value">{{getFullName}}</font>
-        <h2 class="title">Email</h2>
-        <font class="value">{{customer.email}}</font>
-        <h2 class="title">Company</h2>
-        <font class="value">{{customer.company_name}}</font>
+        <div id="info">
+            <h2 class="title">CustomerName</h2>
+            <font class="value">{{getFullName}}</font>
+            <h2 class="title">CustomerEmail</h2>
+            <font class="value">{{customer.email}}</font>
+            <h2 class="title">CustomerCompany</h2>
+            <font class="value">{{customer.company_name}}</font>
+        </div>
     </div>
     <br />
     <br />
@@ -86,7 +85,7 @@ export default {
                 first_name: null,
                 surname: null,
             },
-            showEdit:false,
+            showEdit: false,
             submitLoading: false,
             formData: {
                 type: null,
@@ -117,7 +116,7 @@ export default {
                     required: true,
                     message: 'Please enter last_modify_time'
                 }, ],
-               
+
             },
             formItems: [{
                     title: 'Create Component',
@@ -149,7 +148,7 @@ export default {
                     field: 'provider',
                     title: 'Provider',
                     span: 12,
-                   itemRender: {
+                    itemRender: {
                         name: '$input',
                     }
                 },
@@ -157,10 +156,10 @@ export default {
                     field: 'maintenance_cycle',
                     title: 'Maintenance_cycle',
                     span: 12,
-                     itemRender: {
+                    itemRender: {
                         name: '$input',
-                        props:{
-                             type: 'number',
+                        props: {
+                            type: 'number',
                         }
                     }
                 },
@@ -168,10 +167,10 @@ export default {
                     field: 'last_modify_time',
                     title: 'Last_modify_time',
                     span: 12,
-                     itemRender: {
+                    itemRender: {
                         name: '$input',
-                        props:{
-                             type: 'date',
+                        props: {
+                            type: 'date',
                         }
                     }
                 },
@@ -214,9 +213,9 @@ export default {
         },
     },
     methods: {
-        async submitEvent(){
+        async submitEvent() {
             await registerComponents(this.formData);
-            this.showEdit=false;
+            this.showEdit = false;
         },
         formatterComponentType({
             cellValue
@@ -235,9 +234,19 @@ export default {
             }
             return type;
         },
+        updateImg() {
+            this.$router.push({
+                path: '/uploadimage',
+                query: {
+                    type: 1,
+                    url: this.aircraft.aircraft_pic,
+                    aircraft_id: this.aircraft.id
+                }
+            });
+        },
     },
     created() {
-        this.formData.aircraft_id=this.$route.query.id;
+        this.formData.aircraft_id = this.$route.query.id;
         getAircraft(this.$route.query.id).then(res => {
             if (res.data.code == 200) {
                 this.aircraft = res.data.data[0];
@@ -264,7 +273,7 @@ export default {
 
 #pic {
     width: auto;
-    height: 120px;
+    height: 100px;
     align-self: center;
 }
 
@@ -277,7 +286,7 @@ export default {
 
 #customerinfo {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
 }
 

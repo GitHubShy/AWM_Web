@@ -73,6 +73,12 @@ export default {
         editRowEvent(row) {
             this.$refs.xTable.setActiveRow(row)
         },
+        cancelRowEvent(row) {
+            const xTable = this.$refs.xTable
+            xTable.clearActived().then(() => {
+                xTable.revertData(row)
+            })
+        },
         saveRowEvent(row) {
             this.$refs.xTable.clearActived().then(() => {
                 this.loading = true

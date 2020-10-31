@@ -233,6 +233,7 @@ export default {
             this.$router.push({
                 path: '/uploadimage',
                 query: {
+                    type: 0,
                     url: this.result.portrait_url
                 }
             });

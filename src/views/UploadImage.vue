@@ -14,12 +14,20 @@ import {
 import {
     updatePortrait
 } from "../network/Employee";
+import {
+    updateAircraft
+} from "../network/Workshop";
 export default {
     components: {},
     props: {},
     data() {
         return {
-            url: null
+            type: -1,
+            url: null,
+            aircraft: {
+                id: null,
+                aircraft_pic: null
+            },
         };
     },
     watch: {},
@@ -68,22 +76,42 @@ export default {
             }
         },
         saveImg() {
-            updatePortrait(this.url).then(res => {
-                if (res.status == 200) {
-                    this.$XModal.message({
-                        message: 'Success！',
-                        status: 'success'
-                    })
-                } else {
-                    this.$XModal.message({
-                        message: 'error' + res.data.message,
-                        status: 'error'
-                    })
-                }
-            })
+            if (this.type == 0) {
+                updatePortrait(this.url).then(res => {
+                    if (res.status == 200) {
+                        this.$XModal.message({
+                            message: 'Success！',
+                            status: 'success'
+                        })
+                    } else {
+                        this.$XModal.message({
+                            message: 'error' + res.data.message,
+                            status: 'error'
+                        })
+                    }
+                })
+
+            } else if (this.type == 1) {
+                this.aircraft.aircraft_pic = this.url
+                this.aircraft.id = this.$route.query.aircraft_id
+                updateAircraft(this.aircraft).then(res => {
+                    if (res.status == 200) {
+                        this.$XModal.message({
+                            message: 'Success！',
+                            status: 'success'
+                        })
+                    } else {
+                        this.$XModal.message({
+                            message: 'error' + res.data.message,
+                            status: 'error'
+                        })
+                    }
+                })
+            }
         }
     },
     created() {
+        this.type = this.$route.query.type
         this.url = this.$route.query.url
     },
     mounted() {}

@@ -59,6 +59,25 @@ export const registerAircraft = function (aircraft) {
     })
 }
 
+export const updateAircraft = function (aircraft) {
+    return request({
+        method: 'post',
+        url: "/workshop/updateAircraft",
+        data: {
+            id:aircraft.id,
+            type: aircraft.type,
+            registration: aircraft.registration,
+            serial: aircraft.serial,
+            total_flight_time: aircraft.total_flight_time,
+            maintenance_cycle: aircraft.maintenance_cycle,
+            last_modify_time: aircraft.last_modify_time,
+            customer_id: aircraft.customer_id,
+            aircraft_pic: aircraft.aircraft_pic,
+            status: aircraft.status,
+        }
+    })
+}
+
 // components: [{
 //     type: 1,
 //     registration: 'E0001',

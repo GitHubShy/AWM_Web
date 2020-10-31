@@ -8,7 +8,7 @@
     <!-- <vxe-button status="info" content="Need Confirm" style="width:150px"></vxe-button> -->
     <br />
     <br />
-    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="aircraft">
+    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="aircraft" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="id" title="id" width="60"></vxe-table-column>
         <vxe-table-column field="aircraft_pic" title="Pic" width="120">
             <template v-slot="{ row }">
@@ -19,12 +19,23 @@
         <vxe-table-column field="type" title="Type" width="60"></vxe-table-column>
         <vxe-table-column field="registration" title="Registration"></vxe-table-column>
         <vxe-table-column field="serial" title="Serial"></vxe-table-column>
-        <vxe-table-column field="maintenance_cycle" title="ServiceCycle" :formatter="formatterTimer"></vxe-table-column>
+        <vxe-table-column field="maintenance_cycle" title="ServiceCycle" :formatter="formatterTimer" :edit-render="{name: '$input', props: {type: 'input'}}"></vxe-table-column>
         <vxe-table-column field="last_modify_time" title="LastSerice"></vxe-table-column>
         <vxe-table-column field="next_modify_time" title="nextService"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
             <template v-slot="{ row }">
-                <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="showDetails(row)"></vxe-button>
+                <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="goToDetails(row)"></vxe-button>
+            </template>
+        </vxe-table-column>
+        <vxe-table-column title="Action" width="170">
+            <template v-slot="{ row }">
+                <template v-if="$refs.xTable.isActiveByRow(row)">
+                    <vxe-button @click="saveRowEvent(row)">Save</vxe-button>
+                    <vxe-button @click="cancelRowEvent(row)">Cancel</vxe-button>
+                </template>
+                <template v-else>
+                    <vxe-button @click="editRowEvent(row)">Edit Timer</vxe-button>
+                </template>
             </template>
         </vxe-table-column>
     </vxe-table>
@@ -40,7 +51,8 @@
 <script>
 import {
     getAircraft,
-    registerAircraft
+    registerAircraft,
+    updateAircraft
 } from "../../network/Workshop";
 import {
     getAllCustomer
@@ -237,6 +249,49 @@ export default {
                 return 'danger'
             }
         },
+        goToDetails(row) {
+            this.$router.push({
+                path: '/staff/workshop/aircraftdetails',
+                query: {
+                    id: row.id
+                }
+            });
+        },
+        editRowEvent(row) {
+            this.$refs.xTable.setActiveRow(row)
+        },
+        cancelRowEvent(row) {
+            const xTable = this.$refs.xTable
+            xTable.clearActived().then(() => {
+                xTable.revertData(row)
+            })
+        },
+        saveRowEvent(row) {
+            this.$refs.xTable.clearActived().then(() => {
+                this.loading = true
+                updateAircraft(row).then(res => {
+                    this.loading = false
+                    if (res.data.code == 200) {
+                        this.$XModal.message({
+                            message: 'Success！',
+                            status: 'success'
+                        })
+
+                    } else {
+                        this.$XModal.message({
+                            message: res.data.message,
+                            status: 'error'
+                        })
+                    }
+                    getAircraft(0).then(res => {
+                        if (res.data.code == 200) {
+                            this.aircraft = res.data.data;
+                        }
+                    });
+                })
+
+            })
+        },
         setStatusText(row) {
             if (row.status == 0) {
                 return 'Flying'
@@ -251,16 +306,7 @@ export default {
         }) {
             let item = cellValue + 'hours'
             return item
-        },
-        showDetails(row) {
-            this.$router.push({
-                path: '/staff/workshop/aircraftdetails',
-                query: {
-                    id: row.id
-                }
-            });
         }
-
     },
     created() {
         getAircraft(0).then(res => {
