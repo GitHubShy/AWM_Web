@@ -30,9 +30,9 @@
             <font class="value">{{customer.company_name}}</font>
         </div>
     </div>
-    <br />
-    <br />
     <h4>Component Information</h4>
+    <br />
+    <br />
     <vxe-button status="primary" content="Create Component" style="width:150px" @click="showEdit=true"></vxe-button>
     <vxe-table border resizable ref="xTable" height="500" :data="aircraft.components">
         <vxe-table-column field="pic" title="Pic" width="120">

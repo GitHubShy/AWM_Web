@@ -1,15 +1,5 @@
 <template>
 <div class="login">
-    <!-- <h2>Log in</h2>
-    <div id="acount_name">
-        <img src="../assets/img/user.png" width="30px" height="30px" />
-        <input class="input" type="text" placeholder="Account Name" style="margin-left: 10px" v-model="account_name" />
-    </div>
-    <div id="password">
-        <img src="../assets/img/password.png" width="30px" height="30px" />
-        <input class="input" type="password" placeholder="password" style="margin-left: 10px" v-model="password" />
-    </div>
-    <mybutton type="primary " fontSize="20px" width="150px" style="margin-top: 20px" @click.native="LonIn">Log in</mybutton> -->
     <div class="logo">
         <img src="@a/img/small_plane.png" style="width:28px;height:28px;vertical-align: middle;" />
         <font size="4" color="black" style="margin-left: 10px;font-weight: bold;font-style: italic;">AWM WORKSHOP</font>
@@ -21,7 +11,7 @@
             <div class="sign cp" @click="dialogFormVisible = true" v-if="type === 'customer'">Sign up</div>
         </div>
 
-        <!-- 登录 start -->
+        <!-- Login start -->
         <el-form label-width="80px" label-position="top">
             <el-form-item>
                 <el-input placeholder="AccountName" v-model="account_name" clearable></el-input>
@@ -35,9 +25,9 @@
                 <el-button style="width: 100%;" type="primary" @click="login">Log in</el-button>
             </el-form-item>
         </el-form>
-        <!-- 登录 end -->
+        <!-- Login end -->
 
-        <!-- 注册 start -->
+        <!-- Register start -->
         <el-dialog title="Sign up" :visible.sync="dialogFormVisible">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
                 <div class="df">
@@ -83,7 +73,7 @@
 
             </el-form>
         </el-dialog>
-        <!-- 注册 end -->
+        <!-- Register end -->
 
         <!-- Forget password -->
         <el-dialog title="Forget Password" :visible.sync="forgetPasswordialogVisible">
@@ -101,7 +91,7 @@
         </el-dialog>
     </div>
 
-    <div class="bottom-box">© 2020 AWM Inc. <a href="">Terms</a></div>
+    <div class="bottom-box">© 2020 AWM Inc. <a href="/about">Terms</a></div>
 </div>
 </template>
 
@@ -196,12 +186,12 @@ export default {
         };
     },
     watch: {},
-        // beforeRouteUpdate(to, from, next) {
-        //     this.$store.commit("login/logoutHandle");
-        //     next();
-        // },
+    // beforeRouteUpdate(to, from, next) {
+    //     this.$store.commit("login/logoutHandle");
+    //     next();
+    // },
     computed: {
-        
+
     },
     methods: {
         async login() {
@@ -229,7 +219,9 @@ export default {
                     token: res.data.data.token
                 });
                 let user = this.type === 'staff' ? '/staff' : res.data.data.customer;
-                this.$store.commit("login/userSave", { user });
+                this.$store.commit("login/userSave", {
+                    user
+                });
 
                 let path = this.type === 'staff' ? '/staff' : '/customer_index';
                 this.$router.push({

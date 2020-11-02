@@ -1,89 +1,5 @@
 <template>
 <div id="app">
-    <!-- <div id="topbar">
-        <img id="portrait" :src="getPortrait" />
-        <div id="info">
-            <h2 class="title">Full Name</h2>
-            <font class="value">{{getFullName}}</font>
-            <h2 class="title">AccountName</h2>
-            <font class="value">{{result.account_name}}</font>
-            <h2 class="title">Title</h2>
-            <font class="value">{{getTitle}}</font>
-        </div>
-        <div id="info">
-            <h2 class="title">Phone</h2>
-            <font class="value">{{result.phone}}</font>
-
-            <h2 class="title">Payment</h2>
-            <font class="value">{{getPayment}}</font>
-
-            <h2 class="title">Birth</h2>
-            <font class="value">{{result.birth_year}}</font>
-        </div>
-
-        <div id="info">
-            <h2 class="title">TFN</h2>
-            <font class="value">{{result.tax_file_number}}</font>
-            <h2 class="title">Email</h2>
-            <font class="value">{{result.email}}</font>
-        </div>
-
-        <img id="clock" @click="clock" src="../../assets/img/clock.jpg" />
-
-    </div>
-
-    <h2 class="bigtitle">Attendances</h2>
-
-    <vxe-table :align="allAlign" :data="tableData">
-        <vxe-table-column type="seq" width="60"></vxe-table-column>
-        <vxe-table-column field="date" title="Date" sortable></vxe-table-column>
-        <vxe-table-column field="on_time" title="On-Time"></vxe-table-column>
-        <vxe-table-column field="off_time" title="Off-Time"></vxe-table-column>
-        <vxe-table-column field="work_hours" title="Work-Hours" :formatter="formatterWorkHours"></vxe-table-column>
-    </vxe-table> -->
-
-    <!--<h2 id="name">{{getFullName}}</h2>
-    <img id="email" src="../../assets/img/facebook.png" />
-    <button id="update" @click="update">Update My Profile</button>
-    <div id="detail">
-
-        <h2>AccountName</h2>
-        <font style=" font-family: cursive">{{result.account_name}}</font>
-        <br /><br /><br />
-
-        <h2>Title</h2>
-        <font style=" font-family: cursive">{{getTitle}}</font>
-        <br /><br /><br />
-
-        <h2>Email</h2>
-        <font style=" font-family: cursive">{{result.email}}</font>
-        <br /><br /><br />
-
-        <h2>Phone</h2>
-        <font style=" font-family: cursive">{{result.phone}}</font>
-        <br /><br /><br />
-
-        <h2>Payment</h2>
-        <font style=" font-family: cursive">{{getPayment}}</font>
-        <br /><br /><br />
-
-        <h2>Birth</h2>
-        <font style=" font-family: cursive">{{result.birth_year}}</font>
-        <br /><br /><br />
-
-        <h2>TFN</h2>
-        <font style=" font-family: cursive">{{result.tax_file_number}}</font>
-        <TitleValue title='AccountName' :value="result.account_name"></TitleValue>
-        <TitleValue title='Title' :value="getTitle"></TitleValue>
-        <TitleValue title='Email' :value="result.email"></TitleValue>
-        <TitleValue title='Phone' :value="result.phone"></TitleValue>
-        <TitleValue title='Payment' :value="getPayment"></TitleValue>
-        <TitleValue title='Birth' :value="result.birth_year"></TitleValue>
-        <TitleValue title='TFN' :value="result.tax_file_number"></TitleValue>
-
-        <input type="file" accept=".png,.img" @change="getFile($event)"> 
-        </div>-->
-
     <div class="pro-box">
         <div class="pro-left">
             <img :src="getPortrait" alt="" @click="updateImg()">
@@ -91,8 +7,8 @@
             <p>{{getTitle}}</p>
             <p>Newcastle, AUS</p>
             <div class="pro-but">
-                <el-button type="primary" @click="clock()">Clock on</el-button>
-                <el-button class="pro-but-two " @click="clock()">Clock Off</el-button>
+                <el-button type="primary" @click="clock()">Clock</el-button>
+                <el-button class="pro-but-two " @click="salary()">Salary</el-button>
             </div>
         </div>
         <div class="pro-right">
@@ -248,6 +164,11 @@ export default {
                     }
                 })
             })
+        },
+        salary() {
+            this.$router.push({
+                path: '/staff/salary'
+            });
         }
     },
     created() {

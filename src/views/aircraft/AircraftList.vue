@@ -20,8 +20,8 @@
         <vxe-table-column field="registration" title="Registration"></vxe-table-column>
         <vxe-table-column field="serial" title="Serial"></vxe-table-column>
         <vxe-table-column field="maintenance_cycle" title="ServiceCycle" :formatter="formatterTimer" :edit-render="{name: '$input', props: {type: 'input'}}"></vxe-table-column>
-        <vxe-table-column field="last_modify_time" title="LastSerice"></vxe-table-column>
-        <vxe-table-column field="next_modify_time" title="nextService"></vxe-table-column>
+        <vxe-table-column field="last_modify_time" title="LastService"></vxe-table-column>
+        <vxe-table-column field="next_modify_time" title="NextService"></vxe-table-column>
         <vxe-table-column field="status" title="Status">
             <template v-slot="{ row }">
                 <vxe-button :status="setStatus(row)" :content="setStatusText(row)" size="mediam" style="width:100px" @click="goToDetails(row)"></vxe-button>
