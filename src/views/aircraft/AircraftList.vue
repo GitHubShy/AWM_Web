@@ -1,6 +1,6 @@
 <template>
 <div class="wrapper">
-    <h2>All Arircraft</h2>
+    <h2>All Aircraft</h2>
     <vxe-button status="primary" content="Create Aircraft" style="width:150px" @click="showEdit=true"></vxe-button>
     <vxe-button status="success" content="Flying" style="width:150px"></vxe-button>
     <vxe-button status="warning" content="Need Maintain" style="width:150px"></vxe-button>
