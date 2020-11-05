@@ -1,7 +1,16 @@
+<!--
+
+  * Description: Show My receipts for a customer",
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/5",
+
+!-->
 <template>
 <div class="wrapper">
     <h2>My Receipts</h2>
-
+    <!--   Receipts table  !-->
     <div style="width: 100%; height: 300px">
         <vxe-table border :loading="submitLoading" width="auto" :data="receipts">
             <vxe-table-column field="crn" title="CRN" width="200"></vxe-table-column>
@@ -24,6 +33,7 @@ export default {
         return {
             //loading dialog
             submitLoading: false,
+            //receipt list
             receipts: null
         };
     },
@@ -31,6 +41,7 @@ export default {
     computed: {},
     methods: {},
     created() {
+        //Get receipt from server
         getReceipts().then(res => {
             if (res.data.code == 200) {
                 this.receipts = res.data.data;

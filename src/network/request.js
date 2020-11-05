@@ -3,9 +3,9 @@ import axios from 'axios';
 export const request = function (config) {
 
     const instance = axios.create({
-        //baseURL: 'http://47.104.167.88:8080/awm_server',//China Server
+        baseURL: 'http://47.104.167.88:8082/awm_server',//China Server
         //baseURL: 'http://localhost:8082/awm_server',//Local Computer Server
-        baseURL: 'http://47.74.88.228:8082/awm_server',//Sydney Server
+        //baseURL: 'http://47.74.88.228:8082/awm_server',//Sydney Server
         timeout: 5000,
         headers:{
             "token": localStorage.getItem('token'),

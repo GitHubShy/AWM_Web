@@ -1,5 +1,15 @@
+<!--
+
+  * Description: A Customer button,
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/5",
+
+!-->
 <template>
 <div id="CustomButton">
+    <!--   button  !-->
     <button :class="['button','button-'+ type]" :style="{fontSize:fontSize,width:width,height:height}">
         <slot></slot>
     </button>
@@ -10,6 +20,7 @@
 export default {
     name: "CustomButton",
     components: {},
+    //button attributs for different sytles
     props: {
         type: String,
         fontSize: {
