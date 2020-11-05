@@ -1,6 +1,18 @@
+<!--
+
+  * Description: Manage all Staff",
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/2",
+
+!-->
 <template>
 <div id="app">
+    <!-- Set tips: perission toast  !-->
     <h2>{{setTips}}</h2>
+
+    <!--Control butons  !-->
     <vxe-toolbar>
         <template v-slot:buttons style="margin-left:20px">
             <vxe-button icon="fa fa-plus" @click="insertEvent()">Add</vxe-button>
@@ -9,6 +21,8 @@
             <vxe-input v-model="filterName" type="search" placeholder="Key Words" style="margin-left:20px"></vxe-input>
         </template>
     </vxe-toolbar>
+
+    <!--tables  !-->
     <vxe-table border resizable highlight-hover-row ref="xTable" :export-config="{}" height="500" :data="list" @cell-dblclick="cellDBLClickEvent">
         <vxe-table-column type="seq" width="60" v-if="false"></vxe-table-column>
         <vxe-table-column field="id" title="ID" width="60" sortable></vxe-table-column>
@@ -30,6 +44,11 @@
         </vxe-table-column>
     </vxe-table>
 
+    <!-- pager  !-->
+    <vxe-pager :loading="submitLoading" :current-page="tablePage.currentPage" :page-size="tablePage.pageSize" :total="tablePage.totalResult" :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']" :page-sizes="[2, 4, 6, 10]" @page-change="handlePageChange">
+    </vxe-pager>
+
+    <!-- creating staff dialog  !-->
     <vxe-modal v-model="showEdit" :title="selectRow ? 'Edit&Save' : 'New&Save'" width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
             <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>
@@ -64,13 +83,28 @@ export default {
         isAdministrator() {
             return localStorage.getItem("title") == '99'
         },
+        //Filter data key search words or change page data
         list() {
+            //Create a new data set
+            let result = new Array();
+            //Calculate the start index according the current page
+            let startIndex = (this.tablePage.currentPage - 1) * this.tablePage.pageSize;
+            //Calculate the end index according the current page
+            let endIndex = startIndex + this.tablePage.pageSize;
+            //if the endex > original dataset length, let endIndex = this.tasks.length
+            endIndex = endIndex > this.tableData.length ? this.tableData.length : endIndex
+            let result_index = 0;
+            for (let i = startIndex; i < endIndex; i++) {
+                result[result_index] = this.tableData[i]
+                result_index++
+            }
+            console.log(result)
             const filterName = XEUtils.toString(this.filterName).trim().toLowerCase()
             console.log(filterName)
             if (filterName) {
                 const filterRE = new RegExp(filterName, 'gi')
                 const searchProps = ['account_name', 'first_name', 'surname', 'email', 'tax_file_number', 'payment_rate', 'phone', 'id']
-                const rest = this.tableData.filter(item => searchProps.some(key => XEUtils.toString(item[key]).toLowerCase().indexOf(filterName) > -1))
+                const rest = result.filter(item => searchProps.some(key => XEUtils.toString(item[key]).toLowerCase().indexOf(filterName) > -1))
                 return rest.map(row => {
                     const item = Object.assign({}, row)
                     searchProps.forEach(key => {
@@ -79,16 +113,28 @@ export default {
                     return item
                 })
             }
-            return this.tableData
+            return result
         }
     },
     data() {
         return {
+            //Key Search Words
             filterName: '',
             submitLoading: false,
+
+            //Staff data
             tableData: [],
+
+            //Used to pager 
+            tablePage: {
+                currentPage: 1,
+                pageSize: 10,
+                totalResult: 0
+            },
+            //Select row
             selectRow: null,
             showEdit: false,
+            //sex list key value
             sexList: [{
                     label: 'male',
                     value: 0
@@ -111,6 +157,7 @@ export default {
                     value: 99
                 }
             ],
+            //Sava parameters for a new staff
             formData: {
                 id: null,
                 account_name: null,
@@ -125,6 +172,8 @@ export default {
                 birth_year: null,
                 email: null,
             },
+
+            //Form rules
             formRules: {
                 account_name: [{
                         required: true,
@@ -167,6 +216,7 @@ export default {
                     message: 'Please choose title'
                 }]
             },
+            //Form items
             formItems: [{
                     title: 'Basic information',
                     span: 24,
@@ -253,34 +303,6 @@ export default {
                         options: []
                     }
                 },
-
-                // {
-                //     field: 'age',
-                //     title: 'Age',
-                //     span: 12,
-                //     itemRender: {
-                //         name: '$input',
-                //         props: {
-                //             type: 'number',
-                //             placeholder: '请输入年龄'
-                //         }
-                //     }
-                // },
-                // {
-                //     field: 'flag1',
-                //     title: '是否单身',
-                //     span: 12,
-                //     itemRender: {
-                //         name: '$radio',
-                //         options: [{
-                //             label: '是',
-                //             value: 'Y'
-                //         }, {
-                //             label: '否',
-                //             value: 'N'
-                //         }]
-                //     }
-                // },
                 {
                     title: 'Other information',
                     span: 24,
@@ -324,18 +346,6 @@ export default {
                         }
                     }
                 },
-                // {
-                //     field: 'num',
-                //     title: 'Number',
-                //     span: 12,
-                //     itemRender: {
-                //         name: '$input',
-                //         props: {
-                //             type: 'number',
-                //             placeholder: '请输入数值'
-                //         }
-                //     }
-                // },
                 {
                     field: 'birth_year',
                     title: 'Birth',
@@ -348,25 +358,6 @@ export default {
                         }
                     }
                 },
-                // {
-                //     field: 'address',
-                //     title: 'Address',
-                //     span: 24,
-                //     titleSuffix: {
-                //         message: '提示信息！！',
-                //         icon: 'fa fa-question-circle'
-                //     },
-                //     itemRender: {
-                //         name: '$textarea',
-                //         props: {
-                //             autosize: {
-                //                 minRows: 2,
-                //                 maxRows: 4
-                //             },
-                //             placeholder: '请输入地址'
-                //         }
-                //     }
-                // },
                 {
                     align: 'center',
                     span: 24,
@@ -397,38 +388,45 @@ export default {
         getAllEmployee().then(res => {
             if (res.data.code == 200) {
                 this.tableData = res.data.data;
+                this.tablePage.totalResult = this.tableData.length;
             }
         })
     },
     methods: {
+        //format sex
         formatterSex({
             cellValue
         }) {
             let item = this.sexList.find(item => item.value === cellValue)
             return item ? item.label : 'mmale'
         },
+        //format payment
         formatterPayment({
             cellValue
         }) {
             let item = cellValue + '/hour'
             return item
         },
+        //format title
         formatterTitle({
             cellValue
         }) {
             let item = this.titleList.find(item => item.value === cellValue)
             return item ? item.label : 'Engineer'
         },
+        //visible
         visibleMethod({
             data
         }) {
             return data.flag1 === 'Y'
         },
+        //Handle click on a row
         cellDBLClickEvent({
             row
         }) {
             this.editEvent(row)
         },
+        //Insert a row
         insertEvent() {
             if (this.isAdministrator) {
                 this.formData = {
@@ -455,6 +453,7 @@ export default {
             }
 
         },
+        //edit a row
         editEvent(row) {
             if (localStorage.getItem("id") == row.id || this.isAdministrator) {
                 this.formData = {
@@ -480,6 +479,7 @@ export default {
                 })
             }
         },
+        //remove a row
         removeEvent(row) {
             if (this.isAdministrator) {
                 this.$XModal.confirm('Are you sure to delete this employee?').then(type => {
@@ -499,7 +499,13 @@ export default {
                                     message: 'delete employee successfully',
                                     status: 'success'
                                 })
-                                this.$refs.xTable.remove(row)
+                                // this.$refs.xTable.remove(row)
+                                getAllEmployee().then(res => {
+                                    if (res.data.code == 200) {
+                                        this.tableData = res.data.data;
+                                        this.tablePage.totalResult = this.tableData.length;
+                                    }
+                                })
                             } else {
                                 this.$XModal.message({
                                     message: 'Error:' + res.data.message,
@@ -523,6 +529,8 @@ export default {
             }
 
         },
+
+        //submit a new staff
         submitEvent() {
             this.submitLoading = true;
             if (this.selectRow) {
@@ -558,7 +566,13 @@ export default {
                             message: 'Creating new employee successfully',
                             status: 'success'
                         })
-                        this.$refs.xTable.insert(this.formData)
+                        // his.$refs.xTable.insert(this.formData)
+                        getAllEmployee().then(res => {
+                            if (res.data.code == 200) {
+                                this.tableData = res.data.data;
+                                this.tablePage.totalResult = this.tableData.length;
+                            }
+                        })
                     } else {
                         this.$XModal.message({
                             message: 'Error:' + res.data.message,
@@ -579,9 +593,18 @@ export default {
                 type: 'csv'
             })
         },
+        //Print data
         printEvent() {
             this.$refs.xTable.print()
         },
+        //Handle change page
+        handlePageChange({
+            currentPage,
+            pageSize
+        }) {
+            this.tablePage.currentPage = currentPage
+            this.tablePage.pageSize = pageSize
+        }
     }
 }
 </script>
