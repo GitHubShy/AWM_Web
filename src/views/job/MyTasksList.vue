@@ -1,10 +1,10 @@
 <!--
 
-  * Description Show My Tasks",
+  * Description: Show My Tasks",
 
-  * Author Yao Shi",
+  * Author: Yao Shi",
 
-  * Date 2020/10/5",
+  * Date: 2020/10/5",
 
 !-->
 <template>

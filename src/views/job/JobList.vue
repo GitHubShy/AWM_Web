@@ -1,9 +1,20 @@
+<!--
+
+  * Description: Show My Tasks",
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/5",
+
+!-->
 <template>
 <div class="wrapper">
     <h2>All Job</h2>
+    <!-- create job button  !-->
     <vxe-button status="primary" content="Create Job" style="width:150px" @click="showCreateDialog()"></vxe-button>
     <br />
     <br />
+    <!-- Filter buttons  !-->
     <vxe-button :status="buttons[0].vxeButtonText" :content="buttons[0].value" style="width:150px" @click="initData(buttons[0].status)"></vxe-button>
     <vxe-button :status="buttons[1].vxeButtonText" :content="buttons[1].value" style="width:150px" @click="initData(buttons[1].status)"></vxe-button>
     <vxe-button :status="buttons[2].vxeButtonText" :content="buttons[2].value" style="width:150px" @click="initData(buttons[2].status)"></vxe-button>
@@ -12,7 +23,8 @@
     <vxe-button :status="buttons[5].vxeButtonText" :content="buttons[5].value" style="width:150px" @click="initData(buttons[5].status)"></vxe-button>
     <br />
     <br />
-    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="700" :data="jobs" @cell-click="cellDBLClickEvent">>
+    <!-- Data Table !-->
+    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="list" @cell-click="cellDBLClickEvent">>
         <vxe-table-column field="id" title="Id" width="70" sortable></vxe-table-column>
         <vxe-table-column field="aircraft_id" title="Aircraft" width="80"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>
@@ -29,6 +41,10 @@
             </template>
         </vxe-table-column>
     </vxe-table>
+
+    <!-- pager  !-->
+    <vxe-pager :loading="submitLoading" :current-page="tablePage.currentPage" :page-size="tablePage.pageSize" :total="tablePage.totalResult" :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']" :page-sizes="[2, 6, 10]" @page-change="handlePageChange">
+    </vxe-pager>
 
     <vxe-modal v-model="showEdit" title='Create Job' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
@@ -58,8 +74,10 @@ export default {
     props: {},
     data() {
         return {
-
+            //buttons
             buttons: this.GLOBAL.job_status,
+
+            //Loading dialog
             submitLoading: true,
 
             //show create job dialog
@@ -67,6 +85,13 @@ export default {
 
             //All jobs
             jobs: [],
+
+            //Used to pager 
+            tablePage: {
+                currentPage: 1,
+                pageSize: 10,
+                totalResult: 0
+            },
 
             //aircraft options for user to choose
             aircraftItems: [],
@@ -77,6 +102,7 @@ export default {
             //duty manager options for user to choose
             managers: [],
 
+            //Create job template
             formData: {
                 aircraft_id: null,
                 description: null,
@@ -202,18 +228,38 @@ export default {
         };
     },
     watch: {},
-    computed: {},
+    computed: {
+        list() {
+            //Create a new data set
+            let result = new Array();
+            //Calculate the start index according the current page
+            let startIndex = (this.tablePage.currentPage - 1) * this.tablePage.pageSize;
+            //Calculate the end index according the current page
+            let endIndex = startIndex + this.tablePage.pageSize;
+            //if the endex > original dataset length, let endIndex = this.tasks.length
+            endIndex = endIndex > this.jobs.length ? this.jobs.length : endIndex
+            let result_index = 0;
+            for (let i = startIndex; i < endIndex; i++) {
+                result[result_index] = this.jobs[i]
+                result_index++
+            }
+            return result
+        }
+    },
     methods: {
+        //Set button type
         setStatus(row) {
             return this.GLOBAL.getJobButtonType(row.status)
         },
+        //Set button text
         setStatusText(row) {
             return this.GLOBAL.getJobStatus(row.status);
         },
+        //Show create dialog
         showCreateDialog() {
             this.showEdit = true;
         },
-
+        //Click event
         cellDBLClickEvent({
             row
         }) {
@@ -226,14 +272,17 @@ export default {
                 }
             });
         },
-
+        //init data
         initData(status) {
+            //Get all jobs
             getAllJobs(0, status).then(res => {
                 if (res.data.code == 200) {
                     this.jobs = res.data.data;
+                    this.tablePage.totalResult = this.jobs.length;
                 }
                 this.submitLoading = false;
             })
+            //Get all avaiable templates
             getAvailableTemplates().then(res => {
                 this.result = res.data.data;
 
@@ -245,7 +294,7 @@ export default {
                 }
                 this.formItems[2].itemRender.options = this.templateItems;
             })
-
+            //get all managers
             getEmployeeByType(1).then(res => {
                 this.result = res.data.data;
 
@@ -257,7 +306,7 @@ export default {
                 }
                 this.formItems[3].itemRender.options = this.managers;
             })
-
+            //get all aircraft
             getAircraft(0).then(res => {
                 if (res.data.code == 200) {
                     this.result = res.data.data;
@@ -271,7 +320,7 @@ export default {
                 }
             })
         },
-
+        //Submit new job
         submitEvent() {
             this.submitLoading = true;
             createJob(this.formData).then(res => {
@@ -287,7 +336,14 @@ export default {
                 }
             })
         },
-
+        //Handle change page
+        handlePageChange({
+            currentPage,
+            pageSize
+        }) {
+            this.tablePage.currentPage = currentPage
+            this.tablePage.pageSize = pageSize
+        }
     },
     created() {
         this.initData(-1)
