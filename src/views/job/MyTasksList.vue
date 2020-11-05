@@ -40,7 +40,8 @@
             </template>
         </vxe-table-column>
     </vxe-table>
-    <vxe-pager :loading="loadingDialog" :current-page="tablePage.currentPage" :page-size="tablePage.pageSize" :total="tablePage.totalResult" :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']" @page-change="handlePageChange">
+    <!-- pager  !-->
+    <vxe-pager :loading="loadingDialog" :current-page="tablePage.currentPage" :page-size="tablePage.pageSize" :total="tablePage.totalResult" :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']" :page-sizes="[2, 6, 10]" @page-change="handlePageChange">
     </vxe-pager>
 
 </div>
@@ -170,6 +171,7 @@ export default {
             pageSize
         }) {
             this.tablePage.currentPage = currentPage
+            this.tablePage.pageSize = pageSize
         }
     },
     created() {

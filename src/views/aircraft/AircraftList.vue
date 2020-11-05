@@ -1,6 +1,16 @@
+<!--
+
+  * Description: Show all aircraft",
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/2",
+
+!-->
 <template>
 <div class="wrapper">
     <h2>All Aircraft</h2>
+    <!-- buttons show different status -->
     <vxe-button status="primary" content="Create Aircraft" style="width:150px" @click="showEdit=true"></vxe-button>
     <vxe-button status="success" content="Flying" style="width:150px"></vxe-button>
     <vxe-button status="warning" content="Need Maintain" style="width:150px"></vxe-button>
@@ -8,7 +18,8 @@
     <!-- <vxe-button status="info" content="Need Confirm" style="width:150px"></vxe-button> -->
     <br />
     <br />
-    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="aircraft" :edit-config="{trigger: 'manual', mode: 'row'}">
+    <!--tables -->
+    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="list" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="id" title="id" width="60"></vxe-table-column>
         <vxe-table-column field="aircraft_pic" title="Pic" width="120">
             <template v-slot="{ row }">
@@ -40,6 +51,11 @@
         </vxe-table-column>
     </vxe-table>
 
+    <!-- pager  !-->
+    <vxe-pager :loading="submitLoading" :current-page="tablePage.currentPage" :page-size="tablePage.pageSize" :total="tablePage.totalResult" :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']" :page-sizes="[2, 6, 10]" @page-change="handlePageChange">
+    </vxe-pager>
+
+    <!-- dialog used for creating a new aircraft -->
     <vxe-modal v-model="showEdit" title='Create Aircraft' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
             <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>
@@ -62,10 +78,23 @@ export default {
     props: {},
     data() {
         return {
-            allAlign: null,
+
+            //All aircraft
             aircraft: [],
+
+            //Used to pager 
+            tablePage: {
+                currentPage: 1,
+                pageSize: 6,
+                totalResult: 0
+            },
+            //Used to decide whether to show create aircraft dialog 
             showEdit: false,
+
+            //Loading dialog
             submitLoading: true,
+
+            //Used to save parameters to register a new aircraft
             formData: {
                 type: null,
                 registration: null,
@@ -75,6 +104,8 @@ export default {
                 last_modify_time: null,
                 customer_id: null,
             },
+
+            //Form Rules
             formRules: {
                 type: [{
                     required: true,
@@ -105,6 +136,8 @@ export default {
                     message: 'Please enter customer_id'
                 }, ],
             },
+
+            //Form items 
             formItems: [{
                     title: 'Create Aircraft',
                     span: 24,
@@ -233,13 +266,42 @@ export default {
     },
     watch: {},
     computed: {
-
+        list() {
+            //Create a new data set
+            let result = new Array();
+            //Calculate the start index according the current page
+            let startIndex = (this.tablePage.currentPage - 1) * this.tablePage.pageSize;
+            //Calculate the end index according the current page
+            let endIndex = startIndex + this.tablePage.pageSize;
+            //if the endex > original dataset length, let endIndex = this.tasks.length
+            endIndex = endIndex > this.aircraft.length ? this.aircraft.length : endIndex
+            let result_index = 0;
+            for (let i = startIndex; i < endIndex; i++) {
+                result[result_index] = this.aircraft[i]
+                result_index++
+            }
+            return result
+        }
     },
     methods: {
+
+        //Submit register aircraft
         async submitEvent() {
+            this.submitLoading = true;
             await registerAircraft(this.formData);
+            //After register a new aircraft, loading all aircraft again.
             this.showEdit = false;
+            getAircraft(0).then(res => {
+                if (res.data.code == 200) {
+                    this.aircraft = res.data.data;
+                    this.tablePage.totalResult = this.aircraft.length;
+                }
+                this.submitLoading = false;
+            });
+
         },
+
+        //Set buttton types
         setStatus(row) {
             if (row.status == 0) {
                 return 'success'
@@ -249,6 +311,8 @@ export default {
                 return 'danger'
             }
         },
+
+        //Go to aircraft details page
         goToDetails(row) {
             this.$router.push({
                 path: '/staff/workshop/aircraftdetails',
@@ -257,15 +321,18 @@ export default {
                 }
             });
         },
+        //edit row
         editRowEvent(row) {
             this.$refs.xTable.setActiveRow(row)
         },
+        //Cancel row
         cancelRowEvent(row) {
             const xTable = this.$refs.xTable
             xTable.clearActived().then(() => {
                 xTable.revertData(row)
             })
         },
+        //Save new row status
         saveRowEvent(row) {
             this.$refs.xTable.clearActived().then(() => {
                 this.loading = true
@@ -292,6 +359,7 @@ export default {
 
             })
         },
+        //Set button text
         setStatusText(row) {
             if (row.status == 0) {
                 return 'Flying'
@@ -301,20 +369,32 @@ export default {
                 return 'Maintain'
             }
         },
+        //format timer
         formatterTimer({
             cellValue
         }) {
             let item = cellValue + 'hours'
             return item
+        },
+        //Handle change page
+        handlePageChange({
+            currentPage,
+            pageSize
+        }) {
+            this.tablePage.currentPage = currentPage
+            this.tablePage.pageSize = pageSize
         }
     },
     created() {
+        //get all aircraft
         getAircraft(0).then(res => {
             if (res.data.code == 200) {
                 this.aircraft = res.data.data;
+                this.tablePage.totalResult = this.aircraft.length;
             }
             this.submitLoading = false;
         });
+        //Get all customers
         getAllCustomer().then(res => {
             let arr = res.data.data;
             arr.forEach(t => {

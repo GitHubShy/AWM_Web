@@ -54,7 +54,7 @@ export const registerAircraft = function (aircraft) {
             last_modify_time: aircraft.last_modify_time,
             customer_id: aircraft.customer_id,
             aircraft_pic: aircraft.aircraft_pic,
-            status: 99,
+            status: 0,
         }
     })
 }
