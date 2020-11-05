@@ -1,15 +1,24 @@
+<!--
+
+  * Description Show My Tasks",
+
+  * Author Yao Shi",
+
+  * Date 2020/10/5",
+
+!-->
 <template>
 <div class="wrapper">
 
     <h2>My Tasks</h2>
-
+    <!--  export and print button  !-->
     <vxe-button @click="exportDataEvent()">Export</vxe-button>
     <vxe-button @click="printEvent()">Print</vxe-button>
     <br>
     <br>
-
-    <vxe-table border show-overflow keep-source resizable :loading="loadingDialog" ref="xTable" height="500" :data="tasks" :edit-config="{trigger: 'manual', mode: 'row'}">
-        <vxe-table-column field="job_id" title="Id" width="40"></vxe-table-column>
+    <!-- table  !-->
+    <vxe-table border show-overflow keep-source resizable :loading="loadingDialog" ref="xTable" height="500" :data="list" :edit-config="{trigger: 'manual', mode: 'row'}">
+        <vxe-table-column field="job_id" title="Job Id" width="80"></vxe-table-column>
         <vxe-table-column field="description" title="Description" width="200"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime"></vxe-table-column>
         <vxe-table-column field="due_time" title="DueTime"></vxe-table-column>
@@ -31,6 +40,8 @@
             </template>
         </vxe-table-column>
     </vxe-table>
+    <vxe-pager :loading="loadingDialog" :current-page="tablePage.currentPage" :page-size="tablePage.pageSize" :total="tablePage.totalResult" :layouts="['PrevPage', 'JumpNumber', 'NextPage', 'FullJump', 'Sizes', 'Total']" @page-change="handlePageChange">
+    </vxe-pager>
 
 </div>
 </template>
@@ -46,8 +57,20 @@ export default {
     props: {},
     data() {
         return {
+            //Loading dialog
             loadingDialog: true,
+
+            //My task list
+
             tasks: [],
+
+            //Used to pager 
+            tablePage: {
+                currentPage: 1,
+                pageSize: 10,
+                totalResult: 0
+            },
+            //Task status
             status: [{
                     label: 'Created',
                     value: 0
@@ -68,17 +91,37 @@ export default {
         };
     },
     watch: {},
-    computed: {},
+    computed: {
+        list() {
+            //Create a new data set
+            let result = new Array();
+            //Calculate the start index according the current page
+            let startIndex = (this.tablePage.currentPage - 1) * this.tablePage.pageSize;
+            //Calculate the end index according the current page
+            let endIndex = startIndex + this.tablePage.pageSize;
+            //if the endex > original dataset length, let endIndex = this.tasks.length
+            endIndex = endIndex > this.tasks.length ? this.tasks.length : endIndex
+            let result_index = 0;
+            for (let i = startIndex; i < endIndex; i++) {
+                result[result_index] = this.tasks[i]
+                result_index++
+            }
+            return result
+        }
+    },
     methods: {
+        //Let a row can be edited 
         editRowEvent(row) {
             this.$refs.xTable.setActiveRow(row)
         },
+        //Cancle the row edit status
         cancelRowEvent(row) {
             const xTable = this.$refs.xTable
             xTable.clearActived().then(() => {
                 xTable.revertData(row)
             })
         },
+        //Save the new row status
         saveRowEvent(row) {
             this.$refs.xTable.clearActived().then(() => {
                 this.loading = true
@@ -105,6 +148,7 @@ export default {
 
             })
         },
+        //format the the percentage 
         formatterPercentage({
             cellValue
         }) {
@@ -120,11 +164,19 @@ export default {
         printEvent() {
             this.$refs.xTable.print()
         },
+        //Handle change page
+        handlePageChange({
+            currentPage,
+            pageSize
+        }) {
+            this.tablePage.currentPage = currentPage
+        }
     },
     created() {
         getTasksForEmployee(localStorage.getItem('id')).then(res => {
             if (res.data.code == 200) {
                 this.tasks = res.data.data;
+                this.tablePage.totalResult = this.tasks.length;
             }
             this.loadingDialog = false;
         })
