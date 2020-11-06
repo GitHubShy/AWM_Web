@@ -17,7 +17,7 @@
     <br>
     <br>
     <!-- table  !-->
-    <vxe-table border show-overflow keep-source resizable :loading="loadingDialog" ref="xTable" height="500" :data="list" :edit-config="{trigger: 'manual', mode: 'row'}">
+    <vxe-table align="center" border show-overflow keep-source resizable :loading="loadingDialog" ref="xTable" height="500" :data="list" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="job_id" title="Job Id" width="80"></vxe-table-column>
         <vxe-table-column field="description" title="Description" width="200"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime"></vxe-table-column>

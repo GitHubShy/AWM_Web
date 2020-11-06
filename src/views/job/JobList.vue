@@ -24,7 +24,7 @@
     <br />
     <br />
     <!-- Data Table !-->
-    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="list" @cell-click="cellDBLClickEvent">>
+    <vxe-table align="center" border :loading="submitLoading" resizable ref="xTable" height="500" :data="list" @cell-click="cellDBLClickEvent">>
         <vxe-table-column field="id" title="Id" width="70" sortable></vxe-table-column>
         <vxe-table-column field="aircraft_id" title="Aircraft" width="80"></vxe-table-column>
         <vxe-table-column field="employee_name" title="Assinged to"></vxe-table-column>

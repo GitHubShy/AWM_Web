@@ -20,7 +20,7 @@
     <vxe-button @click="printEvent()">Print</vxe-button>
     <br />
     <br />
-    <vxe-table border show-overflow keep-source resizable ref="xTable" height="300" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
+    <vxe-table align="center" border show-overflow keep-source resizable ref="xTable" height="300" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="employee_id" title="Assinged to" :edit-render="{name: '$select', options: engineers}"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
         <vxe-table-column field="start_time" title="StartTime" :edit-render="{name: '$input', props: {type: 'date'}}"></vxe-table-column>
