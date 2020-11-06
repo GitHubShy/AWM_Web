@@ -1,5 +1,15 @@
+<!--
+
+  * Description: Login Page",
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/5",
+
+!-->
 <template>
 <div class="login">
+    <!-- logo -->
     <div class="logo">
         <img src="@a/img/small_plane.png" style="width:28px;height:28px;vertical-align: middle;" />
         <font size="4" color="black" style="margin-left: 10px;font-weight: bold;font-style: italic;">AWM WORKSHOP</font>
@@ -17,7 +27,7 @@
                 <el-input placeholder="AccountName" v-model="account_name" clearable></el-input>
             </el-form-item>
             <el-form-item>
-                <el-input type="password" placeholder="Passeword" v-model="password" clearable></el-input>
+                <el-input type="password" placeholder="Password" v-model="password" clearable></el-input>
                 <div class="fc cp" @click="forgotWord">Forgot your password?</div>
             </el-form-item>
 
@@ -118,15 +128,16 @@ export default {
     props: {},
     data() {
         return {
-            type: '', //登陆类型
-            account_name: "",
-            password: "",
+            type: '', //login type
+            account_name: "", //account name
+            password: "", //password
 
             dialogFormVisible: false,
             forgetPasswordialogVisible: false,
 
             forgetPasswordAcc: '',
 
+            //Rules 
             ruleForm: {
                 account_name: '',
                 password: '',
@@ -194,6 +205,7 @@ export default {
 
     },
     methods: {
+        //login 
         async login() {
             let fun = this.type === 'staff' ? employeeLogin : customerLogin;
             let {
@@ -234,6 +246,7 @@ export default {
                 });
             }
         },
+        //Register customer
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -285,14 +298,15 @@ export default {
                 }
             });
         },
+        //Reset 
         resetForm(formName) {
             this.$refs[formName].resetFields();
         },
-
+        //Forget password
         forgotWord() {
             this.forgetPasswordialogVisible = true;
         },
-
+        //Reset password
         resetPassword() {
             resetPassWord(this.forgetPasswordAcc, this.type === 'staff' ? 0 : 1).then(res => {
                 console.log(res.data);
