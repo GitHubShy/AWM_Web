@@ -1,3 +1,10 @@
+/**
+ * Base file to encapsulat  requests about customer
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 11:47 pm
+ */
 import {
     request
 } from "./request";
@@ -18,7 +25,7 @@ import {
 //Get aircraft
 //if aircraftId = 0, return all;otherwise return the aircraft with the specific id
 /**
- * 注册用户
+ * register customer
  */
 export const registerCustomer= function (data) {
     return request({
@@ -27,7 +34,9 @@ export const registerCustomer= function (data) {
         data
     })
 }
-
+/**
+ * Login
+ */
 export const login = function (name,password) {
     const formdata = new FormData();
     formdata.append('account_name',name);
@@ -38,6 +47,9 @@ export const login = function (name,password) {
         data:formdata
     })
 }
+/**
+ * Login
+ */
 export function customerLogin (parmas) {
     let { account_name, password } = parmas;
     const formdata = new FormData();
@@ -49,13 +61,18 @@ export function customerLogin (parmas) {
         data:formdata
     })
 }
+/**
+ * Get all customer
+ */
 export const getAllCustomer = function () {
     return request({
         method: 'post',
         url: "/customer/getAllCustomers"
     })
 }
-
+/**
+ * Get customer by id
+ */
 export const getCustomer = function (customerId) {
     const formdata = new FormData();
     formdata.append('id',customerId);

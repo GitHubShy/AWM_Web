@@ -1,15 +1,30 @@
+<!--
+
+  * Description: Top bar view,
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/5",
+
+!-->
 <template>
 <div id="TopBar">
 
     <div id="LeftDiv">
+        <!--   image  !-->
         <img src="../assets/img/small_plane.png" width="28px" height="28px" />
         <font size="4" color="black" style="margin-left: 10px">AWM WORKSHOP</font>
     </div>
     <div id="RightDiv">
+        <!--   Log out  !-->
         <vxe-button status="danger" fontSize="20px" content="LogOut" style="width:100px" @click="onLogOut"></vxe-button>
+        <!--   Profile  !-->
         <router-link :to="rightFirstLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightFirstText}}</router-link>
+        <!--   Staff  !-->
         <router-link :to="rightSecondLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightSecondText}}</router-link>
+        <!--   Workshop  !-->
         <router-link :to="rightThirdLink" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">{{rightThirdText}}</router-link>
+        <!--   Salary  !-->
         <router-link to="/staff/salary" tag="font" size="4" color="black" style="margin-right: 20px;cursor: pointer">Salary</router-link>
     </div>
 

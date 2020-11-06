@@ -1,3 +1,10 @@
+/**
+ * Base file to encapsulat requests about workshop
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/10/05 13:12 pm
+ */
 import {
     request
 } from "./request";
@@ -28,11 +35,7 @@ export const getCustomerAircraft = function (customerID) {
 
 //type:required(A380)
 //registration:required(B-3657)MSN=Manufacturing Serial number 
-//  制造序列号，制造商对其所有生产线生产的飞机数量的统计，
-//  不区分机型，表示该架飞机在厂家所生产全部飞机中的排序号。比如：波音公司制造序列号为38388的飞机，代表波音生产的第38388架飞机。
-//serial:reqired(12344)Registration number注册号，此编号由飞机持有国的官方制定，开头的一、两位的字母由国际航空组织给定，代表该航空器注册的国籍。
-//   一个注册号对应一架飞机，没有重号，必须符合国际民用航空公约的规定，一般在机身尾部和两侧机翼，少数在垂直尾翼。飞机注册号包括国籍标志和登记标志
-//    比如：我国国内一般是B-XXXX(四位数）
+//serial:reqired(12344)Registration number
 //total_flight_time:requried(5000)
 //maintenance_cycle:required(5000)
 //last_modify_time:required(2020-10-22)
@@ -58,7 +61,7 @@ export const registerAircraft = function (aircraft) {
         }
     })
 }
-
+//Update a aircraft
 export const updateAircraft = function (aircraft) {
     return request({
         method: 'post',
@@ -144,7 +147,7 @@ export const createJob= function (job) {
         data:job
     })
 }
-
+//Create sub task
 export const createSubTask = function (task) {
     return request({
         method: 'post',
@@ -163,7 +166,7 @@ export const getAvailableTemplates= function () {
 
     })
 }
-
+//Get all sub tasks
 export const getAllSubTasks = function (jobId) {
     const formdata = new FormData();
     formdata.append('id',jobId);
@@ -174,6 +177,7 @@ export const getAllSubTasks = function (jobId) {
     })
 }
 
+//update sub task
 export const updateSubTask = function (subTask) {
     return request({
         method: 'post',
@@ -181,7 +185,7 @@ export const updateSubTask = function (subTask) {
         data:subTask
     })
 }
-
+//Get job by id
 export const getJob = function (jobId) {
     const formdata = new FormData();
     formdata.append('id',jobId);
@@ -191,7 +195,7 @@ export const getJob = function (jobId) {
         data:formdata
     })
 }
-
+//update a job
 export const updateJob = function (job) {
     return request({
         method: 'post',
@@ -199,14 +203,14 @@ export const updateJob = function (job) {
         data:job
     })
 }
-
+//Get all sub task type
 export const getAllSubTaskType = function () {
     return request({
         method: 'post',
         url: "/workshop/getAllSubTaskType"
     })
 }
-
+//Delete a sub task
 export const deleteSubTask = function (subTaskId) {
     const formdata = new FormData();
     formdata.append('id',subTaskId);
@@ -216,7 +220,7 @@ export const deleteSubTask = function (subTaskId) {
         data:formdata
     })
 }
-
+//Create a new template
 export const createNewTemplate = function (template) {
     return request({
         method: 'post',
@@ -224,7 +228,7 @@ export const createNewTemplate = function (template) {
         data:template
     })
 }
-
+//Get tasks for a employee
 export const getTasksForEmployee = function (employeeId) {
     const formdata = new FormData();
     formdata.append('employeeId',employeeId);
@@ -234,7 +238,7 @@ export const getTasksForEmployee = function (employeeId) {
         data:formdata
     })
 }
-
+//get comment for a job
 export const getComment = function (jobId) {
     const formdata = new FormData();
     formdata.append('job_id',jobId);
@@ -244,7 +248,7 @@ export const getComment = function (jobId) {
         data:formdata
     })
 }
-
+//Create a comment for a job
 export const createComment = function (Comment) {
     return request({
         method: 'post',

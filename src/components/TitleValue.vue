@@ -1,6 +1,17 @@
+<!--
+
+  * Description: Title view, used to show a text with a style,
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/5",
+
+!-->
 <template>
 <div id="app">
+    <!--   Key  !-->
     <h2>{{title}}</h2>
+    <!--   Value  !-->
     <font style=" font-family: cursive">{{value}}</font>
 </div>
 </template>

@@ -1,7 +1,16 @@
+/**
+ * Base file to encapsulat requests about employee
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 11:47 pm
+ */
 import {
     request
 } from "./request";
-
+/**
+ * update a employee
+ */
 export const updateEmployee = function (newInfo) {
     return request({
         method: 'post',
@@ -22,7 +31,9 @@ export const updateEmployee = function (newInfo) {
         }
     })
 }
-
+/**
+ * Create a employee
+ */
 export const createEmployee = function (newInfo) {
     return request({
         method: 'post',
@@ -43,14 +54,18 @@ export const createEmployee = function (newInfo) {
         }
     })
 }
-
+/**
+ * Get all employee
+ */
 export const getAllEmployee = function () {
     return request({
         method: 'post',
         url: "/employee/getAllEmployee",
     })
 }
-
+/**
+ * Get a employee by id
+ */
 export const getSpecificEmployee = function (employeeId) {
     return request({
         method: 'post',
@@ -60,14 +75,18 @@ export const getSpecificEmployee = function (employeeId) {
         }
     })
 }
-
+/**
+ * Clock function
+ */
 export const clock = function () {
     return request({
         method: 'post',
         url: "/employee/clock",
     })
 }
-
+/**
+ * Get attendance by a date
+ */
 export const getAttendance = function (date) {
     const formdata = new FormData();
     formdata.append('date',date);

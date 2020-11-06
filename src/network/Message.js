@@ -1,7 +1,17 @@
+/**
+ * Base file to encapsulat requests about employee
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 11:47 pm
+ */
 import {
     request
 } from "./request";
 
+/**
+ * Send a message email to a custoemr
+ */
 export const sendMessage = function (type,name,subject,content) {
     const formdata = new FormData();
     formdata.append('receiverType',type);
@@ -14,7 +24,9 @@ export const sendMessage = function (type,name,subject,content) {
         data:formdata
     })
 }
-
+/**
+ * Send a reset password email
+ */
 export const resetPassWord = function (account_name,type) {
     const formdata = new FormData();
     formdata.append('account_name',account_name);
