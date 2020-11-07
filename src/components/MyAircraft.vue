@@ -55,6 +55,7 @@ export default {
     data() {
         return {
             allAlign: null,
+            //aircraft data
             aircraft: [],
         };
     },
@@ -88,7 +89,6 @@ export default {
             }
         },
         showDetails(row) {
-            console.log(1111111111111111);
             // this.$router.push({
             //   path: "/staff/workshop/aircraftdetails",
             //   query: {

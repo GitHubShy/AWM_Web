@@ -1,6 +1,6 @@
 <!--
 
-  * Description: Title view, used to show a text with a style,
+  * Description: Title view, used to show a text with a specific style,
 
   * Author: Yao Shi",
 

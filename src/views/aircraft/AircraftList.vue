@@ -19,11 +19,11 @@
     <br />
     <br />
     <!--tables -->
-    <vxe-table border :loading="submitLoading" resizable ref="xTable" height="500" :data="list" :edit-config="{trigger: 'manual', mode: 'row'}">
+    <vxe-table align="center" border :loading="submitLoading" resizable ref="xTable" height="500" :data="list" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="id" title="id" width="60"></vxe-table-column>
         <vxe-table-column field="aircraft_pic" title="Pic" width="120">
             <template v-slot="{ row }">
-                <img v-if="row.aircraft_pic" :src="row.aircraft_pic" style="width: 100px;">
+                <img v-if="row.aircraft_pic" :src="row.aircraft_pic" :onerror="errorimg" style="width: 100px;">
                 <span v-else></span>
             </template>
         </vxe-table-column>
@@ -78,6 +78,8 @@ export default {
     props: {},
     data() {
         return {
+
+            errorimg: 'this.src="' + require('../../assets/img/new_plane.png') + '"',
 
             //All aircraft
             aircraft: [],

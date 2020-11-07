@@ -1,6 +1,6 @@
 <!--
 
-  * Description: A Customer button,
+  * Description: A Custom button,
 
   * Author: Yao Shi",
 
@@ -50,6 +50,7 @@ export default {
 </script>
 
 <style scoped>
+/* default button style */
 .button {
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -57,27 +58,33 @@ export default {
     font-weight: bold;
 }
 
+/* default button style */
 .button.button-default {
     background: #fff;
     color: black;
 }
 
+/* primary button style */
 .button.button-primary {
     background: #409eff;
 }
 
+/* success button style */
 .button.button-success {
     background: #67c23a;
 }
 
+/* information button style */
 .button.button-infomation {
     background: #909399;
 }
 
+/* warning button style */
 .button.button-warning {
     background: #e6c23a;
 }
 
+/* danger button style */
 .button.button-danger {
     background: #f56c6c;
 }
