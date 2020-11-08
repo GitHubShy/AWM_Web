@@ -1,10 +1,21 @@
+<!--
+
+  * Description: Staff home page including navigating bar
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/2",
+
+!-->
 <template>
 <div>
     <div id="staff">
+        <!-- navigating bar  !-->
         <TopBar rightFirstText='Profile' rightFirstLink='/staff/staffprofile' rightSecondText='Staff' rightSecondLink='/staff/staffmanage' rightThirdText='Workshop' rightThirdLink='/staff/workshop' />
 
     </div>
     <div style="height:50px"></div>
+    <!-- router view  !-->
     <router-view></router-view>
 </div>
 </template>

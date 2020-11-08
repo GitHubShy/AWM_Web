@@ -1,10 +1,22 @@
+<!--
+
+  * Description: Shows Details for selected Aircraft. Includes form information for creating new aircraft.,
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/2",
+
+!-->
 <template>
 <div class="wrapper">
+    <!-- title -->
     <h2>Aircraft Details</h2>
     <br />
     <h4>Basic Information</h4>
     <div id="basic">
+        <!-- Image of aircraft -->
         <img id="pic" :src="this.aircraft.aircraft_pic" @click="updateImg()" />
+        <!-- Type,Registration,Serial of aircraft -->
         <div id="info">
             <h2 class="title">Type</h2>
             <font class="value">{{this.aircraft.type}}</font>
@@ -13,6 +25,7 @@
             <h2 class="title">Serial</h2>
             <font class="value">{{this.aircraft.serial}}</font>
         </div>
+        <!-- Type,Registration,Serial of aircraft -->
         <div id="info">
             <h2 class="title">SeviceCycle</h2>
             <font class="value">{{this.aircraft.maintenance_cycle}}hours</font>
@@ -21,6 +34,7 @@
             <h2 class="title">NextServiceTime</h2>
             <font class="value">{{this.aircraft.next_modify_time}}hours</font>
         </div>
+        <!-- Tytitlee,Registration,Serial of aircraft -->
         <div id="info">
             <h2 class="title">CustomerName</h2>
             <font class="value">{{getFullName}}</font>
@@ -33,6 +47,7 @@
     <h4>Component Information</h4>
     <br />
     <br />
+    <!-- components of aircraft -->
     <vxe-button status="primary" content="Create Component" style="width:150px" @click="showEdit=true"></vxe-button>
     <vxe-table border resizable ref="xTable" height="500" :data="aircraft.components">
         <vxe-table-column field="pic" title="Pic" width="120">
@@ -68,6 +83,7 @@ export default {
     props: {},
     data() {
         return {
+            //aircraft entity
             aircraft: {
                 id: null,
                 type: null,
@@ -81,6 +97,7 @@ export default {
                 status: null,
                 components: []
             },
+            //customer entity
             customer: {
                 first_name: null,
                 surname: null,
@@ -95,6 +112,7 @@ export default {
                 last_modify_time: null,
                 aircraft_id: null,
             },
+            //form rules
             formRules: {
                 type: [{
                     required: true,
@@ -118,6 +136,8 @@ export default {
                 }, ],
 
             },
+
+            //formItems
             formItems: [{
                     title: 'Create Component',
                     span: 24,
@@ -201,6 +221,7 @@ export default {
     },
     watch: {},
     computed: {
+        //set component type
         setComponentType() {
             if (localStorage.getItem("title") == '99') {
                 return 'Your have the permission to add, edit and delete employee'
@@ -208,15 +229,18 @@ export default {
                 return 'You have the only permission to edit yourself'
             }
         },
+        //get customer full name
         getFullName() {
             return this.customer.first_name + ' ' + this.customer.surname
         },
     },
     methods: {
+        //submit component
         async submitEvent() {
             await registerComponents(this.formData);
             this.showEdit = false;
         },
+        //format component type
         formatterComponentType({
             cellValue
         }) {
@@ -234,6 +258,7 @@ export default {
             }
             return type;
         },
+        //update aircraft img
         updateImg() {
             this.$router.push({
                 path: '/uploadimage',

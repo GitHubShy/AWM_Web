@@ -1,3 +1,12 @@
+/**
+ * Main JS
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 11:47 pm
+ */
+
+ //Essential components
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -41,12 +50,14 @@ Vue.use(VXETable, {
 import "@s/public.css";
 import "@s/awm-font.css"
 
+//elementUI
 import ElementUI from 'element-ui';
 Vue.use(ElementUI);
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
 
+//Create Vue instance
 new Vue({
   i18n,
   router,

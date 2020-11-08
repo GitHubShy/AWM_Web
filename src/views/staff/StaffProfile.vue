@@ -1,35 +1,54 @@
+<!--
+
+  * Description: Shows employee information for the profile currently logged in, this includes Employee Meta information, Task Status and Clock on functionality.
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/2",
+
+!-->
 <template>
 <div id="app">
     <div class="pro-box">
         <div class="pro-left">
+            <!-- image -->
             <img :src="getPortrait" alt="" @click="updateImg()">
+            <!-- full name -->
             <h4>{{getFullName}}</h4>
+            <!-- employee title -->
             <p>{{getTitle}}</p>
             <p>Newcastle, AUS</p>
             <div class="pro-but">
+                <!-- clock function -->
                 <el-button type="primary" @click="clock()">Clock</el-button>
+                <!-- go to salary -->
                 <el-button class="pro-but-two " @click="salary()">Salary</el-button>
             </div>
         </div>
         <div class="pro-right">
             <div class="pro-datas">
                 <div>
+                    <!-- full name -->
                     <div>Full Name</div>
                     <div>{{getFullName}}</div>
                 </div>
                 <div>
+                    <!-- email -->
                     <div>Email</div>
                     <div>{{result.email}}</div>
                 </div>
                 <div>
+                    <!-- phone -->
                     <div>Phone</div>
                     <div>{{result.phone}}</div>
                 </div>
                 <div>
+                    <!-- birth -->
                     <div>Birth</div>
                     <div>{{result.birth_year}}</div>
                 </div>
                 <div>
+                    <!-- account name -->
                     <div>AccountName</div>
                     <div>{{result.account_name}}</div>
                 </div>
@@ -37,6 +56,7 @@
             <div class="pro-list">
                 <div class="pro-status">
                     <div class="status-title">Task Status</div>
+                    <!-- task status table -->
                     <div v-for="(item,key) of subTasks" :key="key">
                         <div class="progress-text">Task ID - {{subTasks[key].id}}</div>
                         <el-progress :percentage="subTasks[key].percentage" :show-tex="false"></el-progress>
@@ -53,6 +73,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- time stamp -->
                             <tr v-for="(t,i) of tableData" :key="i">
                                 <td>{{t.date}}</td>
                                 <td>{{t.on_time}}</td>
@@ -93,6 +114,7 @@ export default {
     props: {},
     data() {
         return {
+            //profile data
             result: {
                 id: null,
                 first_name: null,
@@ -113,12 +135,15 @@ export default {
     },
     watch: {},
     computed: {
+        //format payment
         getPayment() {
             return this.result.payment_rate + '/hour'
         },
+        //get full name
         getFullName() {
             return this.result.first_name + ' ' + this.result.surname
         },
+        //get title
         getTitle() {
             if (this.result.title == 99) {
                 return 'Super Administrator';
@@ -129,6 +154,7 @@ export default {
 
             }
         },
+        //get prortrait
         getPortrait() {
             if (this.result.portrait_url == null) {
                 return 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601960184628&di=01658bf6cba790308114151a8dfc9bdb&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F9662a766b2e14418b22ed6e8185913c3e7562ab455df-j8mU0R_fw658';
@@ -139,12 +165,14 @@ export default {
         }
     },
     methods: {
+        //format working hours
         formatterWorkHours({
             cellValue
         }) {
             let item = cellValue + 'hours'
             return item
         },
+        //update img
         updateImg() {
             this.$router.push({
                 path: '/uploadimage',
@@ -154,7 +182,7 @@ export default {
                 }
             });
         },
-
+        //clock 
         clock() {
             clock().then(res => {
                 getAttendance('').then(res => {
@@ -165,6 +193,7 @@ export default {
                 })
             })
         },
+        //go to salary
         salary() {
             this.$router.push({
                 path: '/staff/salary'
@@ -172,6 +201,7 @@ export default {
         }
     },
     created() {
+        //get employee info
         getSpecificEmployee('').then(res => {
                 this.result = res.data.data;
                 localStorage.setItem('id', this.result.id);
@@ -179,17 +209,18 @@ export default {
                 this.$store.commit('setStaffInfo', res.data.data);
                 console.log(this.result)
             }),
+            //get attendace
             getAttendance('').then(res => {
                 if (res.status == 200) {
                     this.tableData = res.data.data;
                 }
+            }),
+            //Get tasks status
+            getTasksForEmployee(localStorage.getItem('id')).then(res => {
+                if (res.data.code == 200) {
+                    this.subTasks = res.data.data;
+                }
             })
-        this.clock()
-        getTasksForEmployee(localStorage.getItem('id')).then(res => {
-            if (res.data.code == 200) {
-                this.subTasks = res.data.data;
-            }
-        })
     },
     mounted() {},
 };

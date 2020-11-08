@@ -8,7 +8,7 @@ module.exports = {
         port: 8081,
     },
 
-    //  将接收ChainableConfig由webpack-chain提供支持的实例的函数。
+
     chainWebpack: config => {
 
         config.resolve.alias

@@ -1,9 +1,20 @@
+<!--
+
+  * Description: Shows Sub Tasks and Job Details for selected Jobs. Includes methods for updating the status of Jobs and Sub Tasks.",
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/5",
+
+!-->
 <template>
 <div class="wrapper">
+    <!-- job details  !-->
     <h2>Job Details</h2>
     <vxe-button status="primary" content="Create Task" size="mediam" @click="createTask()"></vxe-button>
     <vxe-button status="success" content="Save As My Template" size="mediam" @click="showCreateTemplateDialog()"></vxe-button>
     <vxe-button @click="showCloseJobDialog = true">Close</vxe-button>
+    <!-- check list  !-->
     <vxe-modal v-model="showCloseJobDialog" title='Checklist'>
         <template v-slot>
             <div style='font-size: 20px;'>Please confirm the following checklist:</div>
@@ -16,10 +27,13 @@
             <vxe-button status="danger" content="Close" @click="close()"></vxe-button>
         </template>
     </vxe-modal>
+    <!-- export button  !-->
     <vxe-button @click="exportDataEvent()" style="margin-left:10px">Export</vxe-button>
+    <!-- print button  !-->
     <vxe-button @click="printEvent()">Print</vxe-button>
     <br />
     <br />
+    <!-- table  !-->
     <vxe-table align="center" border show-overflow keep-source resizable ref="xTable" height="300" :data="subTasks" :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column field="employee_id" title="Assinged to" :edit-render="{name: '$select', options: engineers}"></vxe-table-column>
         <vxe-table-column field="description" title="Description"></vxe-table-column>
@@ -49,29 +63,31 @@
         </vxe-table-column>
     </vxe-table>
 
+    <!-- comments  !-->
     <h2>Comments</h2>
     <br />
     <vxe-button status="success" content="Create Comment" size="mediam" @click="createComment()"></vxe-button>
     <br />
     <br />
+    <!-- table  !-->
     <vxe-table border height="300" :data="comments">
         <vxe-table-column field="employee_name" title="Author"></vxe-table-column>
         <vxe-table-column field="content_time" title="Date"></vxe-table-column>
         <vxe-table-column field="content" title="Content"></vxe-table-column>
     </vxe-table>
-
+    <!-- create task dialog  !-->
     <vxe-modal v-model="showCreate" title='CreateTask' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
             <vxe-form :data="createTaskData" :items="createTaskItems" :rules="formRules" title-align="right" title-width="100" @submit="submitTask"></vxe-form>
         </template>
     </vxe-modal>
-
+    <!-- create template dialog  !-->
     <vxe-modal v-model="showTemplate" title='CreateTemplate' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
             <vxe-form :data="createTemplateData" :items="createTemplateItems" :rules="templateFormRules" title-align="right" title-width="100" @submit="createTemplate"></vxe-form>
         </template>
     </vxe-modal>
-
+    <!-- create comment dialog  !-->
     <vxe-modal v-model="showCreateComment" title='CreateComment' width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
         <template v-slot>
             <vxe-form :data="createCommentData" :items="createCommentItems" :rules="commentFormRules" title-align="right" title-width="100" @submit="submitComment"></vxe-form>
@@ -104,16 +120,24 @@ export default {
     props: {},
     data() {
         return {
+            //if show close dialog 
             showCloseJobDialog: false,
+            //if show create task dialog 
             showCreate: false,
+            //if show create template dialog 
             showTemplate: false,
             submitLoading: false,
             showCreateComment: false,
+            //job 
             job: null,
+            //comments 
             comments: null,
+            //subtasks 
             subTasks: null,
+            //engineers 
             engineers: [],
             subTaskType: [],
+            //update task form
             updateForm: {
                 id: null,
                 employee_id: null,
@@ -139,6 +163,7 @@ export default {
                 job_id: null,
                 content: null
             },
+            //create task dialog items
             createTaskItems: [{
                     title: 'Task information',
                     span: 24,
@@ -212,6 +237,7 @@ export default {
                     }
                 }
             ],
+            //create template dialog items
             createTemplateItems: [{
                     title: 'Template information',
                     span: 24,
@@ -260,6 +286,7 @@ export default {
                     }
                 }
             ],
+            //create comment dialog items
             createCommentItems: [{
                     field: 'content',
                     title: 'Content',
@@ -331,21 +358,22 @@ export default {
         }
     },
     methods: {
+        //set button type
         setStatus(row) {
             return this.GLOBAL.getTaskButtonType(row.status)
         },
-
+        //set task status
         setStatusText(row) {
             return this.GLOBAL.getTaskStatus(row.status);
         },
-
+        //format percentage
         formatterPercentage({
             cellValue
         }) {
             let item = cellValue + '%'
             return item
         },
-
+        //format employee name 
         formatterEmployeeName({
             cellValue
         }) {

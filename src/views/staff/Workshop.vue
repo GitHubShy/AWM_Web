@@ -1,14 +1,28 @@
+<!--
+
+  * Description: Base view/sidebar view for workshop page buttons.
+
+  * Author: Yao Shi",
+
+  * Date: 2020/10/2",
+
+!-->
 <template>
 <div class="workshop">
     <!-- Vertical navbar -->
     <div class="vertical-nav" id="sidebar">
-
+        <!-- image -->
         <img :src="getPortrait" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+        <!-- full name -->
         <h4 class="m-0">{{getFullName}}</h4>
         <p class="font-weight-light text-muted mb-0">{{getTitle}}</p>
+        <!-- aircraftlist page -->
         <router-link to="/staff/workshop/aircraftlist" tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Aircraft Management</router-link>
+        <!-- joblist page -->
         <router-link to='/staff/workshop/joblist' tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Job Management</router-link>
+        <!-- customerlist page -->
         <router-link to="/staff/workshop/customerlist" tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">Customer Management</router-link>
+        <!-- myTasksList page -->
         <router-link to="/staff/workshop/myTasksList" tag="font" size="4" color="black" style="margin-top: 15px;cursor: pointer">My Tasks</router-link>
     </div>
     <router-view class="router_view"></router-view>
@@ -27,6 +41,7 @@ export default {
     data() {
         return {
             formData: [],
+            //Staff data
             staff: {
                 id: null,
                 first_name: null,
@@ -43,9 +58,11 @@ export default {
     },
     watch: {},
     computed: {
+        //get full name
         getFullName() {
             return this.staff.first_name + ' ' + this.staff.surname
         },
+        //get title
         getTitle() {
             if (this.staff.title == 99) {
                 return 'Super Administrator';
@@ -56,6 +73,7 @@ export default {
 
             }
         },
+        //get image
         getPortrait() {
             if (this.staff.portrait_url == null) {
                 return 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601960184628&di=01658bf6cba790308114151a8dfc9bdb&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F9662a766b2e14418b22ed6e8185913c3e7562ab455df-j8mU0R_fw658';
@@ -71,6 +89,7 @@ export default {
         }
     },
     created() {
+        //get employee
         getSpecificEmployee('').then(res => {
             this.staff = res.data.data
         })
