@@ -7,7 +7,8 @@ module.exports = {
     devServer: {
         port: 8081,
     },
-
+    //Used for deploy on a public server
+    publicPath: process.env.NODE_ENV === "production" ? '/dist/' : '/' ,
 
     chainWebpack: config => {
 

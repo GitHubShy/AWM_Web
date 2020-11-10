@@ -508,13 +508,13 @@ export default {
                                 })
                             } else {
                                 this.$XModal.message({
-                                    message: 'Error:' + res.data.message,
+                                    message: 'Can not delete this emplyee,because he has related tasks or attendaces',
                                     status: 'error'
                                 })
                             }
                         }).catch(err => {
                             this.$XModal.message({
-                                message: 'Error:' + err,
+                                message: 'Can not delete this emplyee,because he has related tasks or attendaces',
                                 status: 'error'
                             })
                         });
