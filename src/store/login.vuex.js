@@ -1,3 +1,10 @@
+/**
+ * This is vuex used for saving customer info
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 12:50 pm
+ */
 import { getCustomer } from "@n/Customer"
 let uus = process.browser ? localStorage.uus || '' : '';
 
@@ -29,7 +36,6 @@ export default {
     userSave(state, payload) {
       let user = payload.user || '';
       state.user = user;
-      console.log(user,'----------------合适');
       let { ...all } = user;
       let obj = {};
       ['account_name', 'company_name', 'email', 'first_name', 'id', 'password', 'phone', 'portrait_url', 'surname'].forEach(key => {
@@ -49,7 +55,6 @@ export default {
         return
       }
       let res = await getCustomer(state.user.id);
-      console.log(res,'--------------------------111111');
 
       let { code, data } = res.data;
       data = res.data || {};

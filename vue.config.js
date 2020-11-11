@@ -1,9 +1,18 @@
+/**
+ * Config js
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 11:47 pm
+ */
+
 const path = require('path');
 function resolve (dir) {
   return path.join(__dirname, dir)
 };
 
 module.exports = {
+    //dev port
     devServer: {
         port: 8081,
     },

@@ -1,3 +1,10 @@
+/**
+ * This is vuex used for saving common states, such as login user info
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 12:33 pm
+ */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import modules from './modules'
@@ -9,7 +16,9 @@ export default new Vuex.Store({
   state: {
     //Whether login by a staff
     isStaff: true,
+    //token
     token:'',
+    //staff info
     staffInfo: {
       id: null,
       first_name: null,

@@ -1,3 +1,10 @@
+/**
+ * This is vue Router used for going to different pages
+ *
+ * @author Yao Shi
+ * @version 1.0
+ * @date 2020/09/30 11:47 pm
+ */
 const customer_index = () => import('@v/customer/CustomerIndex.vue')
 
 import Vue from 'vue'
@@ -84,16 +91,6 @@ const routes = [
         ]
       }
     ]
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: () => import('../views/Test.vue')
-  },
-  {
-    path: '/test2',
-    name: 'Test',
-    component: () => import('../views/Test2.vue')
   },
   {
     path: '/uploadimage',
