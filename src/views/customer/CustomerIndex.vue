@@ -4,7 +4,7 @@
     <div class="left">
         <div class="l-herder">
             <div class="df con">
-                <img class="head" src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="">
+                <img class="head" :src="user.portrait_url" alt="">
                 <div>
                     <div class="fs20 fw700">{{user.account_name}}</div>
                     <div class="fs18 font-c">{{user.company_name}}</div>
