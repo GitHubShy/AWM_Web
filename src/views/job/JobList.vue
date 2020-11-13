@@ -10,6 +10,7 @@
 <template>
 <div class="wrapper">
     <h2>All Job</h2>
+    <h3>You can click each row to go to job details page</h3>
     <!-- create job button  !-->
     <vxe-button status="primary" content="Create Job" style="width:150px" @click="showCreateDialog()"></vxe-button>
     <br />
