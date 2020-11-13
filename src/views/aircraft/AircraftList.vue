@@ -10,7 +10,7 @@
 <template>
 <div class="wrapper">
     <h2>All Aircraft</h2>
-    <h3>You can click the status button of each row to go to aircraft details page</h3>
+    <h3>You can click on the status button of each row to go to aircraft details page</h3>
     <!-- buttons show different status -->
     <vxe-button status="primary" content="Create Aircraft" style="width:150px" @click="showEdit=true"></vxe-button>
     <vxe-button status="success" content="Flying" style="width:150px"></vxe-button>
